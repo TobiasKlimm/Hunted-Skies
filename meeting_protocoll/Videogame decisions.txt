@@ -1,0 +1,17 @@
+Videogame decisions
+Overall game
+Single player, mouse and WASD controlled
+The one that’s being chased has limited fuel, needs to hit targets, everything while flying in a not continuous straight line for a long time, because in that way the chaser can hit it easier. Warnings in a type of radar will be added, so the pilot needs to steer quickly in order to avoid being hit either by the chaser or by targets on the ground.
+
+Items
+Health, fuel, bombs, speed, instant reload.
+In order to get these items inside of rings, the player will need to shoot it first and then go through them.
+
+Map
+Flat and mountains combination, randomized
+
+Losing
+Getting out of either health or fuel
+
+Highscore kind of game
+Reducing the available items as time increases.
