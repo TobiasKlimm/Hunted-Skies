@@ -77,7 +77,7 @@ private:
 	CCamera m_zc;
 	CDeviceKeyboard m_zdk;
 	CPlacement m_zpCamera;
-	CGeoTerrain m_zgTerrainOri; // Gesamtes Terrain
+	CGeoTerrain m_zgTerrainOriginal; // Gesamtes Terrain
 	CGeoTerrain m_zgTerrain; // Inselausschnitt
 	CGeoTerrain m_zgWater; // Wasserausschnitt
 	CPlacement m_zpLandscape; // Insel- & Wasserplacement
@@ -96,7 +96,12 @@ private:
 	CGeos m_zgsCollision, m_zgsHeight; // Kollisionscontainer
 	CGeoTerrains m_zgsTerrain; // Terrainkollisionscontainer
 
+	CFileWavefront m_fileWavefront;
+	CGeoTriangleTable* m_zgTurret = nullptr;
+	CPlacement m_zpTurret;
 
+	CGeoSphere m_zgSphere;
+	CPlacement m_zpSphere;
 };
 
 
