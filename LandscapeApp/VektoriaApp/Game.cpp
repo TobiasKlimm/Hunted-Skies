@@ -97,6 +97,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zgTerrainOriginal.AddBlob(m_pblob);
 	m_zgTerrainOriginal.AddBlob(m_pblob2);
 	m_zgTerrainOriginal.AddBlob(m_pblob3);
+	//Deine mutter stinkt
 
 	m_zgTerrainOriginal.CreateField(
 		2500, 2500, // Terraingröße
