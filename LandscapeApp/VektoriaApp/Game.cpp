@@ -232,7 +232,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.0f)); //Blauwert vom Wasser erhöhen
 	m_zmWater.SetTransparency(0.8f);//Durchsichtigkeit des Wassers
 	m_zmWater.SetTransparencyOn();
-	m_zmWater.MakeTextureHaze("textures//WaterH.jpg");
+	m_zmWater.MakeTextureHaze("textures//WaterHaze.jpg");
 	m_zmWater.SetPostprocessingOn();
 	m_zmWater.SetHazeOn();
 	m_zmWater.SetHazeStrength(1.8);
@@ -294,7 +294,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zdc.Hide();
 
 
-	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("Models\\Flugzeug\\Airplane.obj", true);
+	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("Models\\Aviones\\Fighter1\\Arsenal_VG33.obj", true);
 	m_zpPlane.AddGeo(m_pzgPlane);
 	m_zpPlane.ScaleDelta(1);
 
