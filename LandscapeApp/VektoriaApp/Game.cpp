@@ -10,15 +10,10 @@ CGame::~CGame(void)
 
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
-	//---------------------------------
-	// Initialisiere die Knotenobjekte:
-	//---------------------------------
-
-	// Zuallererst muss die Root mit dem Splash-Screen initialisiert werden, 
-	// damit die Engine freigeschaltet wird:
 
 
-	// Hier kommen alle weiteren Initialisierungen hinein: 
+
+	
 	// Das kennen wir ja schon:
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, procOS);
@@ -29,7 +24,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.AddScene(&m_zs);
 	m_zv.SetHazeOn();
 
-
+	////LANDSCAPE
 
 
 	m_pgtriangletable = m_filewavefront.LoadGeoTriangleTable("Models\\Cannon\\cannon_01_4k.obj");
@@ -177,6 +172,38 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpCamera.SetTranslationSensitivity(1000);
 	// Stelle die Kamera an einen geeigneten Anfangsort: 
 	m_zpCamera.Translate(0.0f, 20.0f, 1000.0f);
+
+
+
+
+	////END LANDSCAPE
+
+
+	////OVERLAY
+	m_zwf2.LoadPreset("RodWhite");
+	m_zw2.Init(C2dRect(0.04f, 0.04f, 0.0f, 0.0f), 5, &m_zwf2);
+	m_zwf2.SetTransparency(0.0f);
+	m_zw2.PrintF("Ammo:");
+	m_zv.AddWriting(&m_zw2);
+	m_zwf2.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
+
+
+	m_zwf.LoadPreset("RodWhite");
+	m_zw.Init(C2dRect(0.04f, 0.04f, 0.0f, 0.05f), 5, &m_zwf);
+	m_zw.PrintF("Fuel:");
+	m_zv.AddWriting(&m_zw);
+	m_zwf.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
+
+
+	m_zwf3.LoadPreset("RodWhite");
+	m_zw3.Init(C2dRect(0.04f, 0.04f, 0.0f, 0.1f), 6, &m_zwf3);
+	m_zwf3.SetTransparency(0.0f);
+	m_zw3.PrintF("Speed:");
+	m_zv.AddWriting(&m_zw3);
+	m_zwf3.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
+
+	////END OVERLAY
+
 
 }
 

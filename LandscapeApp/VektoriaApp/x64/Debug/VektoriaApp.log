@@ -1,11 +1,16 @@
 ﻿  Game.cpp
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(95,52): warning C4305: "Argument": Verkürzung von "double" in "float"
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(149,28): warning C4305: "Argument": Verkürzung von "double" in "float"
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(171,20): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(90,52): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(144,28): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(166,20): warning C4305: "Argument": Verkürzung von "double" in "float"
+  VektoriaApp.cpp
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Code wird generiert...
 Vektoria_Debug64.lib(Material.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Material.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Camera.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Camera.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Scene.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Scene.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(WritingFont.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingFont.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Writing.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Writing.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Geos.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Geos.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoTerrain.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTerrain.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoTerrains.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTerrains.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
@@ -37,15 +42,19 @@ Vektoria_Debug64.lib(ScenePhysics.obj) : warning LNK4099: PDB "" wurde nicht mit
 Vektoria_Debug64.lib(SceneWeather.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(SceneWeather.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(LightSpot.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(LightSpot.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Placements.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Placements.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Vertices.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Vertices.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Nodes.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Nodes.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Vertices.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Vertices.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Geo.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Geo.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Faces.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Faces.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(GeoTriangleTable.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTriangleTable.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Sprite.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Sprite.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Overlay.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Overlay.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(WritingChar.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingChar.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(WritingChars.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingChars.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(HitPoint.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(HitPoint.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWing.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWing.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Vertex.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Vertex.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(GeoTriangleTable.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTriangleTable.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoTerrainCreateHeight.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTerrainCreateHeight.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Faces.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Faces.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(LightRadial.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(LightRadial.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(LightRadials.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(LightRadials.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(LightSpots.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(LightSpots.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
@@ -59,10 +68,8 @@ Vektoria_Debug64.lib(GeoTriangleLists.obj) : warning LNK4099: PDB "" wurde nicht
 Vektoria_Debug64.lib(Wribel.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Wribel.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Wribels.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Wribels.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Node2D.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Node2D.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Sprite.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Sprite.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Background.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Background.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Backgrounds.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Backgrounds.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Overlay.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Overlay.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Overlays.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Overlays.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Writings.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Writings.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Device.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Device.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
@@ -79,27 +86,24 @@ Vektoria_Debug64.lib(NodeInstance3D.obj) : warning LNK4099: PDB "" wurde nicht m
 Vektoria_Debug64.lib(GeoQuad.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoQuad.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoEllipsoid.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoEllipsoid.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoDome.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoDome.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Face.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Face.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(GeoTriangleTableIntersects.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTriangleTableIntersects.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(Octree.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Octree.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+Vektoria_Debug64.lib(GeoCutout.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoCutout.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWindowInstance.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWindowInstance.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWall.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWall.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWindowInstances.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWindowInstances.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoCylinder.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoCylinder.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWings.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWings.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Face.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Face.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(GeoTriangleTableIntersects.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTriangleTableIntersects.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Octree.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Octree.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoWalls.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoWalls.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(WritingFont.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingFont.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(NodeInstance2D.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(NodeInstance2D.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(GeoCutout.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoCutout.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(Writing.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Writing.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(DeviceGameController.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(DeviceGameController.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(DeviceVRController.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(DeviceVRController.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(HitPoints.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(HitPoints.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(NodeInstance.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(NodeInstance.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoSweep.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoSweep.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(WritingChar.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingChar.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-Vektoria_Debug64.lib(WritingChars.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(WritingChars.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Color.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Color.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+VektoriaMath_Debug64.lib(2dRect.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dRect.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Perlin.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Perlin.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Blob.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Blob.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Outline.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Outline.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
@@ -109,6 +113,7 @@ VektoriaMath_Debug64.lib(HVector.obj) : warning LNK4099: PDB "" wurde nicht mit 
 VektoriaMath_Debug64.lib(2dVector.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVector.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Ray.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Ray.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(FrustumCasted.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(FrustumCasted.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+VektoriaMath_Debug64.lib(2dVertices.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVertices.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Blobs.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Blobs.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Cuts.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Cuts.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Random.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Random.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
@@ -116,16 +121,14 @@ VektoriaMath_Debug64.lib(Quaternion.obj) : warning LNK4099: PDB "" wurde nicht m
 VektoriaMath_Debug64.lib(AABB.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(AABB.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Raycast.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Raycast.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Plane.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Plane.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-VektoriaMath_Debug64.lib(2dRect.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dRect.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(GraphNoise.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(GraphNoise.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(HVectors.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(HVectors.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(Outlines.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(Outlines.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-VektoriaMath_Debug64.lib(2dVertices.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVertices.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
-VektoriaMath_Debug64.lib(HMats.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(HMats.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dVertex.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVertex.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dTriangle.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dTriangle.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dTriangles.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dTriangles.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dVertexStack.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVertexStack.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
+VektoriaMath_Debug64.lib(HMats.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(HMats.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(SineWaves.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(SineWaves.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dVectors.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dVectors.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 VektoriaMath_Debug64.lib(2dLine.obj) : warning LNK4099: PDB "" wurde nicht mit "VektoriaMath_Debug64.lib(2dLine.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.

@@ -163,8 +163,13 @@ private:
 
 
 
-	// Hier ist Platz für Deine weiteren Vektoriaobjekte:
-
+	//Overlay
+	CWritingFont m_zwf;
+	CWritingFont m_zwf2;
+	CWritingFont m_zwf3;
+	CWriting m_zw;
+	CWriting m_zw2;
+	CWriting m_zw3;
 
 };
 
