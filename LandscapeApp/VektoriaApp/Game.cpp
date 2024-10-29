@@ -229,8 +229,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Wasser
 	m_zmWater.LoadPreset("Water");//Laden des Wassers
 	m_zmWater.SetAni(8, 8, 7);	//Animierte Wassertextur hat 8x8 Bilder 
-	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.0f)); //Blauwert vom Wasser erhöhen
-	m_zmWater.SetTransparency(0.8f);//Durchsichtigkeit des Wassers
+	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.8f)); //Blauwert vom Wasser erhöhen
+	m_zmWater.SetTransparency(0.2f);//Durchsichtigkeit des Wassers
 	m_zmWater.SetTransparencyOn();
 	m_zmWater.MakeTextureHaze("textures//WaterHaze.jpg");
 	m_zmWater.SetPostprocessingOn();
