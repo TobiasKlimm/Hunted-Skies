@@ -71,7 +71,43 @@ public:
 	float GetVersion();
 
 
+
+
+
+
+
+	////STEUERUNG
+	//Zentriert ein Quadrat mit den Koordinaten x und y als linkes oberes Eck
+		void CenterSquare(float x, float y, float size, COverlay& rect);
+
+	//Steuerung des Flugzeugs
+	void PlaneSteering(float& x, float& y, float fTimeDelta);
+
+	//Gibt den value maximal als maxValue und mindestens als minValue zurück
+	float ClampValue(float value, float minValue, float maxValue);
+
+	//Größe des Crosshairs und des Kreises in Abhängigkeit des Bildschirms
+	float crosshairSize = 0.002;
+	//Schnelligkeit der Flugzeugrotation
+	float planeRotationSpeed = 0.0005;
+	//Sensitivität des Controllers
+	float controllerSensitivity = 1500;
+
+
 private:
+
+
+
+	////STEUERUNG
+	float x_initial = 0;
+	float y_initial = 0;
+	float x_rotation = 0;
+	float y_rotation = 0;
+	CDeviceCursor m_zdc;
+	CDeviceMouse m_zdm;
+	CDeviceGameController m_zdgc;
+	CDeviceKeyboard m_zdk;
+
 
 	// Die Wurzel des Szenengrafen: 
 	CRoot m_zr;
@@ -79,12 +115,14 @@ private:
 	CFrame m_zf;
 	CViewport m_zv;
 	CCamera m_zc;
-	CDeviceKeyboard m_zdk;
 	CPlacement m_zpCamera;
 	CGeoTerrain m_zgTerrainOri; // Gesamtes Terrain
 	CGeoTerrain m_zgTerrain; // Inselausschnitt
 	CGeoTerrain m_zgWater;// Wasserausschnitt
 
+
+
+	
 
 
 	CMaterial m_zmRock;
@@ -113,6 +151,21 @@ private:
 	CGeoTriangleTable* m_pgtriangletable1 = nullptr;
 	CPlacement m_zpShip;
 
+
+
+	CPlacement m_zpPlane;
+	CGeoTriangleTable* m_pzgPlane = nullptr;
+	CFileWavefront m_PlaneFile;
+	CPlacement m_zpPlaneCenter;
+	CPlacement m_zpPlaneTip;
+	CPlacement m_zpCameraPivot;
+
+
+	
+	////CROSSHAIR
+	CImage m_ziCrosshair; CImage m_ziCirclehair;
+	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
+	C2dRect m_zCrosshairRect;
 
 
 	//CGeoTerrain m_zgTerrainMirror;

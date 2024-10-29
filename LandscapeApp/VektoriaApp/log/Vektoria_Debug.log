@@ -3,6 +3,7 @@ Vektoria-Logfile
 
 ****************
 Ok:    Distribudted Graphics API established
+Warn:  You called GetSkyLightPlacement, but you didn't call SetSkyOn before!
 Ok:    Collected materials in virtual hierarchy
 Error: In CRoot::AddMaterial: pmaterial is a nullptr
 Error: In CRoot::AddMaterial: pmaterial is a nullptr
@@ -368,6 +369,7 @@ Warn:  Your sound card is not compatible to DirectSound, so the calculation of t
 Info:  PrimaryBuffer buffer has 32768 Bytes.
 Ok:    DirectSound initialized
 Ok:    Sound API established
+Error: CDIMain::AddGameController: Tried to add more Controllers as found
 Ok:    Frames created
 Ok:    Scenes created
 Ok:    Hierarchy checked.
