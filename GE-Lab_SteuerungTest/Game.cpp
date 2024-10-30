@@ -101,12 +101,12 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zoCirclehair.Init("textures\\circlehair.jpg", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
 
-	m_zgBullet.Init(0.5, NULL);
+	m_zgBullet.Init(0.3, NULL);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
 	m_zpBulletTemplate.SetPhysics(2.0f, 0.1f, 0.0f, 200000.1f, true);
 	m_zpBulletTemplate.SwitchOff();
 	m_zs.AddPlacement(&m_zpBulletTemplate);
-	m_zpsBullets.RingMake(20, m_zpBulletTemplate);
+	m_zpsBullets.RingMake(500, m_zpBulletTemplate);
 	m_zs.AddPlacements(m_zpsBullets);
 }
 
@@ -125,37 +125,37 @@ void CGame::PlaneSteering(float& x, float& y, float fTimeDelta)
 	x += m_zdm.GetRelativeX();
 	y -= m_zdm.GetRelativeY();
 	//GetControllerInput und rechne Stickdrift weg
-	float controllerXInput = m_zdgc.GetRelativeX() / controllerSensitivity;
-	if (abs(controllerXInput) < 0.0001f)
+	float controllerXInput = m_zdgc.GetRelativeX() * controllerSensitivity*fTimeDelta;
+	if (abs(controllerXInput) < 0.0005f)
 		controllerXInput = 0;
-	float controllerYInput = m_zdgc.GetRelativeY() / controllerSensitivity;
-	if (abs(controllerYInput) < 0.0001f)
+	float controllerYInput = m_zdgc.GetRelativeY() * controllerSensitivity*fTimeDelta;
+	if (abs(controllerYInput) < 0.0005f)
 		controllerYInput = 0;
 	x += controllerXInput;
 	y += controllerYInput;
 	//Maximiere Ausschlag des Kreises
-	x = ClampValue(x, -0.4, 0.4);
-	y = ClampValue(y, -0.4, 0.4);
+	x = ClampValue(x, -0.35, 0.35);
+	y = ClampValue(y, -0.35, 0.35);
 	//Verschiebe Kreis
 	CenterSquare( x+0.5, y+0.5, crosshairSize, m_zoCirclehair);
 	CenterSquare( x/7+0.5, y/5+0.5, crosshairSize, m_zoCrosshair);
 	//minimiert die maximale Rotation pro Tick
-	x_rotation = ClampValue(x, x - planeRotationSpeed, x + planeRotationSpeed);
-	y_rotation = ClampValue(y, y - planeRotationSpeed, y + planeRotationSpeed);
+	x_rotation = ClampValue(x, x_rotation - planeRotationSpeed*fTimeDelta, x_rotation + planeRotationSpeed*fTimeDelta);
+	y_rotation = ClampValue(y, y_rotation - planeRotationSpeed*fTimeDelta, y_rotation + planeRotationSpeed*fTimeDelta);
 	//Rotiert das Flugzeug
-	m_zpPlane.RotateY(-x / 2);
-	m_zpPlane.RotateZDelta(-x * 5);
-	m_zpPlane.RotateXDelta(-y);
+	m_zpPlane.RotateY(-x_rotation / 2);
+	m_zpPlane.RotateZDelta(-x_rotation * 5);
+	m_zpPlane.RotateXDelta(-y_rotation );
 	//Rotiert die Kamera
-	//m_zpCameraPivot.RotateY(-x_rotation * 2);
-	//m_zpCameraPivot.RotateXDelta(y_rotation / 2);
+	m_zpCameraPivot.RotateY(-x_rotation);
+	m_zpCameraPivot.RotateXDelta(y_rotation / 2);
 	
 	//Setzt den Kreis langsam in Richtung Mitte des Bildsschirms zurück
 	if (x != 0) {
-		x -= x / 500;
+		x -= x * fTimeDelta*1.5;
 	}
 	if (y != 0) {
-		y -= y / 900;
+		y -= y  * fTimeDelta*1.5;
 	}
 	//Move Plane and Camera
 	float RotationX = x * 15;
@@ -168,19 +168,19 @@ void CGame::Tick(float fTime, float fTimeDelta)
 {
 	PlaneSteering(x_initial, y_initial, fTimeDelta);
 
-	if (m_zdk.KeyDown(DIK_SPACE)) {
+	if (m_zdm.ButtonPressedLeft()) {
 		// … und Wenn noch Platz im Ringpuffer ist:
 		if (m_zpsBullets.RingIsNotFull()) {
 			// dann erwecke die nächste schlafende Feuerkugel:
 			CPlacement* pzp = m_zpsBullets.RingInc();
 			// Kopiere die Matrix (und damit die Startposition)
 			// des Terrainplacements in die Feuerkugel
-			pzp->SetMat(m_zpPlane.GetMatGlobal());
+			pzp->SetMat(m_zpPlaneTip.GetMatGlobal());
 			// Und schieß die Kugel mit einer Zufallsrichtung
 			// nach oben:
 			CHVector v;
-			v.Copy(m_zpCamera.GetDirection());
-			pzp->SetPhysicsVelocity(v * 200.0f);
+			v.Copy(m_zpCamera.GetDirectionGlobal());
+			pzp->SetPhysicsVelocity(v * 600.0f);
 		}
 	}
 	// Wenn die Feuerkugel weiter als 1km weg ist,

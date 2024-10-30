@@ -76,9 +76,9 @@ public:
 	//Größe des Crosshairs und des Kreises in Abhängigkeit des Bildschirms
 	float crosshairSize = 0.002;
 	//Schnelligkeit der Flugzeugrotation
-	float planeRotationSpeed = 0.0005;
+	float planeRotationSpeed = 0.25;
 	//Sensitivität des Controllers
-	float controllerSensitivity = 1500;
+	float controllerSensitivity = 0.5;
 
 
 private:
