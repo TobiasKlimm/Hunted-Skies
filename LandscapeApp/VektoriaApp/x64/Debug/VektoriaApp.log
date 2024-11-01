@@ -1,0 +1,20 @@
+﻿  Game.cpp
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.h(90,24): warning C4305: "Initialisierung": Verkürzung von "double" in "float"
+  (Quelldatei „Game.cpp“ wird kompiliert)
+  
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.h(92,29): warning C4305: "Initialisierung": Verkürzung von "double" in "float"
+  (Quelldatei „Game.cpp“ wird kompiliert)
+  
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(62,26): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(62,21): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(63,26): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(63,21): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(65,26): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(65,17): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(66,34): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(66,21): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(112,18): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(184,52): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\VektoriaApp\Game.cpp(238,28): warning C4305: "Argument": Verkürzung von "double" in "float"
+  VektoriaApp.vcxproj -> C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\LandscapeApp\x64\Debug\VektoriaApp.exe
