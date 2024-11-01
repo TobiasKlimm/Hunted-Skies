@@ -1,0 +1,60 @@
+****************
+Vektoria-Logfile
+
+****************
+Ok:    Distribudted Graphics API established
+Warn:  You called GetSkyLightPlacement, but you didn't call SetSkyOn before!
+Ok:    Collected materials in virtual hierarchy
+Error: In CRoot::AddMaterial: pmaterial is a nullptr
+Error: In CRoot::AddMaterial: pmaterial is a nullptr
+Error: In CRoot::AddMaterial: pmaterial is a nullptr
+Ok:    Collected materials in real hierarchy
+Ok:    Cyberglasses API established
+Ok:    Graphics API established
+Info:  Tearing supported: 1
+Info:  GPU Adapter 1: Intel(R) Iris(R) Xe Graphics
+Info:  - Memory Dedicated System: 0
+Info:  - Memory Dedicated Video : 134217728
+Info:  - Memory Shared System   : 4150718464
+Info:      - Output 1: \\.\DISPLAY1
+Info:          - Resolution: 640 * 480, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 800 * 600, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1024 * 768, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1152 * 864, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 600, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 720, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 768, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 800, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 960, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1280 * 1024, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1360 * 768, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1366 * 768, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1400 * 1050, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1440 * 900, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1600 * 900, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1600 * 1200, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1680 * 1050, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1920 * 1080, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:          - Resolution: 1920 * 1200, Refresh rate: 16179000 / 269640 = 60.002224 Hz
+Info:      - Nr of Outputs: 2
+Info:  GPU Adapter 2: Microsoft Basic Render Driver
+Info:  - Memory Dedicated System: 0
+Info:  - Memory Dedicated Video : 0
+Info:  - Memory Shared System   : 4150718464
+Info:      - Nr of Outputs: 1
+Info:  Choose 1. adapter as best
+Debug: Attempting descriptor heap creation with 16384 descriptors, taking 1048576 bytes of memory
+Debug: Descriptor heap with 16384 descriptors created of requested 16384 descriptors
+Info:  Main pass SRV descriptor heap created with 16384 descriptor slots
+Warn:  Your sound card is not compatible to DirectSound, so the calculation of the 3D sounds will reduce the frame rate.
+Info:  PrimaryBuffer buffer has 32768 Bytes.
+Ok:    DirectSound initialized
+Ok:    Sound API established
+Error: CDIMain::AddGameController: Tried to add more Controllers as found
+Ok:    Frames created
+Ok:    Scenes created
+Ok:    Hierarchy checked.
+Ok:    Materials created
+Ok:    Viewports created
+Ok:    1. sound (.\..\..\Lib\Emitters\Rain\Rain2.wav) loaded and added as ambient
+Ok:    2. sound (.\..\..\Lib\Emitters\Rain\Rain3.wav) loaded and added as ambient
