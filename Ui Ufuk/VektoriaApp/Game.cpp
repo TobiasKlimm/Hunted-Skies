@@ -8,6 +8,91 @@ CGame::~CGame(void)
 {
 }
 
+
+//---------------------------------------------------------------------
+//Fullscreen
+void LockCursorToWindow(HWND hwnd)
+{
+	RECT rect;
+	// Get the client area of the window
+	if (GetClientRect(hwnd, &rect))
+	{
+		// Convert client coordinates to screen coordinates
+		POINT upperLeft = { rect.left, rect.top };
+		POINT lowerRight = { rect.right, rect.bottom };
+
+		ClientToScreen(hwnd, &upperLeft);
+		ClientToScreen(hwnd, &lowerRight);
+
+		rect.left = upperLeft.x;
+		rect.top = upperLeft.y;
+		rect.right = lowerRight.x;
+		rect.bottom = lowerRight.y;
+
+		// Lock the cursor to this rectangle
+		ClipCursor(&rect);
+	}
+}
+
+//---------------------------------------------------------------------
+//
+float CGame::ClampValue(float value, float minValue, float maxValue) {
+	return max(minValue, min(value, maxValue));
+}
+
+void CGame::CenterSquare(float x, float y, float size, COverlay& rect) {
+	float halfSize = size / 2.0f;
+	rect.SetPos(x - (halfSize * 9), y - (halfSize * 16));
+}
+
+
+//---------------------------------------------------------------------
+//Flugzeugsteuerung
+void CGame::PlaneSteering(float& x, float& y, float fTimeDelta)
+{
+	//GetMausbewegung
+	x += m_zdm.GetRelativeX();
+	y -= m_zdm.GetRelativeY();
+	//GetControllerInput und rechne Stickdrift weg
+	float controllerXInput = m_zdgc.GetRelativeX() / controllerSensitivity;
+	if (abs(controllerXInput) < 0.0001f)
+		controllerXInput = 0;
+	float controllerYInput = m_zdgc.GetRelativeY() / controllerSensitivity;
+	if (abs(controllerYInput) < 0.0001f)
+		controllerYInput = 0;
+	x += controllerXInput;
+	y += controllerYInput;
+	//Maximiere Ausschlag des Kreises
+	x = ClampValue(x, -0.4, 0.4);
+	y = ClampValue(y, -0.4, 0.4);
+	//Verschiebe Kreis
+	CenterSquare(x + 0.5, y + 0.5, crosshairSize, m_zoCirclehair);
+	CenterSquare(x / 7 + 0.5, y / 5 + 0.5, crosshairSize, m_zoCrosshair);
+	//minimiert die maximale Rotation pro Tick
+	x_rotation = ClampValue(x, x - planeRotationSpeed, x + planeRotationSpeed);
+	y_rotation = ClampValue(y, y - planeRotationSpeed, y + planeRotationSpeed);
+	//Rotiert das Flugzeug
+	m_zpPlane.RotateY(-x / 2);
+	m_zpPlane.RotateZDelta(-x * 5);
+	m_zpPlane.RotateXDelta(-y);
+	//Rotiert die Kamera
+	//m_zpCameraPivot.RotateY(-x_rotation * 2);
+	//m_zpCameraPivot.RotateXDelta(y_rotation / 2);
+
+	//Setzt den Kreis langsam in Richtung Mitte des Bildsschirms zurück
+	if (x != 0) {
+		x -= x / 500;
+	}
+	if (y != 0) {
+		y -= y / 900;
+	}
+	//Move Plane and Camera
+	float RotationX = x * 15;
+	float RotationY = -y * 15;
+	float MoveAD = 0, MoveWS = -1, MoveUD = 0;
+	m_zpPlaneCenter.Move(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY);
+}
+
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash * psplash)
 {
 	//---------------------------------
@@ -16,10 +101,31 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Zuallererst muss die Root mit dem Splash-Screen initialisiert werden, 
 	// damit die Engine freigeschaltet wird:
+
+	//---------------------------------------------------------------------
+	//MiniMap, muss vor allem Initialisiert werden, da ein zweiter Viewport erstellt wird
+	
+	m_zv2.Init(&m_zcMiniMap, 0.15f, 0.25f, 0.85f, 0.05f);
+	m_zcMiniMap.InitOrtho(100.0f);
+	m_zs.AddPlacement(&m_zpMiniMap);
+	m_zpMiniMap.AddCamera(&m_zcMiniMap);
+	m_zf.AddViewport(&m_zv2);
+	m_ziMap.Init("textures\\black_image.jpg");
+	m_z2dMap.Init(0.15f, .025f, 0.85f, 0.05f);
+	m_zoMap.Init(&m_ziMap, m_z2dMap, true);
+	m_zv.AddOverlay(&m_zoMap);
+	
+	
+
+	//---------------------------------------------------------------------
+	//Grundinits wie Window, Kamera Viewport usw
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, procOS);
+	LockCursorToWindow(hwnd);
 	m_zv.InitFull(&m_zc);
-	m_zc.Init(QUARTERPI);
+	m_zc.Init(PI / 3, 0.3, 170000.0f, true, m_zs.GetSkyLightPlacement());;
+	m_zf.SetFullscreenOn();
+	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	m_zlp.Init(CHVector(-0.8f, 0.02f, 0.2f), CColor(1.0f, 1.0f, 1.0f));
 	m_zr.AddFrame(&m_zf);
 	m_zf.AddViewport(&m_zv);
@@ -27,11 +133,11 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.AddScene(&m_zs);
 	m_zs.AddPlacement(&m_zpCamera);
 	m_zpCamera.AddCamera(&m_zc);
-	
 	m_zf.AddDeviceKeyboard(&m_zdk);
-	m_zpCamera.SetTranslationSensitivity(5.0f);
-	m_zpCamera.SetRotationSensitivity(0.8f);
 	
+
+
+	//---------------------------------------------------------------------
 	//Overlay
 
 	m_zwf2.LoadPreset("RodWhite");
@@ -57,8 +163,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zwf3.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
 
 
-	m_zpCamera.TranslateZ(8.0f);
 
+	//---------------------------------------------------------------------
 	//Object rein
 
 	m_mpgTest = m_fileWavefront.LoadGeoTriangleTable("C:\\Users\\Fozer\\OneDrive\\Desktop\\Programme\\Vektoria\\Vektoria\\VektoriaV23.19\\App - Kopie (2)\\modells\\test.obj");
@@ -69,6 +175,42 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpTest.TranslateZ(-10.0f);
 	m_zpTest.Scale(15);
 
+
+
+	//---------------------------------------------------------------------
+	//STEUERUNG
+	m_zf.AddDeviceCursor(&m_zdc);
+	m_zf.AddDeviceKeyboard(&m_zdk);
+	m_zf.AddDeviceMouse(&m_zdm);
+	m_zf.AddDeviceGameController(&m_zdgc);
+	m_zdc.Hide();
+
+
+	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("Models\\Aviones\\Fighter1\\Arsenal_VG33.obj", true);
+	m_zpPlane.AddGeo(m_pzgPlane);
+	m_zpPlane.ScaleDelta(1);
+
+	m_zs.AddPlacement(&m_zpPlaneCenter);
+	m_zpPlaneCenter.SetTranslationSensitivity(50);
+	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
+	m_zpCameraPivot.AddPlacement(&m_zpCamera);
+	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
+	m_zpPlane.AddPlacement(&m_zpPlaneTip);
+
+	m_zpPlaneTip.TranslateZDelta(-2);
+	m_zpPlaneTip.TranslateYDelta(-0.4f);
+	m_zpCamera.TranslateZDelta(40);
+	m_zpCamera.TranslateYDelta(4);
+	m_zpCamera.RotateXDelta(-PI / 12);
+	m_zCrosshairRect.Init(crosshairSize * 9, crosshairSize * 16, 0, 0);
+	m_zoCrosshair.Init("textures\\crosshair.jpg", m_zCrosshairRect, true);
+	m_zv.AddOverlay(&m_zoCrosshair);
+	CenterSquare(0.5, 0.5, crosshairSize, m_zoCrosshair);
+	m_zoCirclehair.Init("textures\\circlehair.jpg", m_zCrosshairRect, true);
+	m_zv.AddOverlay(&m_zoCirclehair);
+
+
+	//---------------------------------------------------------------------
 	//Hier ist der Teil für das Terrain
 
 	//Haze_Postprocessing Filter für Wasser
@@ -148,26 +290,12 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.AddPlacement(&m_zpLandscape);
 	m_zpLandscape.AddGeo(&m_zgTerrrain);
 	m_zpLandscape.AddGeo(&m_zgWater);
+
 	// Füge das Terrain dem Kollisionscontainer hinzu:
 	m_zgsTerrain.Add(&m_zgTerrrain);
 
-	//Initialisiere die Kamera mit Outdoor-BVH-Schattenfrusumcasting (OBVHSFC) zur Beschleunigung:
-	m_zs.SetFrustumCullingOn();
-	m_zc.Init(HALFPI,			//45° Gradwinkel
-		0.3, 170000.0f,			//30cm bis 170km Sicht
-		true,					//BVH_Schattenfrustumcasting an!
-		m_zs.GetSkyLightPlacement());	//Info für das OBVHSFC
-
-	// Initialisiere die Kamera:
-	/*m_zs.AddPlacement(&m_zpCamera);
-	m_zpCamera.AddCamera(&m_zc);*/
-
-	// Die Kamera soll sich 30 m/s bewegen:
-	m_zpCamera.SetTranslationSensitivity(300);
-	// Stelle die Kamera an einen geeigneten Anfangsort: 
-	m_zpCamera.Translate(0.0f, 20.0f, 1000.0f);
-
 	// Hier kommen alle weiteren Initialisierungen hinein: 
+	
 
 }
 
@@ -179,12 +307,17 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 	// Hier kommen die Veränderungen pro Renderschritt hinein: 
 
+	CHVector vPlane(m_zpPlaneCenter.GetPosGlobal());
+	vPlane.y += 100; 
+	m_zpMiniMap.RotateX(-HALFPI);
+	m_zpMiniMap.TranslateDelta(vPlane);
 
 
 	// Traversiere am Schluss den Szenengraf und rendere:
+	PlaneSteering(x_initial, y_initial, fTimeDelta);
 	m_zr.Tick(fTimeDelta);
 
-	m_zdk.PlaceWASD(m_zpCamera, fTimeDelta);
+	
 
 	
 }

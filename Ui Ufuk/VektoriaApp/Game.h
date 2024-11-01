@@ -65,8 +65,40 @@ public:
 	float GetVersion();
 
 
+	//---------------------------------------------------------------------
+	//STEUERUNG
+	//Zentriert ein Quadrat mit den Koordinaten x und y als linkes oberes Eck
+	void CenterSquare(float x, float y, float size, COverlay& rect);
+
+	//Steuerung des Flugzeugs
+	void PlaneSteering(float& x, float& y, float fTimeDelta);
+
+	//Gibt den value maximal als maxValue und mindestens als minValue zurück
+	float ClampValue(float value, float minValue, float maxValue);
+
+	//Größe des Crosshairs und des Kreises in Abhängigkeit des Bildschirms
+	float crosshairSize = 0.002;
+	//Schnelligkeit der Flugzeugrotation
+	float planeRotationSpeed = 0.0005;
+	//Sensitivität des Controllers
+	float controllerSensitivity = 1500;
+
+
 private:
 
+	//---------------------------------------------------------------------
+	//Steuerung
+	float x_initial = 0;
+	float y_initial = 0;
+	float x_rotation = 0;
+	float y_rotation = 0;
+	CDeviceCursor m_zdc;
+	CDeviceMouse m_zdm;
+	CDeviceGameController m_zdgc;
+	CDeviceKeyboard m_zdk;
+
+
+	//---------------------------------------------------------------------
 	// Die Wurzel des Szenengrafen: 
 	CRoot m_zr; 
 	CFrame m_zf;
@@ -76,8 +108,9 @@ private:
 	CPlacement m_zpCamera;
 	CImage m_zi; 
 	CLightParallel m_zlp;
-	CDeviceKeyboard m_zdk;
 
+
+	//---------------------------------------------------------------------
 	//Overlay
 	CWritingFont m_zwf;
 	CWritingFont m_zwf2;
@@ -85,17 +118,44 @@ private:
 	CWriting m_zw;
 	CWriting m_zw2;
 	CWriting m_zw3;
+	CCamera m_zc2;
+	CPlacement m_zpCamera2;
+
+	//---------------------------------------------------------------------
+	//Flugzeug
+	CPlacement m_zpPlane;
+	CGeoTriangleTable* m_pzgPlane = nullptr;
+	CFileWavefront m_PlaneFile;
+	CPlacement m_zpPlaneCenter;
+	CPlacement m_zpPlaneTip;
+	CPlacement m_zpCameraPivot;
 
 
+	//---------------------------------------------------------------------
+	//Crosshair
+	CImage m_ziCrosshair; CImage m_ziCirclehair;
+	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
+	C2dRect m_zCrosshairRect;
 
 
+	//---------------------------------------------------------------------
 	//Object
-
 	CFileWavefront m_fileWavefront;
 	CGeoTriangleTable* m_mpgTest = nullptr;
 	CPlacement m_zpTest;
 
 
+	//---------------------------------------------------------------------
+	//MiniMap
+	CViewport m_zv2;
+	CPlacement m_zp2;
+	CCamera m_zcMiniMap;
+	CPlacement m_zpMiniMap;
+	CImage m_ziMap;
+	COverlay m_zoMap;
+	C2dRect m_z2dMap;
+
+	//---------------------------------------------------------------------
 	//Terrain hier rein
 
 	CGeoTerrain m_zgTerrrainOri;	//Gesamtes Terrain
