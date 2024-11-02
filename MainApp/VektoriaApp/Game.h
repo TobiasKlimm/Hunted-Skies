@@ -147,10 +147,10 @@ private:
 
 	// Plane
 	CPlacement m_zpPlane;
-	CGeoTriangleTable* m_pzgPlane = nullptr;
-	CFileWavefront m_PlaneFile;
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
+	CGeoTriangleTable* m_pzgPlane = nullptr;
+	CFileWavefront m_PlaneFile;
 	CPlacement m_zpCameraPivot;
 
 	// Turrets

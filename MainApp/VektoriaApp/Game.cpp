@@ -248,13 +248,19 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpPlane.ScaleDelta(1);
 	
 	/// Turrets
-	m_zgTurret = m_TurretFile.LoadGeoTriangleTable("models\\turret\\Star Wars emperor Turret.obj");
+
+	m_zgTurret = m_TurretFile.LoadGeoTriangleTable("models\\turret\\turret.obj");
 	for (int i = 0; i < TURRET_COUNT; i++)
 	{
 		m_zs.AddPlacement(&m_zpTurrets[i]);
 		m_zpTurrets[i].AddGeo(m_zgTurret);
-		m_zpTurrets[i].ScaleDelta(10);
+		m_zpTurrets[i].ScaleDelta(25);
+		m_zpTurrets[i].RotateYDelta(HALFPI);
 	}
+	//for (int i = 0; i < TURRET_COUNT; i++)
+	//{
+	//	m_zpTurrets[i].SetPointing(&m_zpPlaneCenter);
+	//}
 
 	m_zpTurrets[0].TranslateDelta(650, 0, 450);
 	m_zpTurrets[1].TranslateDelta(300, 0, -250);
@@ -268,13 +274,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	for (int i = 0; i < TURRET_COUNT; i++)
 	{
 		height = m_zgTerrain.GetHeight(m_zpTurrets[i].GetPos().x, m_zpTurrets[i].GetPos().z);
-		m_zpTurrets[i].TranslateYDelta(height-35);
+		m_zpTurrets[i].TranslateYDelta(height);
 	}
-
-	//for (int i = 0; i < TURRET_COUNT; i++)
-	//{
-	//	m_zpTurrets[i].SetPointing(&m_zpCamera);
-	//}
 
 	///////////////////////////////////////////////////
 	//////////////////// Overlay //////////////////////
@@ -300,9 +301,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zwf3.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
 
 
-	///////////////////////////////////////////////////
-	//////////////////// Steuerung ////////////////////
-	///////////////////////////////////////////////////
+	/////////////////////////////////////////////////
+	//////////////////// DEVICES ////////////////////
+	/////////////////////////////////////////////////
 	m_zf.AddDeviceCursor(&m_zdc);
 	m_zf.AddDeviceKeyboard(&m_zdk);
 	m_zf.AddDeviceMouse(&m_zdm);
@@ -326,7 +327,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//////////////////// PLANE STEERING ///////////////
 	///////////////////////////////////////////////////
 	m_zs.AddPlacement(&m_zpPlaneCenter);
-	m_zpPlaneCenter.SetTranslationSensitivity(50);
+	m_zpPlaneCenter.SetTranslationSensitivity(100);
 	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
 	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
 	m_zpPlane.AddPlacement(&m_zpPlaneTip);
