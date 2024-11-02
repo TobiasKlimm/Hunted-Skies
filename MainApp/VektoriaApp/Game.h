@@ -18,6 +18,7 @@
 #define TERRAIN_BEACHLIMIT 12
 #define TERRAIN_SANDLIMIT 4
 #define PERLIN_SEED 42
+#define TURRET_COUNT 6
 
 #ifdef _WIN64
 #ifdef _DEBUG
@@ -70,13 +71,9 @@ public:
 	// Holt die Versionsnummer:
 	float GetVersion();
 
-
-
-
-
-
-
-	////STEUERUNG
+	///////////////////////////////////////////////////
+	//////////////////// Steuerung //////////////////////
+	///////////////////////////////////////////////////
 	//Zentriert ein Quadrat mit den Koordinaten x und y als linkes oberes Eck
 	void CenterSquare(float x, float y, float size, COverlay& rect);
 
@@ -95,10 +92,20 @@ public:
 
 
 private:
+	///////////////////////////////////////////////////
+	//////////////////// SZENE ////////////////////////
+	///////////////////////////////////////////////////
+	CRoot m_zr;
+	CScene m_zs;
+	CFrame m_zf;
+	CViewport m_zv;
+	CCamera m_zc;
+	CPlacement m_zpCamera;
 
 
-
-	////STEUERUNG
+	///////////////////////////////////////////////////
+	//////////////////// STEUERUNG ////////////////////
+	///////////////////////////////////////////////////
 	float x_initial = 0;
 	float y_initial = 0;
 	float x_rotation = 0;
@@ -109,50 +116,36 @@ private:
 	CDeviceKeyboard m_zdk;
 
 
-	// Die Wurzel des Szenengrafen: 
-	CRoot m_zr;
-	CScene m_zs;
-	CFrame m_zf;
-	CViewport m_zv;
-	CCamera m_zc;
-	CPlacement m_zpCamera;
+	///////////////////////////////////////////////////
+	//////////////////// TERRAIN //////////////////////
+	///////////////////////////////////////////////////
 	CGeoTerrain m_zgTerrainOri; // Gesamtes Terrain
 	CGeoTerrain m_zgTerrain; // Inselausschnitt
 	CGeoTerrain m_zgWater;// Wasserausschnitt
 
-
-
-
-
-
 	CMaterial m_zmRock;
 	CMaterial m_zmSnow;
 	CMaterial m_zmSand;
-
-
 
 	CPlacement m_zpLandscape; // Insel- & Wasserplacement
 	CPerlin* m_pperlin = nullptr;// Perlin Noise
 	CPerlin* m_pperlin1 = nullptr;
 
 
-
-
-	//Placements
-
-	CFileWavefront m_filewavefront;
-	CGeoTriangleTable* m_pgtriangletable = nullptr;
+	///////////////////////////////////////////////////
+	//////////////////// PLACEMENTS ///////////////////
+	///////////////////////////////////////////////////
+	// Cannon
+	CFileWavefront m_CannonFile;
+	CGeoTriangleTable* m_pgCannon = nullptr;
 	CPlacement m_zpCannon;
 
-
-
-
-	CFileWavefront m_filewavefront1;
-	CGeoTriangleTable* m_pgtriangletable1 = nullptr;
+	// Ship
+	CFileWavefront m_ShipFile;
+	CGeoTriangleTable* m_zgShip = nullptr;
 	CPlacement m_zpShip;
 
-
-
+	// Plane
 	CPlacement m_zpPlane;
 	CGeoTriangleTable* m_pzgPlane = nullptr;
 	CFileWavefront m_PlaneFile;
@@ -160,9 +153,15 @@ private:
 	CPlacement m_zpPlaneTip;
 	CPlacement m_zpCameraPivot;
 
+	// Turrets
+	CFileWavefront m_TurretFile;
+	CGeoTriangleTable* m_zgTurret = nullptr;
+	CPlacement m_zpTurrets[TURRET_COUNT];
 
 
-	////CROSSHAIR
+	///////////////////////////////////////////////////
+	//////////////////// CROSSHAIR ////////////////////
+	///////////////////////////////////////////////////
 	CImage m_ziCrosshair; CImage m_ziCirclehair;
 	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
 	C2dRect m_zCrosshairRect;
