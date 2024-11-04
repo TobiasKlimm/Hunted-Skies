@@ -135,17 +135,17 @@ private:
 	///////////////////////////////////////////////////
 	//////////////////// PLACEMENTS ///////////////////
 	///////////////////////////////////////////////////
-	// Cannon
+	/// Cannon
 	CFileWavefront m_CannonFile;
 	CGeoTriangleTable* m_pgCannon = nullptr;
 	CPlacement m_zpCannon;
 
-	// Ship
+	/// Ship
 	CFileWavefront m_ShipFile;
 	CGeoTriangleTable* m_zgShip = nullptr;
 	CPlacement m_zpShip;
 
-	// Plane
+	/// Plane
 	CPlacement m_zpPlane;
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
@@ -153,10 +153,16 @@ private:
 	CFileWavefront m_PlaneFile;
 	CPlacement m_zpCameraPivot;
 
-	// Turrets
+	/// Turrets
 	CFileWavefront m_TurretFile;
 	CGeoTriangleTable* m_zgTurret = nullptr;
 	CPlacement m_zpTurrets[TURRET_COUNT];
+
+	/// Bullets
+	CPlacements m_zpsBullets;
+	CPlacement m_zpBulletTemplate;
+	CGeoSphere m_zgBullet;
+	CMaterial m_zmBullet;
 
 
 	///////////////////////////////////////////////////

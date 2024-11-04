@@ -204,7 +204,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zmEarth.LoadPreset("RockMossy");
 
 	// Wasser
-	m_zmWater.LoadPreset("Water");//Laden des Wassers
+	m_zmWater.LoadPreset("Water"); //Laden des Wassers
 	m_zmWater.SetAni(8, 8, 7);	//Animierte Wassertextur hat 8x8 Bilder 
 	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.8f)); //Blauwert vom Wasser erhöhen
 	m_zmWater.SetTransparency(0.2f);//Durchsichtigkeit des Wassers
@@ -223,9 +223,27 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	// Füge das Terrain dem Kollisionscontainer hinzu:
 	m_zgsTerrain.Add(&m_zgTerrain);
 
+	///////////////////////////////////////////////////
+	//////////////////// PLANE STEERING ///////////////
+	///////////////////////////////////////////////////
+	m_zs.AddPlacement(&m_zpPlaneCenter);
+	m_zpPlaneCenter.SetTranslationSensitivity(100);
+	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
+	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
+	m_zpPlane.AddPlacement(&m_zpPlaneTip);
+
+	m_zpPlaneTip.TranslateZDelta(-2);
+	m_zpPlaneTip.TranslateYDelta(-0.4f);
+
+	////////////////////////////////////////////////////
+	////////////////////// WASD STEERING ///////////////
+	////////////////////////////////////////////////////
+	//m_zpCamera.SetTranslationSensitivity(750.0f);
+	//m_zpCamera.SetRotationSensitivity(1);
+	//m_zpCamera.Translate(1000, 0, 1000);
 
 	///////////////////////////////////////////////////
-	//////////////////// PLACEMENTS ////////////////////
+	//////////////////// PLACEMENTS ///////////////////
 	///////////////////////////////////////////////////
 	/// Cannon
 	m_pgCannon = m_CannonFile.LoadGeoTriangleTable("models\\Cannon\\cannon_01_4k.obj");
@@ -248,8 +266,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpPlane.ScaleDelta(1);
 	
 	/// Turrets
-
 	m_zgTurret = m_TurretFile.LoadGeoTriangleTable("models\\turret\\turret.obj");
+
 	for (int i = 0; i < TURRET_COUNT; i++)
 	{
 		m_zs.AddPlacement(&m_zpTurrets[i]);
@@ -257,10 +275,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 		m_zpTurrets[i].ScaleDelta(25);
 		m_zpTurrets[i].RotateYDelta(HALFPI);
 	}
-	//for (int i = 0; i < TURRET_COUNT; i++)
-	//{
-	//	m_zpTurrets[i].SetPointing(&m_zpPlaneCenter);
-	//}
 
 	m_zpTurrets[0].TranslateDelta(650, 0, 450);
 	m_zpTurrets[1].TranslateDelta(300, 0, -250);
@@ -275,7 +289,22 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	{
 		height = m_zgTerrain.GetHeight(m_zpTurrets[i].GetPos().x, m_zpTurrets[i].GetPos().z);
 		m_zpTurrets[i].TranslateYDelta(height);
+
+		//  Welches Placement muss übergeben werden?
+		m_zpTurrets[i].SetPointing(&m_zpPlaneCenter);
 	}
+
+
+	/// Bullets
+	m_zgBullet.Init(0.5f, &m_zmBullet);
+	m_zpBulletTemplate.AddGeo(&m_zgBullet);
+	m_zpBulletTemplate.SetPhysics(2.0f, 0.1f, 0.0f, 200000.1f, true); // Welche Phsyics?
+	m_zpBulletTemplate.SwitchOff();
+	m_zs.AddPlacement(&m_zpBulletTemplate);
+
+	// Initialisiere den Schalt-Ringpuffer:
+	m_zpsBullets.RingMake(15, m_zpBulletTemplate);
+	m_zs.AddPlacements(m_zpsBullets);
 
 	///////////////////////////////////////////////////
 	//////////////////// Overlay //////////////////////
@@ -323,24 +352,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zoCirclehair.Init("textures\\circlehair.jpg", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
 
-	///////////////////////////////////////////////////
-	//////////////////// PLANE STEERING ///////////////
-	///////////////////////////////////////////////////
-	m_zs.AddPlacement(&m_zpPlaneCenter);
-	m_zpPlaneCenter.SetTranslationSensitivity(100);
-	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
-	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
-	m_zpPlane.AddPlacement(&m_zpPlaneTip);
 
-	m_zpPlaneTip.TranslateZDelta(-2);
-	m_zpPlaneTip.TranslateYDelta(-0.4f);
-
-	////////////////////////////////////////////////////
-	////////////////////// WASD STEERING ///////////////
-	////////////////////////////////////////////////////
-	//m_zpCamera.SetTranslationSensitivity(750.0f);
-	//m_zpCamera.SetRotationSensitivity(1);
-	//m_zpCamera.Translate(1000, 0, 1000);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -359,6 +371,36 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 	/// WASD STEERING
 	//m_zdk.PlaceWASD(m_zpCamera, fTimeDelta, false);
+
+	/////////////////////////////////////////////
+	///////////// TURRET SHOOTING ///////////////
+	/////////////////////////////////////////////
+	// Wenn die Leertaste heruntergedrückt wurde ...:
+	if (m_zdk.KeyDown(DIK_SPACE)) {
+		// … und Wenn noch Platz im Ringpuffer ist:
+		if (m_zpsBullets.RingIsNotFull()) 
+		{
+			CPlacement* pzp = m_zpsBullets.RingInc();
+
+			pzp->SetMat(m_zpTurrets[0].GetMatGlobal());
+		
+			// Und schieß die Kugel
+			CHVector v;
+			v.Copy(m_zpPlane.GetPosGlobal());
+			v.MakeDirection();
+
+			pzp->SetPhysicsVelocity(v);
+			//pzp->SetPhysicsVelocity(m_zpPlane.GetPosGlobal()); // Welcher Vector muss hier übergeben werden?
+
+		}
+	}
+	// Wenn die Feuerkugel weiter als 1km weg ist,
+	CPlacement* pzpOldestBullet = m_zpsBullets.RingAskLast();
+	if (pzpOldestBullet)
+		if (pzpOldestBullet->GetPos().Length() > 1000.0f)
+			// dann überführe sie in das passive Reich
+			// der Schläfer:
+			m_zpsBullets.RingDec();
 	
 	// Traversiere am Schluss den Szenengraf und rendere:
 	m_zr.Tick(fTimeDelta);
