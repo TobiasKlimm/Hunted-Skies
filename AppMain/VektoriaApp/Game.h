@@ -144,6 +144,7 @@ private:
 	CFileWavefront m_ShipFile;
 	CGeoTriangleTable* m_zgShip = nullptr;
 	CPlacement m_zpShip;
+	CMaterial m_zmShip;
 
 	/// Plane
 	CPlacement m_zpPlane;
@@ -157,6 +158,7 @@ private:
 	CFileWavefront m_TurretFile;
 	CGeoTriangleTable* m_zgTurret = nullptr;
 	CPlacement m_zpTurrets[TURRET_COUNT];
+	CPlacement m_zpTurretPointing[TURRET_COUNT];
 
 	/// Bullets
 	CPlacements m_zpsBullets;
@@ -171,7 +173,6 @@ private:
 	CImage m_ziCrosshair; CImage m_ziCirclehair;
 	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
 	C2dRect m_zCrosshairRect;
-
 
 	//CGeoTerrain m_zgTerrainMirror;
 	//CGeoTerrain m_zgTerrainMirrorLOD1;

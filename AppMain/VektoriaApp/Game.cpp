@@ -33,8 +33,6 @@ void LockCursorToWindow(HWND hwnd)
 	}
 }
 
-
-
 float CGame::ClampValue(float value, float minValue, float maxValue) {
 	return max(minValue, min(value, maxValue));
 }
@@ -98,7 +96,7 @@ void CGame::PlaneSteering(float& x, float& y, float fTimeDelta)
 
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
-	m_zr.Init(psplash);
+	m_zr.Init(psplash, false, false, false);
 	m_zf.Init(hwnd, procOS);
 	m_zv.InitFull(&m_zc);
 	m_zr.AddFrame(&m_zf);
@@ -108,7 +106,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	///////////////////////////////////////////////////
 	//////////////////// FULLSCREEN ///////////////////
-	///////////////////////////////////////////////////
+	/////////////////////////////////////////////////
 	LockCursorToWindow(hwnd);
 	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
@@ -259,19 +257,23 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpShip.ScaleDelta(10.0f);
 	m_zpShip.RotateYDelta(HALFPI);
 	m_zpShip.TranslateDelta(-350, 0, 1000);
+	m_zmShip.LoadPreset("WoodPlanksSpaced");
+	m_zgShip->SetMaterial(&m_zmShip);
 
 	/// Plane
 	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("models\\Aviones\\Fighter1\\Arsenal_VG33.obj");
 	m_zpPlane.AddGeo(m_pzgPlane);
 	m_zpPlane.ScaleDelta(1);
-	
+
 	/// Turrets
 	m_zgTurret = m_TurretFile.LoadGeoTriangleTable("models\\turret\\turret.obj");
 
 	for (int i = 0; i < TURRET_COUNT; i++)
 	{
 		m_zs.AddPlacement(&m_zpTurrets[i]);
-		m_zpTurrets[i].AddGeo(m_zgTurret);
+		m_zpTurrets[i].AddPlacement(&m_zpTurretPointing[i]);
+
+		m_zpTurretPointing[i].AddGeo(m_zgTurret);
 		m_zpTurrets[i].ScaleDelta(25);
 		m_zpTurrets[i].RotateYDelta(HALFPI);
 	}
@@ -289,21 +291,18 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	{
 		height = m_zgTerrain.GetHeight(m_zpTurrets[i].GetPos().x, m_zpTurrets[i].GetPos().z);
 		m_zpTurrets[i].TranslateYDelta(height);
-
-		//  Welches Placement muss übergeben werden?
-		m_zpTurrets[i].SetPointing(&m_zpPlaneCenter);
 	}
 
-
 	/// Bullets
+	//m_zmBullet.LoadPreset("AshesGlowing");
 	m_zgBullet.Init(0.5f, &m_zmBullet);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
 	m_zpBulletTemplate.SetPhysics(2.0f, 0.1f, 0.0f, 200000.1f, true); // Welche Phsyics?
 	m_zpBulletTemplate.SwitchOff();
 	m_zs.AddPlacement(&m_zpBulletTemplate);
 
-	// Initialisiere den Schalt-Ringpuffer:
-	m_zpsBullets.RingMake(15, m_zpBulletTemplate);
+	/// Initialisiere den Schalt-Ringpuffer:
+	m_zpsBullets.RingMake(10000, m_zpBulletTemplate);
 	m_zs.AddPlacements(m_zpsBullets);
 
 	///////////////////////////////////////////////////
@@ -351,8 +350,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	CenterSquare(0.5, 0.5, crosshairSize, m_zoCrosshair);
 	m_zoCirclehair.Init("textures\\circlehair.jpg", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
-
-
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -362,7 +359,6 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//-------------------------------------------
 
 	// Hier kommen die Veränderungen pro Renderschritt hinein: 
-	
 	/////////////////////////////////////////////
 	//////////////////// STEERING ///////////////
 	/////////////////////////////////////////////
@@ -373,35 +369,65 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//m_zdk.PlaceWASD(m_zpCamera, fTimeDelta, false);
 
 	/////////////////////////////////////////////
-	///////////// TURRET SHOOTING ///////////////
+	////////////// TURRET TURNING ///////////////
 	/////////////////////////////////////////////
-	// Wenn die Leertaste heruntergedrückt wurde ...:
-	if (m_zdk.KeyDown(DIK_SPACE)) {
-		// … und Wenn noch Platz im Ringpuffer ist:
-		if (m_zpsBullets.RingIsNotFull()) 
+	float shootInterval = 1.0f; // Mindestzeit in Sekunden zwischen den Schüssen
+
+	for (int i = 0; i < TURRET_COUNT; i++)
+	{
+		CHVector v1 = m_zpPlaneCenter.GetPosGlobal();
+		CHVector v2 = m_zpTurretPointing[i].GetPosGlobal();
+
+		CHVector vDir2PlaneNormal(v1 - v2);
+		vDir2PlaneNormal.Normal();
+		CHVector vDir2Plane(v1 - v2);
+
+		float fa = vDir2PlaneNormal.AngleXZ();
+		float faUpDown = asinf(vDir2PlaneNormal.y);
+
+		UM_SETINRANGE(faUpDown, -QUARTERPI, QUARTERPI);
+
+		m_zpTurretPointing[i].RotateZ(faUpDown);
+		m_zpTurretPointing[i].RotateYDelta(-fa - HALFPI);
+
+		/*
+		if(i==0)
 		{
-			CPlacement* pzp = m_zpsBullets.RingInc();
+			LogDebugVector("Plane ", v1);
+			LogDebugVector("Turret", v2);
+			LogDebugVector("Dir2Pl", vDir2Plane);
+			LogDebug("fa: %f", UM_RAD2DEG(fa));
+		}
+		*/
 
-			pzp->SetMat(m_zpTurrets[0].GetMatGlobal());
-		
-			// Und schieß die Kugel
-			CHVector v;
-			v.Copy(m_zpPlane.GetPosGlobal());
-			v.MakeDirection();
+		/////////////////////////////////////////////
+		///////////// TURRET SHOOTING ///////////////
+		///////////////////////////////////////////// 
+		static float fLastShotTime[TURRET_COUNT] = {0}; // Array für jeden Turret
 
-			pzp->SetPhysicsVelocity(v);
-			//pzp->SetPhysicsVelocity(m_zpPlane.GetPosGlobal()); // Welcher Vector muss hier übergeben werden?
+		// Wenn das Flugzeug nah genug ist:
+		if (vDir2Plane.Length() < 1000 && fTime - fLastShotTime[i] >= shootInterval) {
+			// … und Wenn noch Platz im Ringpuffer ist:
+			if (m_zpsBullets.RingIsNotFull())
+			{
+				CPlacement* pzp = m_zpsBullets.RingInc();
 
+				// schieß die Kugel
+				pzp->SetMat(m_zpTurrets[i].GetMatGlobal());
+				pzp->SetPhysicsVelocity(vDir2Plane);
+
+				fLastShotTime[i] = fTime; // Zeitpunkt des Schusses aktualisieren
+			}
 		}
 	}
-	// Wenn die Feuerkugel weiter als 1km weg ist,
+
+	// Wenn die Kugel weiter als 1km weg ist,
 	CPlacement* pzpOldestBullet = m_zpsBullets.RingAskLast();
 	if (pzpOldestBullet)
 		if (pzpOldestBullet->GetPos().Length() > 1000.0f)
-			// dann überführe sie in das passive Reich
-			// der Schläfer:
+			// dann überführe sie in das passive Reich der Schläfer:
 			m_zpsBullets.RingDec();
-	
+
 	// Traversiere am Schluss den Szenengraf und rendere:
 	m_zr.Tick(fTimeDelta);
 
