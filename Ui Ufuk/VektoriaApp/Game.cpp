@@ -105,17 +105,29 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//---------------------------------------------------------------------
 	//MiniMap, muss vor allem Initialisiert werden, da ein zweiter Viewport erstellt wird
 	
-	m_zv2.Init(&m_zcMiniMap, 0.15f, 0.25f, 0.85f, 0.05f);
+	m_zv2.Init(&m_zcMiniMap,0.15f, 0.25f, 0.82f, 0.05f);
 	m_zcMiniMap.InitOrtho(100.0f);
 	m_zs.AddPlacement(&m_zpMiniMap);
 	m_zpMiniMap.AddCamera(&m_zcMiniMap);
 	m_zf.AddViewport(&m_zv2);
+
+	//---------------------------------------------------------------------
+	//Startbildschrim Inits und Overlayadds overlay mit switchoff
+	m_ziStart.Init("textures\\HalloWelt.jpg");
+	m_zoStart.InitFull(&m_ziStart);
+	m_zv.AddOverlay(&m_zoStart);
+	
+ 
+
+	//Schwarzer Rand der Map ist transparent gesetzt damit er nicht das Wasser überdeckt
 	m_ziMap.Init("textures\\black_image.jpg");
-	m_z2dMap.Init(0.15f, .025f, 0.85f, 0.05f);
-	m_zoMap.Init(&m_ziMap, m_z2dMap, true);
+	m_z2dMap.Init(0.16, 0.27f, 0.815f, 0.04f);
+	m_zoMap.Init(&m_ziMap, m_z2dMap, false);
 	m_zv.AddOverlay(&m_zoMap);
+	m_zoMap.SetLayer(0.5f);
+	m_zoMap.SetTransparency(0.7f);
 	
-	
+	/*m_zv.SetWireframeOn();*/
 
 	//---------------------------------------------------------------------
 	//Grundinits wie Window, Kamera Viewport usw
@@ -265,7 +277,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Erzeuge die Vertex-Daten des Blueprint Terrains
 	m_zgTerrrainOri.CreateField(
 		2000, 2000, // Ein Quadratkilometer Terrain
-		2000, 2000, // 2000 mal 2000 Vertices0000
+		1000, 1000, // 2000 mal 2000 Vertices0000
 		0.0f, 0.0f, // Die UV-Textur beginnt bei (0,0) …
 		1.0f, 1.0f);// … und geht bis (1,1)
 
@@ -296,7 +308,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Hier kommen alle weiteren Initialisierungen hinein: 
 	
-
+	
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -304,6 +316,34 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//-------------------------------------------
 	// Veränderungen während der Simulationszeit:
 	//-------------------------------------------
+
+	//---------------------------------------------------------------------
+	//Pause
+	m_fTimeWithPausings = fTime - m_fTimePausings;	
+	if (m_zdk.KeyDown(DIK_P))
+	{
+		m_fTimeLastPausingStart = fTime;
+		m_bPaused = true;
+
+	}
+	if (m_zdk.KeyDown(DIK_O))
+	{
+		m_bPaused = false;
+	}
+	if (m_bPaused)
+	{
+		m_fTimePausings += fTimeDelta;
+		fTimeDelta = 0.0f; 
+	}
+
+	if (m_zdk.KeyDown(DIK_O))
+	{
+		m_zoStart.SwitchOff();
+	}
+	if (m_zdk.KeyDown(DIK_P))
+	{
+		m_zoStart.SwitchOn();
+	}
 
 	// Hier kommen die Veränderungen pro Renderschritt hinein: 
 
@@ -314,12 +354,10 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 
 	// Traversiere am Schluss den Szenengraf und rendere:
-	PlaneSteering(x_initial, y_initial, fTimeDelta);
+	if(!m_bPaused)
+		PlaneSteering(x_initial, y_initial, fTimeDelta);
+
 	m_zr.Tick(fTimeDelta);
-
-	
-
-	
 }
 
 void CGame::Fini()
