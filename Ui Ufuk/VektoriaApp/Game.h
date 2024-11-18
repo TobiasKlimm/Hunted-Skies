@@ -159,7 +159,34 @@ private:
 	//Startbildschrim
 	CImage m_ziStart;
 	COverlay m_zoStart;
-	
+
+	//---------------------------------------------------------------------
+	//Button
+	CImage m_ziButton;
+	COverlay m_zoButton;
+	C2dRect m_z2dButton;
+
+	CImage m_ziButton2;
+	COverlay m_zoButton2;
+	C2dRect m_z2dButton2;
+
+	//---------------------------------------------------------------------
+	//Menutext auf den Buttons
+	/*CWritingFont m_zwfm1;
+	CWritingFont m_zwfm2;
+	CWriting m_zwm1;
+	CWriting m_zwm2;
+	*/
+
+	//Transparente Buttons
+	CImage m_ziButtonTrans1;
+	COverlay m_zoButtonTrans1;
+	C2dRect m_z2dButtonTrans1;
+
+	CImage m_ziButtonTrans2;
+	COverlay m_zoButtonTrans2;
+	C2dRect m_z2dButtonTrans2;
+
 	//---------------------------------------------------------------------
 	//Pause
 	float m_fTimeLastPausingStart = 0.0f;

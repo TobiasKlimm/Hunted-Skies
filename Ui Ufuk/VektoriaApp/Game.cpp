@@ -110,22 +110,57 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.AddPlacement(&m_zpMiniMap);
 	m_zpMiniMap.AddCamera(&m_zcMiniMap);
 	m_zf.AddViewport(&m_zv2);
+	m_zv2.SwitchOff();
 
 	//---------------------------------------------------------------------
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
 	m_ziStart.Init("textures\\HalloWelt.jpg");
 	m_zoStart.InitFull(&m_ziStart);
 	m_zv.AddOverlay(&m_zoStart);
-	
- 
+
+	//---------------------------------------------------------------------
+	//Button 1 und 2
+	m_ziButton.Init("textures\\test.jpg");
+	m_z2dButton.Init(0.3f, 0.2f, 0.4f, 0.1f);
+	m_zoButton.Init(&m_ziButton,m_z2dButton, false);
+	m_zv.AddOverlay(&m_zoButton);
+	m_zoButton.SetLayer(0.1f);
+
+	m_ziButton2.Init("textures\\test 2.jpg");
+	m_z2dButton2.Init(0.3f, 0.2f, 0.39f, 0.39f);
+	m_zoButton2.Init(&m_ziButton2, m_z2dButton2, false);
+	m_zv.AddOverlay(&m_zoButton2);
+	m_zoButton2.SetLayer(0.1f);
+
+	//Bei anwählen des Buttons geht es dann halt aus
+	m_zoButtonTrans1.SwitchOff();
+	m_zoButtonTrans2.SwitchOff();
+
+	//Menu Button 1
+	m_ziButtonTrans1.Init("textures\\blacktrans.jpg");
+	m_z2dButtonTrans1.Init(0.31f, 0.21f, 0.39f, 0.1f);
+	m_zoButtonTrans1.Init(&m_ziButtonTrans1, m_z2dButtonTrans1, false);
+	m_zv.AddOverlay(&m_zoButtonTrans1);
+	m_zoButtonTrans1.SetLayer(0.2f);
+	m_zoButtonTrans1.SetTransparency(0.7f);
+
+	//Menu Button 2
+	m_ziButtonTrans2.Init("textures\\blacktrans2.jpg");
+	m_z2dButtonTrans2.Init(0.31f, 0.21f, 0.4f, 0.4f);
+	m_zoButtonTrans2.Init(&m_ziButtonTrans2, m_z2dButtonTrans2, false);
+	m_zv.AddOverlay(&m_zoButtonTrans2);
+	m_zoButtonTrans2.SetLayer(0.2f);
+	m_zoButtonTrans2.SetTransparency(0.7f);
+
 
 	//Schwarzer Rand der Map ist transparent gesetzt damit er nicht das Wasser überdeckt
 	m_ziMap.Init("textures\\black_image.jpg");
-	m_z2dMap.Init(0.16, 0.27f, 0.815f, 0.04f);
+	m_z2dMap.Init(0.16f, 0.27f, 0.815f, 0.04f);
 	m_zoMap.Init(&m_ziMap, m_z2dMap, false);
 	m_zv.AddOverlay(&m_zoMap);
 	m_zoMap.SetLayer(0.5f);
 	m_zoMap.SetTransparency(0.7f);
+	/*m_zoMap.SwitchOff();*/
 	
 	/*m_zv.SetWireframeOn();*/
 
@@ -175,6 +210,20 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zwf3.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
 
 
+	//---------------------------------------------------------------------
+	//Menutext auf den Buttons
+	/*m_zwfm1.LoadPreset("RodWhite");
+	m_zwm1.Init(C2dRect(0.1f, 0.1f, 0.5f, 0.5f), 6, &m_zwfm1);
+	m_zwm1.PrintF("Start");
+	m_zv.AddWriting(&m_zwm1);
+	m_zwfm1.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
+
+	m_zwfm2.LoadPreset("RodWhite");
+	m_zwm2.Init(C2dRect(0.2f, 0.2f, 0.7f, 0.3f), 20, &m_zwfm2);
+	m_zwm2.PrintF("Hier ist ein Test");
+	m_zv.AddWriting(&m_zwm2);
+	m_zwfm2.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);*/
+	
 
 	//---------------------------------------------------------------------
 	//Object rein
@@ -203,7 +252,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpPlane.ScaleDelta(1);
 
 	m_zs.AddPlacement(&m_zpPlaneCenter);
-	m_zpPlaneCenter.SetTranslationSensitivity(50);
+	m_zpPlaneCenter.SetTranslationSensitivity(200);
 	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
 	m_zpCameraPivot.AddPlacement(&m_zpCamera);
 	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
@@ -324,11 +373,37 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	{
 		m_fTimeLastPausingStart = fTime;
 		m_bPaused = true;
+		m_zoButton.SwitchOn();
+		m_zoButton2.SwitchOn();
+		m_zv2.SwitchOff();
 
 	}
-	if (m_zdk.KeyDown(DIK_O))
+	//---------------------------------------------------------------------
+	//Buttons (die Transparenten Hintergründe)
+	if (m_zdk.KeyDown(DIK_LEFTARROW))
+	{
+		m_zoButtonTrans1.SwitchOn();
+		m_zoButtonTrans2.SwitchOff();
+	}
+
+	//---------------------------------------------------------------------
+	//Buttons -> Die laufen in reverse order 1 an 2 aus, und 2 an 1 aus 
+	if (m_zdk.KeyDown(DIK_RIGHTARROW))
+	{
+		m_zoButtonTrans2.SwitchOn();
+		m_zoButtonTrans1.SwitchOff();
+	}
+
+	//---------------------------------------------------------------------
+	//Pause
+	if (m_zdk.KeyDown(DIK_SPACE))
 	{
 		m_bPaused = false;
+		m_zoButton.SwitchOff();
+		m_zoButton2.SwitchOff();
+		m_zoButtonTrans1.SwitchOff();
+		m_zoButtonTrans2.SwitchOff();
+		m_zv2.SwitchOn();
 	}
 	if (m_bPaused)
 	{
@@ -336,7 +411,9 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		fTimeDelta = 0.0f; 
 	}
 
-	if (m_zdk.KeyDown(DIK_O))
+	//---------------------------------------------------------------------
+	//Startbildschrim
+	if (m_zdk.KeyDown(DIK_SPACE))
 	{
 		m_zoStart.SwitchOff();
 	}
@@ -344,7 +421,29 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	{
 		m_zoStart.SwitchOn();
 	}
+	
+	//---------------------------------------------------------------------
+	//Button
 
+	if (m_zdk.KeyDown(DIK_A))
+	{
+		m_zoButton.SwitchOff();
+	}
+
+	if (m_zdk.KeyDown(DIK_S))
+	{
+		m_zoButton.SwitchOn();
+	}
+
+	if (m_zdk.KeyDown(DIK_A))
+	{
+		m_zoButton2.SwitchOff();
+	}
+
+	if (m_zdk.KeyDown(DIK_S))
+	{
+		m_zoButton2.SwitchOn();
+	}
 	// Hier kommen die Veränderungen pro Renderschritt hinein: 
 
 	CHVector vPlane(m_zpPlaneCenter.GetPosGlobal());
