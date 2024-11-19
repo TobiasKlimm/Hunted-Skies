@@ -136,14 +136,22 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.SetSkyMistStartDistance(18000.00003f);
 
 	// Hänge die Geometrien an ein geeignetes Placement:
-	m_zs.AddPlacement(&m_zpLandscape);
 	m_zpLandscape.AddGeo(&m_zgTerrain);
 	m_zpLandscape.AddGeo(&m_zgWater);
 
 	// Islands erzeugen
+	m_zs.AddPlacement(&m_zpLandscape);
+
+
 	m_zs.AddPlacement(&m_zpIsland1);
 	m_zs.AddPlacement(&m_zpIsland2);
 	m_zs.AddPlacement(&m_zpIsland3);
+
+
+
+	//Die wo weit weg war
+	m_zpIsland1.TranslateDelta(6000, 0, 4000);
+
 
 
 	m_zpIsland2.RotateY(THIRDPI);
@@ -152,7 +160,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_zpIsland3.RotateY(-HALFPI);
 	m_zpIsland3.TranslateDelta(-1890, 0, -2300);
-
 
 	m_pperlin = new CPerlin(PERLIN_SEED, 3.0f, 15, 0.5f, 8.0f, 1.50f, 1.5f, ePerlinInterpol_Standard, false);
 	m_pblobAllPositive = new CBlob(0.5f, 0.5f, 0.6f, 0.6f, -0.1f, eBlobShapeGround_Rect, eBlobShapeSide_All, NULL);
@@ -274,16 +281,16 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpLandscape.AddGeo(&m_zgTerrainSand);
 	m_zpLandscape.AddGeo(&m_zgTerrainSandMossy);
 
-
-	//m_zpIsland1.AddGeo(&m_zgTerrainFlora);
-	//m_zpIsland1.AddGeo(&m_zgTerrainLow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainRock);
-	//m_zpIsland1.AddGeo(&m_zgTerrainMirror);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainOri);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSand);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
+	//Insel in der anderen drinne 
+	m_zpIsland1.AddGeo(&m_zgTerrainFlora);
+	m_zpIsland1.AddGeo(&m_zgTerrainLow);
+	m_zpIsland1.AddGeo(&m_zgTerrainRock);
+	m_zpIsland1.AddGeo(&m_zgTerrainMirror);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnow);
+	m_zpIsland1.AddGeo(&m_zgTerrainOri);
+	m_zpIsland1.AddGeo(&m_zgTerrainSand);
+	m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
 
 	m_zpIsland2.AddGeo(&m_zgTerrainFlora);
 	m_zpIsland2.AddGeo(&m_zgTerrainLow);
@@ -373,9 +380,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//////////////////// PLACEMENTS ///////////////////
 	///////////////////////////////////////////////////
 	/// Cannon
-	m_pgCannon = m_CannonFile.LoadGeoTriangleTable("models\\Cannon\\cannon_01_4k.obj");
+	m_zgCannon = m_CannonFile.LoadGeoTriangleTable("models\\Cannon\\cannon_01_4k.obj");
 	m_zs.AddPlacement(&m_zpCannon);
-	m_zpCannon.AddGeo(m_pgCannon);
+	m_zpCannon.AddGeo(m_zgCannon);
 	m_zpCannon.ScaleDelta(10.0f);
 	m_zpCannon.TranslateDelta(-300, 0, 700);
 
@@ -383,7 +390,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zgShip = m_ShipFile.LoadGeoTriangleTable("models\\ship_pinnace_4k.blend\\ship_pinnace_4k.obj");
 	m_zs.AddPlacement(&m_zpShip);
 	m_zpShip.AddGeo(m_zgShip);
-	m_zpShip.ScaleDelta(10.0f);
+	m_zpShip.ScaleDelta(5.0f);
 	m_zpShip.RotateYDelta(HALFPI);
 	m_zpShip.TranslateDelta(-350, 0, 1000);
 	m_zmShip.LoadPreset("WoodPlanksSpaced");
@@ -393,6 +400,76 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("models\\Aviones\\Fighter1\\Arsenal_VG33.obj");
 	m_zpPlane.AddGeo(m_pzgPlane);
 	m_zpPlane.ScaleDelta(1);
+
+	/// Carrier 1
+	m_zgCarrier1 = m_Carrier1File.LoadGeoTriangleTable("models\\Carrier\\Carrier.obj"); 
+	m_zs.AddPlacement(&m_zpCarrier1);
+	m_zpCarrier1.AddGeo(m_zgCarrier1);
+	m_zpCarrier1.ScaleDelta(4.0f);
+	m_zpCarrier1.RotateYDelta(HALFPI);
+	m_zpCarrier1.TranslateDelta(-5000, 20, 1000);
+	m_zmCarrier1.MakeTextureDiffuse("models\\Carrier\\Carrier.mtl");
+	m_zgCarrier1->SetMaterial(&m_zmCarrier1);
+	//m_zmCarrier1.Load("models\\Carrier\\Carrier.mtl");
+	//m_zgCarrier1->SetMaterial(&m_zmCarrier1);
+
+	///Carrier 2
+	m_zgCarrier2 = m_Carrier2File.LoadGeoTriangleTable("models\\Carrier\\Carrier.obj");
+	m_zs.AddPlacement(&m_zpCarrier2);
+	m_zpCarrier2.AddGeo(m_zgCarrier2);
+	m_zpCarrier2.ScaleDelta(4.0f);
+	m_zpCarrier2.RotateYDelta(HALFPI);
+	m_zpCarrier2.TranslateDelta(-5500, 20, 1500);
+	//m_zmCarrier2.Load("models\\Carrier\\Carrier.mtl");
+	//m_zgCarrier2->SetMaterial(&m_zmCarrier2);
+	
+	///Battleship1
+	m_zgBattleship1 = m_Battleship1File.LoadGeoTriangleTable("models\\Battleship1\\Yamato[1].obj");
+	m_zs.AddPlacement(&m_zpBattleship1);
+	m_zpBattleship1.AddGeo(m_zgBattleship1);
+	m_zpBattleship1.ScaleDelta(2.5f);
+	//m_zpBattleship1.RotateYDelta(HALFPI);
+	m_zpBattleship1.TranslateDelta(-5000, 0, 2000);
+
+
+
+	///Battleship2	
+	m_zgBattleship2 = m_Battleship2File.LoadGeoTriangleTable("models\\Battleship1\\Yamato[1].obj");
+	m_zs.AddPlacement(&m_zpBattleship2);
+	m_zpBattleship2.AddGeo(m_zgBattleship2);
+	m_zpBattleship2.ScaleDelta(2.5f);
+	//m_zpBattleship1.RotateYDelta(HALFPI);
+	m_zpBattleship2.TranslateDelta(-3500, 0, 500);
+
+
+
+	///Destroyer1
+	m_zgDestroyer1 = m_Destroyer1File.LoadGeoTriangleTable("models\\Destroyer\\HMS_Daring_Type_45.obj");
+	m_zs.AddPlacement(&m_zpDestroyer1);
+	m_zpDestroyer1.AddGeo(m_zgDestroyer1);
+	m_zpDestroyer1.ScaleDelta(1.5f);
+	m_zpDestroyer1.RotateYDelta(HALFPI);
+	m_zpDestroyer1.TranslateDelta(-4500, 0, 700);
+
+
+	///Destroyer2
+	m_zgDestroyer2 = m_Destroyer2File.LoadGeoTriangleTable("models\\Destroyer\\HMS_Daring_Type_45.obj");
+	m_zs.AddPlacement(&m_zpDestroyer2);
+	m_zpDestroyer2.AddGeo(m_zgDestroyer2);
+	m_zpDestroyer2.ScaleDelta(1.5f);
+	m_zpDestroyer2.RotateYDelta(HALFPI);
+	m_zpDestroyer2.TranslateDelta(-4500, 0, -700);
+
+
+
+	///Lighthouse
+	m_zgLighthouse = m_LighthouseFile.LoadGeoTriangleTable("models\\Lighthouse\\LightHouse.obj");
+	m_zs.AddPlacement(&m_zpLighthouse);
+	m_zpLighthouse.AddGeo(m_zgLighthouse);
+	m_zpLighthouse.ScaleDelta(4.0f);
+	//m_zpBattleship1.RotateYDelta(HALFPI);
+	m_zpLighthouse.TranslateDelta(1000,0, 2000);
+
 
 	/// Turrets
 	m_zgTurret = m_TurretFile.LoadGeoTriangleTable("models\\turret\\turret.obj");
@@ -494,6 +571,12 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	/// PLANE STEERING
 	PlaneSteering(x_initial, y_initial, fTimeDelta);
 
+
+
+	m_zpBattleship1.TranslateXDelta(0.01);
+	m_zpBattleship2.TranslateXDelta(0.01);
+	m_zpCarrier1.TranslateXDelta(0.01);
+	m_zpCarrier2.TranslateXDelta(0.01);
 	/// WASD STEERING
 	//m_zdk.PlaceWASD(m_zpCamera, fTimeDelta, false);
 

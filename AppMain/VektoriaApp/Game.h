@@ -14,7 +14,7 @@
 //------------------------------------------------------------------------
 #define TERRAIN_HEIGHT 500
 #define TERRAIN_SIZE 2500
-#define WATER_SIZE 20000
+#define WATER_SIZE 13000
 #define TERRAIN_BEACHLIMIT 12
 #define TERRAIN_SANDLIMIT 4
 #define TERRAIN_SNOWLIMIT 130
@@ -152,14 +152,66 @@ private:
 	///////////////////////////////////////////////////
 	/// Cannon
 	CFileWavefront m_CannonFile;
-	CGeoTriangleTable* m_pgCannon = nullptr;
+	CGeoTriangleTable* m_zgCannon = nullptr;
 	CPlacement m_zpCannon;
+
+	/// Carrier1
+	CFileWavefront m_Carrier1File;
+	CGeoTriangleTable* m_zgCarrier1 = nullptr;
+	CPlacement m_zpCarrier1;
+	CMaterial m_zmCarrier1;
+	
+
+	///Carrier2
+	CFileWavefront m_Carrier2File;
+	CGeoTriangleTable* m_zgCarrier2 = nullptr;
+	CPlacement m_zpCarrier2;
+	CMaterial m_zmCarrier2;
+
+	///Battleship1
+	CFileWavefront m_Battleship1File;
+	CGeoTriangleTable* m_zgBattleship1 = nullptr;
+	CPlacement m_zpBattleship1;
+	CMaterial m_zmBattleship1;
+
+
+	///Battleship1
+	CFileWavefront m_Battleship2File;
+	CGeoTriangleTable* m_zgBattleship2 = nullptr;
+	CPlacement m_zpBattleship2;
+	CMaterial m_zmBattleship2;
+
 
 	/// Ship
 	CFileWavefront m_ShipFile;
 	CGeoTriangleTable* m_zgShip = nullptr;
 	CPlacement m_zpShip;
 	CMaterial m_zmShip;
+
+
+
+	///Destroyer1
+	CFileWavefront m_Destroyer1File;
+	CGeoTriangleTable* m_zgDestroyer1 = nullptr;
+	CPlacement m_zpDestroyer1;
+	CMaterial m_zmDestroyer1;
+
+
+	///Destroyer1
+	CFileWavefront m_Destroyer2File;
+	CGeoTriangleTable* m_zgDestroyer2 = nullptr;
+	CPlacement m_zpDestroyer2;
+	CMaterial m_zmDestroyer2;
+
+
+
+
+	///Lighthouse
+	CFileWavefront m_LighthouseFile;
+	CGeoTriangleTable* m_zgLighthouse = nullptr;
+	CPlacement m_zpLighthouse;
+	CMaterial m_zmLighthouse;
+
 
 	/// Plane
 	CPlacement m_zpPlane;
