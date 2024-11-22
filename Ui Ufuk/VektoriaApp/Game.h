@@ -161,6 +161,11 @@ private:
 	COverlay m_zoStart;
 
 	//---------------------------------------------------------------------
+	//Pausebildschirm
+	CImage m_ziPause;
+	COverlay m_zoPause;
+
+	//---------------------------------------------------------------------
 	//Button
 	CImage m_ziButton;
 	COverlay m_zoButton;
@@ -169,6 +174,13 @@ private:
 	CImage m_ziButton2;
 	COverlay m_zoButton2;
 	C2dRect m_z2dButton2;
+
+	//---------------------------------------------------------------------
+	//Container für Startbildschirm
+	COverlays m_zos;
+	COverlays m_zosInGame;
+	COverlay m_zoBack2Start;
+
 
 	//---------------------------------------------------------------------
 	//Menutext auf den Buttons
@@ -183,9 +195,9 @@ private:
 	COverlay m_zoButtonTrans1;
 	C2dRect m_z2dButtonTrans1;
 
-	CImage m_ziButtonTrans2;
-	COverlay m_zoButtonTrans2;
-	C2dRect m_z2dButtonTrans2;
+	//CImage m_ziButtonTrans2;
+	//COverlay m_zoButtonTrans2;
+	//C2dRect m_z2dButtonTrans2;
 
 	//---------------------------------------------------------------------
 	//Pause
