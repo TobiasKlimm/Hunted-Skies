@@ -12,3 +12,6 @@ Lib/Sounds/Bobenthal.wav
 /AppCollision/.vs
 /AppCollision/VektoriaApp/x64
 /AppCollision/x64
+AppMain/VektoriaApp/VektoriaApp.vcxproj.user
+AppCollision/VektoriaApp/VektoriaApp.vcxproj.user
+AppCollision/VektoriaApp/log/Vektoria_Debug.log
