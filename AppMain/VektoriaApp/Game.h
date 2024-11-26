@@ -22,7 +22,8 @@
 #define TERRAIN_UV 50
 #define PERLIN_SEED 42
 #define TURRET_COUNT 6
-
+#define TERRAIN_VERTICES 1000
+#define ENTFERNUNG_FLUGZEUGKANONE 1000
 #ifdef _WIN64
 #ifdef _DEBUG
 #pragma comment (lib, "Vektoria_Debug64.lib")
@@ -132,6 +133,7 @@ private:
 	CGeoTerrain m_zgTerrainOri; // Gesamtes Terrain
 	CGeoTerrain m_zgTerrain; // Inselausschnitt
 	CGeoTerrain m_zgWater;// Wasserausschnitt
+	CGeoTerrain m_zgWaterSchoener;
 
 	CMaterial m_zmRock;
 	CMaterial m_zmSnow;
@@ -220,6 +222,8 @@ private:
 	CGeoTriangleTable* m_pzgPlane = nullptr;
 	CFileWavefront m_PlaneFile;
 	CPlacement m_zpCameraPivot;
+	CMaterial m_zmPlane;
+
 
 	/// Turrets
 	CFileWavefront m_TurretFile;
@@ -265,7 +269,7 @@ private:
 
 
 
-
+	CCut m_cutSchoener;
 	CCut m_cutOverSea;
 	CCut m_cutSeaToSand;
 	CCut m_cutSandtoBeach;
