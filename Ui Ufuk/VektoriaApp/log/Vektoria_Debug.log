@@ -9,8 +9,6 @@ Ok:    Collected materials in virtual hierarchy
 Error: In CRoot::AddMaterial: pmaterial is a nullptr
 Error: In CRoot::AddMaterial: pmaterial is a nullptr
 Error: In CRoot::AddMaterial: pmaterial is a nullptr
-Error: In CRoot::AddMaterial: pmaterial is a nullptr
-Error: In CRoot::AddMaterial: pmaterial is a nullptr
 Ok:    Collected materials in real hierarchy
 Ok:    Cyberglasses API established
 Ok:    Graphics API established
@@ -20,89 +18,38 @@ Info:  - Memory Dedicated System: 0
 Info:  - Memory Dedicated Video : 134217728
 Info:  - Memory Shared System   : 4139429888
 Info:      - Output 1: \\.\DISPLAY1
-Info:          - Resolution: 640 * 480, Refresh rate: 59940 / 1000 = 59.939999 Hz
 Info:          - Resolution: 640 * 480, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 640 * 480, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 720 * 480, Refresh rate: 60 / 1 = 60.000000 Hz
-Info:          - Resolution: 720 * 480, Refresh rate: 59940 / 1000 = 59.939999 Hz
-Info:          - Resolution: 720 * 576, Refresh rate: 50 / 1 = 50.000000 Hz
 Info:          - Resolution: 800 * 600, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 800 * 600, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1024 * 768, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1024 * 768, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1152 * 864, Refresh rate: 75 / 1 = 75.000000 Hz
 Info:          - Resolution: 1152 * 864, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1152 * 864, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 60 / 1 = 60.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 60 / 1 = 60.000000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 60000 / 1001 = 59.940060 Hz
-Info:          - Resolution: 1176 * 664, Refresh rate: 60000 / 1001 = 59.940060 Hz
 Info:          - Resolution: 1280 * 600, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 600, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1280 * 720, Refresh rate: 60000 / 1001 = 59.940060 Hz
 Info:          - Resolution: 1280 * 720, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 720, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1280 * 768, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 768, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1280 * 800, Refresh rate: 60020 / 1000 = 60.020000 Hz
 Info:          - Resolution: 1280 * 800, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 800, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1280 * 960, Refresh rate: 60020 / 1000 = 60.020000 Hz
 Info:          - Resolution: 1280 * 960, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 960, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1280 * 1024, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1280 * 1024, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1360 * 768, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1360 * 768, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1366 * 768, Refresh rate: 60 / 1 = 60.000000 Hz
 Info:          - Resolution: 1366 * 768, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1366 * 768, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1400 * 1050, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1400 * 1050, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:          - Resolution: 1440 * 900, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1440 * 900, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 60 / 1 = 60.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 60 / 1 = 60.000000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 60000 / 1001 = 59.940060 Hz
-Info:          - Resolution: 1440 * 1080, Refresh rate: 60000 / 1001 = 59.940060 Hz
 Info:          - Resolution: 1600 * 900, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1600 * 900, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1600 * 1024, Refresh rate: 59954 / 1000 = 59.953999 Hz
-Info:          - Resolution: 1600 * 1024, Refresh rate: 59954 / 1000 = 59.953999 Hz
-Info:          - Resolution: 1680 * 1050, Refresh rate: 59954 / 1000 = 59.953999 Hz
 Info:          - Resolution: 1680 * 1050, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1680 * 1050, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 24 / 1 = 24.000000 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 30 / 1 = 30.000000 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 50 / 1 = 50.000000 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 23976 / 1000 = 23.976000 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 29970 / 1000 = 29.969999 Hz
-Info:          - Resolution: 1920 * 1080, Refresh rate: 60000 / 1001 = 59.940060 Hz
 Info:          - Resolution: 1920 * 1080, Refresh rate: 153400000 / 2556032 = 60.014896 Hz
 Info:          - Resolution: 1920 * 1080, Refresh rate: 368140000 / 2556032 = 144.027924 Hz
 Info:      - Nr of Outputs: 2
