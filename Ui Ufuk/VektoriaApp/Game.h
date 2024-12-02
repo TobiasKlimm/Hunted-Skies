@@ -183,23 +183,6 @@ private:
 
 
 	//---------------------------------------------------------------------
-	//Menutext auf den Buttons
-	/*CWritingFont m_zwfm1;
-	CWritingFont m_zwfm2;
-	CWriting m_zwm1;
-	CWriting m_zwm2;
-	*/
-
-	//Transparente Buttons
-	CImage m_ziButtonTrans1;
-	COverlay m_zoButtonTrans1;
-	C2dRect m_z2dButtonTrans1;
-
-	//CImage m_ziButtonTrans2;
-	//COverlay m_zoButtonTrans2;
-	//C2dRect m_z2dButtonTrans2;
-
-	//---------------------------------------------------------------------
 	//Pause
 	float m_fTimeLastPausingStart = 0.0f;
 	float m_fTimePausings = 0.0f;
