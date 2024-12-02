@@ -49,7 +49,8 @@ private:
 	CPlacement m_zpPlane;
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
-
+	CMaterial m_zmPlane;
+	CMaterial m_zmPropeller;
 
 
 	float m_flySpeed = 50;

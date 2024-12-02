@@ -15,10 +15,56 @@ void CAirplane::Init()
 {
 	this->AddPlacement(&m_zpPlaneCenter);
 	CFileWavefront objLoader;
-	m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplane.obj");
-	m_zpPlaneModel.AddGeo(m_pzgPlane);
-	m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Propeller.obj", true);
-	m_zpPropellerModel.AddGeo(m_pzgPropeller);
+
+	
+
+
+	m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug 2\\ORCA_4.5GEN_JET.obj");
+	m_zpPlane.AddGeo(m_pzgPlane);
+	CHMat o;
+	o.RotateY(PI);
+	m_pzgPlane->Transform(o);
+	m_zpPlane.AddGeo(m_pzgPlane);
+
+
+	m_zpPlane.ScaleDelta(1);
+	m_zmPlane.MakeTextureDiffuse("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_Full_body_Diffuse_map_.jpg");
+	m_zmPlane.MakeTextureBump("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_FULL_BODY_Normal_map.jpg");
+	m_zmPlane.MakeTextureSpecular("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_Full_body_Speculer_map.jpg");
+
+
+
+	//m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeug.obj");
+	//CHMat m;
+	//m.RotateY(PI);
+	//m_pzgPlane->Transform(m);
+	//m_zpPlane.AddGeo(m_pzgPlane);
+	//m_zpPlane.ScaleDelta(1);
+	//m_zmPlane.MakeTextureDiffuse("models\\Flugzeug\\COLOR.png");
+	//m_pzgPlane->SetMaterial(&m_zmPlane);
+
+
+
+
+	//m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeugpropeller.obj", true);
+	//m_zpPropellerModel.AddGeo(m_pzgPropeller);
+	//CHMat n;
+	//n.RotateY(PI);
+	//m_pzgPropeller->Transform(n);
+	//m_zpPropellerModel.AddGeo(m_pzgPropeller);
+	//m_zpPropellerModel.ScaleDelta(1);
+	//m_zmPropeller.MakeTextureDiffuse("models\\Flugzeug\\metal_plate_02_diff_4k.jpg");
+	//m_pzgPropeller->SetMaterial(&m_zmPlane);
+
+	
+
+
+
+
+
+
+
+
 
 	m_zpPlane.AddPlacement(&m_zpPlaneModel);
 	m_zpPlane.AddPlacement(&m_zpPropellerModel);

@@ -7,14 +7,14 @@ void CTerrain::Init()
 	m_zpLandscape.AddGeo(&m_zgTerrain);
 
 	// Islands erzeugen
-	m_zpLandscape.AddPlacement(&m_zpIsland1);
+	//m_zpLandscape.AddPlacement(&m_zpIsland1);
 	//m_zpLandscape.AddPlacement(&m_zpIsland2);
 	//m_zpLandscape.AddPlacement(&m_zpIsland3);
 
+	m_zpIsland1.TranslateDelta(6000, 0, 4000);
 
 	m_zpIsland2.RotateY(THIRDPI);
 	m_zpIsland2.TranslateDelta(1500, 0, 2500);
-
 
 	m_zpIsland3.RotateY(-HALFPI);
 	m_zpIsland3.TranslateDelta(-1890, 0, -2300);
@@ -26,7 +26,7 @@ void CTerrain::Init()
 	m_pblobTerrainPositive = new CBlob(0.5f, 0.5f, 0.5f, 0.5f, TERRAIN_HEIGHT, eBlobShapeGround_Radial, eBlobShapeSide_Hill, m_pperlin);
 	m_pblobTerrainNegative = new CBlob(0.5f, 0.5f, 0.5f, 0.5f, -TERRAIN_HEIGHT, eBlobShapeGround_Radial, eBlobShapeSide_Hill, m_pperlin);
 	m_pblobTerrainCraterPositive = new CBlob(0.2f, 0.2f, 0.2f, 0.2f, TERRAIN_HEIGHT, eBlobShapeGround_Donut, eBlobShapeSide_Hill, m_pperlin);
-	m_pblobAll = new CBlob(0.5f, 0.5f, 0.51f, 0.51f, -0.2f, eBlobShapeGround_Rect, eBlobShapeSide_All, nullptr);
+	m_pblobAll = new CBlob(0.5f, 0.5f, 0.51f, 0.51f, -0.4f, eBlobShapeGround_Rect, eBlobShapeSide_All, nullptr);
 
 
 	m_zgTerrainOri.AddBlob(m_pblobAllPositive);
@@ -34,17 +34,36 @@ void CTerrain::Init()
 	m_zgTerrainOri.AddBlob(m_pblobTerrainCraterPositive);
 	m_zgTerrainOri.AddBlob(m_pblobAll);
 
-	m_zgTerrain.AddBlob(m_pblobAllPositive);
-	m_zgTerrain.AddBlob(m_pblobTerrainPositive);
-	m_zgTerrain.AddBlob(m_pblobTerrainCraterPositive);
-	m_zgTerrain.AddBlob(m_pblobAll);
+	//m_zgTerrain.AddBlob(m_pblobAllPositive);
+	//m_zgTerrain.AddBlob(m_pblobTerrainPositive);
+	//m_zgTerrain.AddBlob(m_pblobTerrainCraterPositive);
+	//m_zgTerrain.AddBlob(m_pblobAll);
 
 
-	m_zgTerrainOri.CreateField(TERRAIN_SIZE, TERRAIN_SIZE, 1000, 1000, 0.0f, 0.0f, 10.0f, 10.0f);
+	m_zgTerrainOri.CreateField(TERRAIN_SIZE, TERRAIN_SIZE, TERRAIN_VERTICES, TERRAIN_VERTICES, 0.0f, 0.0f, 10.0f, 10.0f);
+	
 	m_zgTerrain.Init(TERRAIN_SIZE, TERRAIN_SIZE, NULL, 100, 100, 0.0f, 0.0f, 10.0f, 10.0f);
 	m_zgTerrain.SetDrawingOff();
 
 
+	///////////////////////////////////////////////
+	//////////////////// WATER ////////////////////
+	///////////////////////////////////////////////
+	m_zgWater.CreateField(33000, 33000, 10, 10, 0.0f, 0.0f, 30.0f, 30.0f);
+
+	// Wasseroberfläche:
+	m_zgWater.Init(WATER_SIZE, WATER_SIZE, &m_zmWater, 10, 10, 0.0f, 0.0f, 30.0f, 30.0f);
+
+	// Wasser
+	m_zmWater.LoadPreset("Water"); //Laden des Wassers
+	m_zmWater.SetAni(8, 8, 10);	//Animierte Wassertextur hat 8x8 Bilder
+	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.8f)); //Blauwert vom Wasser erhöhen
+	m_zmWater.SetTransparency(0.5f);//Durchsichtigkeit des Wassers
+	m_zmWater.SetTransparencyOn();
+	m_zmWater.MakeTextureHaze("textures//WaterHaze.jpg");
+	m_zmWater.SetPostprocessingOn();
+	m_zmWater.SetHazeOn();
+	m_zmWater.SetHazeStrength(7.0);
 
 
 	//Terrain mit verschiedenen Materialien erstellen
@@ -54,18 +73,14 @@ void CTerrain::Init()
 	m_cutOverSea.SetFlattenLowerOn();
 	m_cutOverSea.SetFlattenSmartOn();
 
-
-
 	m_cutUnderSea.SetHeightLimits(0.0f, F_MAX);
 	m_cutUnderSea.SetFlattenUpperOn();
 	m_cutUnderSea.SetFlattenSmartOn();
-
 
 	m_cutSeaToSand.SetHeightLimits(0.0f, TERRAIN_SANDLIMIT);
 	m_cutSeaToSand.SetHeightInverseOn();
 	m_cutSeaToSand.SetFlattenLowerOn();
 	m_cutSeaToSand.SetFlattenSmartOn();
-
 
 	m_cutSandtoBeach.SetHeightLimits(TERRAIN_SANDLIMIT, TERRAIN_BEACHLIMIT);
 	m_cutSandtoBeach.SetHeightInverseOn();
@@ -74,7 +89,6 @@ void CTerrain::Init()
 	m_cutSeaToBeach.SetHeightInverseOn();
 	m_cutSeaToBeach.SetFlattenLowerOn();
 	m_cutSeaToBeach.SetFlattenSmartOn();
-
 
 	m_cutBeachToSnowLimit.SetHeightLimits(TERRAIN_BEACHLIMIT, TERRAIN_SNOWLIMIT);
 	m_cutBeachToSnowLimit.SetHeightInverseOn();
@@ -87,7 +101,6 @@ void CTerrain::Init()
 
 	m_cutOverSnowLimit.SetHeightLimits(TERRAIN_SNOWLIMIT, F_MAX);
 	m_cutOverSnowLimit.SetHeightInverseOn();
-
 
 	m_cutUnder15Degrees.SetSlopeLimits(0.0f, PI / 12.0f);
 	m_cutUnder15Degrees.SetSlopeInverseOn();
@@ -146,16 +159,16 @@ void CTerrain::Init()
 	m_zpLandscape.AddGeo(&m_zgTerrainSand);
 	m_zpLandscape.AddGeo(&m_zgTerrainSandMossy);
 
-
-	//m_zpIsland1.AddGeo(&m_zgTerrainFlora);
-	//m_zpIsland1.AddGeo(&m_zgTerrainLow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainRock);
-	//m_zpIsland1.AddGeo(&m_zgTerrainMirror);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainOri);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSand);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
+	/// INSEL IN DER ANDEREN DRINNE
+	m_zpIsland1.AddGeo(&m_zgTerrainFlora);
+	m_zpIsland1.AddGeo(&m_zgTerrainLow);
+	m_zpIsland1.AddGeo(&m_zgTerrainRock);
+	m_zpIsland1.AddGeo(&m_zgTerrainMirror);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnow);
+	m_zpIsland1.AddGeo(&m_zgTerrainOri);
+	m_zpIsland1.AddGeo(&m_zgTerrainSand);
+	m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
 
 	m_zpIsland2.AddGeo(&m_zgTerrainFlora);
 	m_zpIsland2.AddGeo(&m_zgTerrainLow);
@@ -167,7 +180,6 @@ void CTerrain::Init()
 	m_zpIsland2.AddGeo(&m_zgTerrainSand);
 	m_zpIsland2.AddGeo(&m_zgTerrainSandMossy);
 
-
 	m_zpIsland3.AddGeo(&m_zgTerrainFlora);
 	m_zpIsland3.AddGeo(&m_zgTerrainLow);
 	m_zpIsland3.AddGeo(&m_zgTerrainRock);
@@ -177,10 +189,6 @@ void CTerrain::Init()
 	m_zpIsland3.AddGeo(&m_zgTerrainOri);
 	m_zpIsland3.AddGeo(&m_zgTerrainSand);
 	m_zpIsland3.AddGeo(&m_zgTerrainSandMossy);
-
-
-
-
 
 	m_zgTerrainMirror.InitFromOther(m_zgTerrainOri, &m_zmEarth, true);
 	m_zgTerrainFlora.InitFromOther(m_zgTerrainOri, &m_zmEarth, false);
@@ -202,23 +210,17 @@ void CTerrain::Init()
 	m_zmSnowHeavy.LoadPreset("RockVerySnowy");
 	m_zmSandMossy.LoadPreset("SandMossy");
 
-	// Wasser
-	m_zmWater.LoadPreset("Water"); //Laden des Wassers
-	m_zmWater.SetAni(8, 8, 7);	//Animierte Wassertextur hat 8x8 Bilder 
-	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.8f)); //Blauwert vom Wasser erhöhen
-	m_zmWater.SetTransparency(0.2f);//Durchsichtigkeit des Wassers
-	m_zmWater.SetTransparencyOn();
-	m_zmWater.MakeTextureHaze("textures//WaterHaze.jpg");
-	m_zmWater.SetPostprocessingOn();
-	m_zmWater.SetHazeOn();
-	m_zmWater.SetHazeStrength(1.8);
+
+
+	//m_zmSand.MakeTextureDiffuse("Materials\\textures\\aerial_beach_01_diff_4k.jpg");
+	//m_zmSand.MakeTextureBump("Materials\\textures\\aerial_beach_01_nor_dx_4k.jpg");
+	//m_zmSand.MakeTextureSpecular("Materials\\textures\\Neue Rought von Tobi.jpg");
+	//m_zmSand.SetSpecularStrength(0.1f);
+
+	
 
 	// Erzeuge mit dem Terraindaten eine Terraingeometrie: 
 	//m_zgTerrain.InitFromOther(m_zgTerrainOri, &m_zmEarth);
 
-	// Erzeuge die Wasseroberfläche:
-	m_zgWater.Init(WATER_SIZE, WATER_SIZE, &m_zmWater, 10, 10, 0.0f, 0.0f, 500.0f, 500.0f);
-
 	// Füge das Terrain dem Kollisionscontainer hinzu:
-	m_zgsTerrain.Add(&m_zgTerrain);
 }

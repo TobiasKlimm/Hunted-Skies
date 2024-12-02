@@ -154,7 +154,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpLandscape.AddGeo(&m_zgWater);
 	
 	
-	//m_zpLandscape.AddGeo(&m_zgWaterSchoener);
 
 	// Islands erzeugen
 	m_zs.AddPlacement(&m_zpLandscape);
@@ -194,6 +193,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 
 	m_zgTerrainOri.CreateField(TERRAIN_SIZE, TERRAIN_SIZE, TERRAIN_VERTICES, TERRAIN_VERTICES, 0.0f, 0.0f, 10.0f, 10.0f);
+	
 	m_zgWater.CreateField(33000, 33000, 10, 10, 0.0f, 0.0f, 30.0f, 30.0f);
 
 	// Erzeuge die Wasseroberfläche:
@@ -204,26 +204,18 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Cuts
 
 
-
-
-
-
 	m_cutOverSea.SetHeightLimits(-F_MAX, 0.0f);
 	m_cutOverSea.SetFlattenLowerOn();
 	m_cutOverSea.SetFlattenSmartOn();
-
-
 
 	m_cutUnderSea.SetHeightLimits(0.0f, F_MAX);
 	m_cutUnderSea.SetFlattenUpperOn();
 	m_cutUnderSea.SetFlattenSmartOn();
 
-
 	m_cutSeaToSand.SetHeightLimits(0.0f,TERRAIN_SANDLIMIT);
 	m_cutSeaToSand.SetHeightInverseOn();
 	m_cutSeaToSand.SetFlattenLowerOn();
 	m_cutSeaToSand.SetFlattenSmartOn();
-
 
 	m_cutSandtoBeach.SetHeightLimits(TERRAIN_SANDLIMIT, TERRAIN_BEACHLIMIT);
 	m_cutSandtoBeach.SetHeightInverseOn();
@@ -232,7 +224,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_cutSeaToBeach.SetHeightInverseOn();
 	m_cutSeaToBeach.SetFlattenLowerOn();
 	m_cutSeaToBeach.SetFlattenSmartOn();
-
 
 	m_cutBeachToSnowLimit.SetHeightLimits(TERRAIN_BEACHLIMIT, TERRAIN_SNOWLIMIT);
 	m_cutBeachToSnowLimit.SetHeightInverseOn();
@@ -245,7 +236,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_cutOverSnowLimit.SetHeightLimits(TERRAIN_SNOWLIMIT, F_MAX);
 	m_cutOverSnowLimit.SetHeightInverseOn();
-
 
 	m_cutUnder15Degrees.SetSlopeLimits(0.0f, PI / 12.0f);
 	m_cutUnder15Degrees.SetSlopeInverseOn();
@@ -290,10 +280,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zgTerrainRock.AddCut(&m_cutOver45Degrees);
 
 	m_zgTerrainMirror.AddCut(&m_cutUnderSea);
-
-	//m_zgWaterSchoener.AddCut(&m_cutUnderSea);
-
-
 
 	m_zpLandscape.AddGeo(&m_zgTerrainFlora);
 	m_zpLandscape.AddGeo(&m_zgTerrainLow);
@@ -357,14 +343,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zgTerrainSnow.InitFromOther(m_zgTerrainOri, &m_zmSnow, false);
 	m_zgTerrainSand.InitFromOther(m_zgTerrainOri, &m_zmSand, false);
 	m_zgTerrainSandMossy.InitFromOther(m_zgTerrainOri, &m_zmSandMossy, false);
-	
-	
-	
-	//m_zgWaterSchoener.InitFromOther(m_zgTerrainOri, &m_zmWater, false);
-	//CHMat mMachsPlatt; 
-	//mMachsPlatt.ScaleY(0.0f);
-	//m_zgWaterSchoener.Transform(mMachsPlatt);
-
 
 	// Lade die Texturen für Wasser und Land:
 	m_zmRock.LoadPreset("Rock");

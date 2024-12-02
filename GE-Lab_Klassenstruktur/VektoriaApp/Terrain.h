@@ -3,7 +3,7 @@
 
 #define TERRAIN_HEIGHT 500
 #define TERRAIN_SIZE 2500
-#define WATER_SIZE 20000
+#define WATER_SIZE 13000
 #define TERRAIN_BEACHLIMIT 12
 #define TERRAIN_SANDLIMIT 4
 #define TERRAIN_SNOWLIMIT 130
@@ -11,6 +11,9 @@
 #define TERRAIN_UV 50
 #define PERLIN_SEED 42
 
+#define TURRET_COUNT 6
+#define TERRAIN_VERTICES 1000
+#define ENTFERNUNG_FLUGZEUGKANONE 1000
 #include "Vektoria\Root.h"
 
 using namespace Vektoria;
@@ -58,16 +61,6 @@ private:
 	CBlob* m_pblobTerrainNegative = nullptr;
 	CBlob* m_pblobTerrainCraterPositive = nullptr;
 
-
-	CBlob* m_pblob9 = nullptr;
-	CBlob* m_pblob8 = nullptr;
-	CBlob* m_pblob6 = nullptr;
-	CBlob* m_pblob7 = nullptr;
-	CBlob* m_pblob5 = nullptr;
-	CBlob* m_pblob3 = nullptr;
-	CBlob* m_pblob4 = nullptr;
-	CBlob* m_pblob2 = nullptr;
-	CBlob* m_pblob1 = nullptr;
 	CBlob* m_pblob = nullptr;
 	CBlob* m_pblobAll = nullptr;
 
@@ -105,4 +98,10 @@ private:
 	CGeoTerrain m_zgTerrainSand;
 	CGeoTerrain m_zgTerrainSandMossy;
 	CGeoTerrain m_zgTerrainSnowHeavy;
+
+	/// Lighthouse evtl nicht in dieser Klasse
+	CFileWavefront m_LighthouseFile;
+	CGeoTriangleTable* m_zgLighthouse = nullptr;
+	CPlacement m_zpLighthouse;
+	CMaterial m_zmLighthouse;
 };

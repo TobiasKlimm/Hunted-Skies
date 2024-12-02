@@ -133,7 +133,6 @@ private:
 	CGeoTerrain m_zgTerrainOri; // Gesamtes Terrain
 	CGeoTerrain m_zgTerrain; // Inselausschnitt
 	CGeoTerrain m_zgWater;// Wasserausschnitt
-	CGeoTerrain m_zgWaterSchoener;
 
 	CMaterial m_zmRock;
 	CMaterial m_zmSnow;
@@ -147,6 +146,65 @@ private:
 	CPlacement m_zpLandscape; // Insel- & Wasserplacement
 	CPerlin* m_pperlin = nullptr;// Perlin Noise
 	CPerlin* m_pperlin1 = nullptr;
+
+	//Insel Test
+	CPlacement m_zpHauptInsel;
+	CPlacement m_zpIsland1;
+	CPlacement m_zpIsland2;
+	CPlacement m_zpIsland3;
+	CBlob* m_pblobAllPositive = nullptr;
+	CBlob* m_pblobAllNegative = nullptr;
+	CBlob* m_pblobTerrainPositive = nullptr;
+	CBlob* m_pblobTerrainNegative = nullptr;
+	CBlob* m_pblobTerrainCraterPositive = nullptr;
+
+
+	CBlob* m_pblob9 = nullptr;
+	CBlob* m_pblob8 = nullptr;
+	CBlob* m_pblob6 = nullptr;
+	CBlob* m_pblob7 = nullptr;
+	CBlob* m_pblob5 = nullptr;
+	CBlob* m_pblob3 = nullptr;
+	CBlob* m_pblob4 = nullptr;
+	CBlob* m_pblob2 = nullptr;
+	CBlob* m_pblob1 = nullptr;
+	CBlob* m_pblob = nullptr;
+	CBlob* m_pblobAll = nullptr;
+
+
+	// Erhebung aus dem Meer
+	CGeos m_zgsCollision, m_zgsHeight; // Kollisionscontainer
+	CGeoTerrains m_zgsTerrain; // Terrainkollisionscontainer
+
+
+
+	CCut m_cutSchoener;
+	CCut m_cutOverSea;
+	CCut m_cutSeaToSand;
+	CCut m_cutSandtoBeach;
+	CCut m_cutSeaToBeach;
+	CCut m_cutUnderSea; // Schnitt unter N.N.
+	CCut m_cutBeachToSnowLimit;
+	CCut m_cutSnowLimitToHeavySnowLimit;
+	CCut m_cutOverHeavySnowLimit;
+	CCut m_cutOverSnowLimit;
+
+	CCut m_cutUnder15Degrees;
+	CCut m_cut15DegreesTo30Degrees;
+	CCut m_cut30DegreesTo45Degrees;
+	CCut m_cut15DegreesTo45Degrees;
+	CCut m_cutOver45Degrees;
+	CCut m_cutUnder45Degrees;
+
+
+	CGeoTerrain m_zgTerrainFlora;
+	CGeoTerrain m_zgTerrainLow;
+	CGeoTerrain m_zgTerrainMirror;
+	CGeoTerrain m_zgTerrainRock;
+	CGeoTerrain m_zgTerrainSnow;
+	CGeoTerrain m_zgTerrainSand;
+	CGeoTerrain m_zgTerrainSandMossy;
+	CGeoTerrain m_zgTerrainSnowHeavy;
 
 
 	///////////////////////////////////////////////////
@@ -238,64 +296,7 @@ private:
 	CMaterial m_zmBullet;
 
 
-	//Insel Test
-	CPlacement m_zpHauptInsel;
-	CPlacement m_zpIsland1;
-	CPlacement m_zpIsland2;
-	CPlacement m_zpIsland3;
-	CBlob* m_pblobAllPositive = nullptr;
-	CBlob* m_pblobAllNegative = nullptr;
-	CBlob* m_pblobTerrainPositive = nullptr;
-	CBlob* m_pblobTerrainNegative = nullptr;
-	CBlob* m_pblobTerrainCraterPositive = nullptr;
-
-
-	CBlob* m_pblob9 = nullptr;
-	CBlob* m_pblob8 = nullptr;
-	CBlob* m_pblob6 = nullptr;
-	CBlob* m_pblob7 = nullptr;
-	CBlob* m_pblob5 = nullptr;
-	CBlob* m_pblob3 = nullptr;
-	CBlob* m_pblob4 = nullptr;
-	CBlob* m_pblob2 = nullptr;
-	CBlob* m_pblob1 = nullptr;
-	CBlob* m_pblob = nullptr;
-	CBlob* m_pblobAll = nullptr;
-
-
-	// Erhebung aus dem Meer
-	CGeos m_zgsCollision, m_zgsHeight; // Kollisionscontainer
-	CGeoTerrains m_zgsTerrain; // Terrainkollisionscontainer
-
-
-
-	CCut m_cutSchoener;
-	CCut m_cutOverSea;
-	CCut m_cutSeaToSand;
-	CCut m_cutSandtoBeach;
-	CCut m_cutSeaToBeach;
-	CCut m_cutUnderSea; // Schnitt unter N.N.
-	CCut m_cutBeachToSnowLimit;
-	CCut m_cutSnowLimitToHeavySnowLimit;
-	CCut m_cutOverHeavySnowLimit;
-	CCut m_cutOverSnowLimit;
-
-	CCut m_cutUnder15Degrees;
-	CCut m_cut15DegreesTo30Degrees;
-	CCut m_cut30DegreesTo45Degrees;
-	CCut m_cut15DegreesTo45Degrees;
-	CCut m_cutOver45Degrees;
-	CCut m_cutUnder45Degrees;
-
-
-	CGeoTerrain m_zgTerrainFlora;
-	CGeoTerrain m_zgTerrainLow;
-	CGeoTerrain m_zgTerrainMirror;
-	CGeoTerrain m_zgTerrainRock;
-	CGeoTerrain m_zgTerrainSnow;
-	CGeoTerrain m_zgTerrainSand;
-	CGeoTerrain m_zgTerrainSandMossy;
-	CGeoTerrain m_zgTerrainSnowHeavy;
+	
 
 
 	//Overlay

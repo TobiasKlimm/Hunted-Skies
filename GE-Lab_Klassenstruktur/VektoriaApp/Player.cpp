@@ -18,6 +18,12 @@ void CPlayer::Init()
 	m_zoCirclehair.Init("textures\\circlehair.bmp", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
 
+	m_zv.SetMistOn();
+	m_zv.SetMistStartDistance(1000);
+	m_zv.SetMistStrength(0.0002);
+	m_zv.SetMistHeightMax(500);
+	m_zv.SetMistHeightMin(-500);
+
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)

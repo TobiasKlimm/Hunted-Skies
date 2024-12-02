@@ -47,8 +47,13 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceMouse(m_player.GetMouse());
 	m_zf.AddDeviceKeyboard(m_player.GetKeyboard());
 
+	/// SKY
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
-	m_zs.SetSkyFlowOn(0);
+	m_zs.SetSkyFlowOn(80.0f);
+
+	
+
+
 
 	m_player.Init();
 	m_zs.AddPlacement(&m_player);
