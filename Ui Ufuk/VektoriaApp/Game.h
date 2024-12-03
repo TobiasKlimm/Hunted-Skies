@@ -37,6 +37,13 @@
 using namespace Vektoria;
 
 
+enum Status
+{
+	eStart,
+	eInGame,
+	ePaused
+};
+
 class CGame
 {
 public:
@@ -83,6 +90,7 @@ public:
 	//Sensitivität des Controllers
 	float controllerSensitivity = 1500;
 
+	Status m_zeStatus = eStart;
 
 private:
 
@@ -180,6 +188,7 @@ private:
 	COverlays m_zos;
 	COverlays m_zosInGame;
 	COverlay m_zoBack2Start;
+	COverlays m_zosButtons;
 
 
 	//---------------------------------------------------------------------

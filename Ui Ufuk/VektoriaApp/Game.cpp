@@ -11,28 +11,28 @@ CGame::~CGame(void)
 
 //---------------------------------------------------------------------
 //Fullscreen
-void LockCursorToWindow(HWND hwnd)
-{
-	RECT rect;
-	// Get the client area of the window
-	if (GetClientRect(hwnd, &rect))
-	{
-		// Convert client coordinates to screen coordinates
-		POINT upperLeft = { rect.left, rect.top };
-		POINT lowerRight = { rect.right, rect.bottom };
-
-		ClientToScreen(hwnd, &upperLeft);
-		ClientToScreen(hwnd, &lowerRight);
-
-		rect.left = upperLeft.x;
-		rect.top = upperLeft.y;
-		rect.right = lowerRight.x;
-		rect.bottom = lowerRight.y;
-
-		// Lock the cursor to this rectangle
-		ClipCursor(&rect);
-	}
-}
+//void LockCursorToWindow(HWND hwnd)
+//{
+//	RECT rect;
+//	// Get the client area of the window
+//	if (GetClientRect(hwnd, &rect))
+//	{
+//		// Convert client coordinates to screen coordinates
+//		POINT upperLeft = { rect.left, rect.top };
+//		POINT lowerRight = { rect.right, rect.bottom };
+//
+//		ClientToScreen(hwnd, &upperLeft);
+//		ClientToScreen(hwnd, &lowerRight);
+//
+//		rect.left = upperLeft.x;
+//		rect.top = upperLeft.y;
+//		rect.right = lowerRight.x;
+//		rect.bottom = lowerRight.y;
+//
+//		// Lock the cursor to this rectangle
+//		ClipCursor(&rect);
+//	}
+//}
 
 //---------------------------------------------------------------------
 //
@@ -169,7 +169,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Grundinits wie Window, Kamera Viewport usw
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, procOS);
-	LockCursorToWindow(hwnd);
+	/*LockCursorToWindow(hwnd);*/
 	m_zv.InitFull(&m_zc);
 	m_zc.Init(PI / 3, 0.3, 170000.0f, true, m_zs.GetSkyLightPlacement());;
 	/*m_zf.SetFullscreenOn();
@@ -343,7 +343,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Hier kommen alle weiteren Initialisierungen hinein: 
 	
-	m_bPaused = true; 
+	m_zeStatus = eStart;
+	
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -352,14 +353,27 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	// Veränderungen während der Simulationszeit:
 	//-------------------------------------------
 	
+	m_zr.Tick(fTimeDelta);
 
 	//---------------------------------------------------------------------
 	//Pause
 	m_fTimeWithPausings = fTime - m_fTimePausings;	
-	if (m_zdk.KeyDown(DIK_P))
+
+	if (m_zeStatus == ePaused)
 	{
+		m_fTimePausings += fTimeDelta;
+		fTimeDelta = 0.0f; 
+		
+	}
+
+
+	if (m_zeStatus == eInGame)
+	{
+
+		if (m_zdk.KeyDown(DIK_P))
+		{
 		m_fTimeLastPausingStart = fTime;
-		m_bPaused = true;
+		/*m_bPaused = true;*/
 		m_zoButton.SwitchOn();
 		m_zoButton2.SwitchOn();
 		m_zoPause.SwitchOn();
@@ -367,13 +381,16 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		m_zv2.SwitchOff();
 		m_zoBack2Start.SwitchOn();
 		m_zdc.Show();
+		m_zeStatus = ePaused;
+
+		}
 
 	}
 
 
-	if (m_bPaused)
+	if (m_zeStatus == ePaused)
 	{
-
+		//container für button button drücken = pause false
 		if (m_zdc.ButtonDownLeft())
 		{
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
@@ -382,30 +399,53 @@ void CGame::Tick(float fTime, float fTimeDelta)
 				m_zoPause.SwitchOff();
 				m_zoMap.SwitchOff();
 				m_zoStart.SwitchOn();
-				m_bPaused = false; 
+				m_zeStatus = eStart; 
 			}
+
+			
+			if (pzoPicked == &m_zoButton)
+			{
+				m_zoPause.SwitchOff();
+				m_zoMap.SwitchOn();
+				m_zoButton.SwitchOff();
+				m_zoButton2.SwitchOff();
+				m_zoBack2Start.SwitchOff();
+				m_zeStatus = eInGame;
+			}
+
 		}
+		
+		
+
 	}
+
+
 
 	//---------------------------------------------------------------------
-	//Pause
-	if (m_zdc.ButtonDownLeft())
-	{
-		m_bPaused = false;
-		m_zoButton.SwitchOff();
-		m_zoButton2.SwitchOff();
-		m_zoPause.SwitchOff();
-		m_zoStart.SwitchOff();
-		m_zv2.SwitchOn();
-		m_zoBack2Start.SwitchOff();
-		m_zdc.Hide();
-	}
+	//Startbildschrim
 
-
-	if (m_bPaused)
+	if (m_zeStatus == eStart)
 	{
-		m_fTimePausings += fTimeDelta;
-		fTimeDelta = 0.0f; 
+
+		if (m_zdc.ButtonDownLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
+			if (pzoPicked == &m_zoButton)
+			{
+				/*m_bPaused = false;*/
+				m_zoButton.SwitchOff();
+				m_zoButton2.SwitchOff();
+				m_zoPause.SwitchOff();
+				m_zoStart.SwitchOff();
+				m_zv2.SwitchOn();
+				m_zoBack2Start.SwitchOff();
+				m_zdc.Hide();
+				m_zoMap.SwitchOn();
+				m_zeStatus = eInGame;
+
+			}
+		}
+
 	}
 
 	//---------------------------------------------------------------------
@@ -442,10 +482,9 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 
 	// Traversiere am Schluss den Szenengraf und rendere:
-	if(!m_bPaused)
+	if(m_zeStatus == eInGame)
 		PlaneSteering(x_initial, y_initial, fTimeDelta);
 
-	m_zr.Tick(fTimeDelta);
 }
 
 void CGame::Fini()
