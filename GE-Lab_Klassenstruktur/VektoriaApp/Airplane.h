@@ -53,7 +53,7 @@ private:
 	CMaterial m_zmPropeller;
 
 
-	float m_flySpeed = 50;
+	float m_flySpeed = 150;
 
 
 };

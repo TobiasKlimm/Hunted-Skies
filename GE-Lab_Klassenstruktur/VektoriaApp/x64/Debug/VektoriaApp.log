@@ -1,10 +1,10 @@
 ﻿  Airplane.cpp
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(80,23): warning C4305: "Argument": Verkürzung von "double" in "float"
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(99,86): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(99,40): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(100,86): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
-C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(100,40): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(127,23): warning C4305: "Argument": Verkürzung von "double" in "float"
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(146,86): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(146,40): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(147,86): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+C:\Users\User\Documents\GitHub\GE-Lab_Gruppe8\GE-Lab_Klassenstruktur\VektoriaApp\Airplane.cpp(147,40): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
 Vektoria_Debug64.lib(Material.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Material.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(Geo.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(Geo.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.
 Vektoria_Debug64.lib(GeoTriangleTable.obj) : warning LNK4099: PDB "" wurde nicht mit "Vektoria_Debug64.lib(GeoTriangleTable.obj)" oder an "" gefunden; Objekt wird verknüpft, als ob keine Debuginformationen vorhanden wären.

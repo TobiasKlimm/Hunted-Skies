@@ -17,50 +17,97 @@ void CAirplane::Init()
 	CFileWavefront objLoader;
 
 	
+	int iEingabe = 5;
+
+	switch (iEingabe)
+	{
 
 
-	m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug 2\\ORCA_4.5GEN_JET.obj");
-	m_zpPlane.AddGeo(m_pzgPlane);
-	CHMat o;
-	o.RotateY(PI);
-	m_pzgPlane->Transform(o);
-	m_zpPlane.AddGeo(m_pzgPlane);
-
-
-	m_zpPlane.ScaleDelta(1);
-	m_zmPlane.MakeTextureDiffuse("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_Full_body_Diffuse_map_.jpg");
-	m_zmPlane.MakeTextureBump("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_FULL_BODY_Normal_map.jpg");
-	m_zmPlane.MakeTextureSpecular("models\\Flugzeug 2\\ORCA_Full_body_Textures\\ORCA_Full_body_Speculer_map.jpg");
+	case 1:
+	{
 
 
 
-	//m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeug.obj");
-	//CHMat m;
-	//m.RotateY(PI);
-	//m_pzgPlane->Transform(m);
-	//m_zpPlane.AddGeo(m_pzgPlane);
-	//m_zpPlane.ScaleDelta(1);
-	//m_zmPlane.MakeTextureDiffuse("models\\Flugzeug\\COLOR.png");
-	//m_pzgPlane->SetMaterial(&m_zmPlane);
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug  F4\\F-4.obj", true);
+		m_zpPlane.AddGeo(m_pzgPlane);
+		CHMat o;
+		o.RotateY(PI / 2);
+		m_pzgPlane->Transform(o);
+		m_zpPlane.AddGeo(m_pzgPlane);
 
 
+		m_zpPlaneCenter.ScaleDelta(0.1f);
+		m_zmPlane.MakeTextureDiffuse("textures\\Airplane.png");
+		m_pzgPlane->SetMaterial(&m_zmPlane);
+		m_zmPlane.MakeTextureBump("models\\Flugzeug  F4\\textures\\AirframeNormal.png");
+		m_zmPlane.MakeTextureSpecular("models\\Flugzeug  F4textures\\AirframeRoughness.png");
+		break;
+	}
+	case 2:
+	{
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeug.obj");
+		CHMat m;
+		m.RotateY(PI);
+		m_pzgPlane->Transform(m);
+		m_zpPlane.AddGeo(m_pzgPlane);
+		m_zpPlane.ScaleDelta(1);
+		m_zmPlane.MakeTextureDiffuse("models\\Flugzeug\\COLOR.png");
+		m_pzgPlane->SetMaterial(&m_zmPlane);
+
+		m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeugpropeller.obj", true);
+		m_zpPropellerModel.AddGeo(m_pzgPropeller);
+		CHMat n;
+		n.RotateY(PI);
+		m_pzgPropeller->Transform(n);
+		m_zpPropellerModel.AddGeo(m_pzgPropeller);
+		m_zpPropellerModel.ScaleDelta(1);
+		m_zmPropeller.MakeTextureDiffuse("models\\Flugzeug\\metal_plate_02_diff_4k.jpg");
+		m_pzgPropeller->SetMaterial(&m_zmPlane);
+		break;
+	}
+	case 3:
+
+	{
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\mig35fighterjet\\source\\MiG35.obj", true);
+		m_zpPlane.AddGeo(m_pzgPlane);
+		CHMat o;
+		o.RotateY(PI / 2);
+		m_pzgPlane->Transform(o);
+		m_zpPlane.AddGeo(m_pzgPlane);
 
 
-	//m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Flugzeug\\Flugzeugpropeller.obj", true);
-	//m_zpPropellerModel.AddGeo(m_pzgPropeller);
-	//CHMat n;
-	//n.RotateY(PI);
-	//m_pzgPropeller->Transform(n);
-	//m_zpPropellerModel.AddGeo(m_pzgPropeller);
-	//m_zpPropellerModel.ScaleDelta(1);
-	//m_zmPropeller.MakeTextureDiffuse("models\\Flugzeug\\metal_plate_02_diff_4k.jpg");
-	//m_pzgPropeller->SetMaterial(&m_zmPlane);
+		m_zpPlaneCenter.ScaleDelta(0.1f);
+		m_zmPlane.MakeTextureDiffuse("models\\mig35fighterjet\\textures\\BaseColor.png");
+		m_pzgPlane->SetMaterial(&m_zmPlane);
+		m_zmPlane.MakeTextureBump("models\\mig35fighterjet\\textures\\Normal.png");
+		m_zmPlane.MakeTextureSpecular("models\\mig35fighterjet\\textures\\Roughness.png");
+		break;
+	}
+	case 4:
+	{
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\stealth jet\\source\\untitled.obj", true);
+		m_zpPlane.AddGeo(m_pzgPlane);
+		
+		m_zpPlane.ScaleDelta(1.0f);
+		m_zmPlane.MakeTextureDiffuse("models\\stealth jet\\textures\\stealthdiffuse.png");
+		m_pzgPlane->SetMaterial(&m_zmPlane);
+		m_zmPlane.MakeTextureBump("models\\stealth jet\\textures\\stealth_normal.png");
+		m_zmPlane.MakeTextureSpecular("models\\stealth jet\\textures\\stealth_specular.png");
+		break;
+	}
 
-	
+	case 5:
+	{
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Flugzeug p40\\source\\Flugzeug.obj");
+		m_zpPlane.AddGeo(m_pzgPlane);
 
 
+		m_zpPlane.ScaleDelta(1.0f);
+		m_zmPlane.MakeTextureDiffuse("models\\Flugzeug p40\\textures\\BaseColor.jpg");
+		m_pzgPlane->SetMaterial(&m_zmPlane);
+	}
 
-
+	}
 
 
 
