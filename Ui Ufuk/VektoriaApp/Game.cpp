@@ -11,28 +11,28 @@ CGame::~CGame(void)
 
 //---------------------------------------------------------------------
 //Fullscreen
-void LockCursorToWindow(HWND hwnd)
-{
-	RECT rect;
-	// Get the client area of the window
-	if (GetClientRect(hwnd, &rect))
-	{
-		// Convert client coordinates to screen coordinates
-		POINT upperLeft = { rect.left, rect.top };
-		POINT lowerRight = { rect.right, rect.bottom };
-
-		ClientToScreen(hwnd, &upperLeft);
-		ClientToScreen(hwnd, &lowerRight);
-
-		rect.left = upperLeft.x;
-		rect.top = upperLeft.y;
-		rect.right = lowerRight.x;
-		rect.bottom = lowerRight.y;
-
-		// Lock the cursor to this rectangle
-		ClipCursor(&rect);
-	}
-}
+//void LockCursorToWindow(HWND hwnd)
+//{
+//	RECT rect;
+//	// Get the client area of the window
+//	if (GetClientRect(hwnd, &rect))
+//	{
+//		// Convert client coordinates to screen coordinates
+//		POINT upperLeft = { rect.left, rect.top };
+//		POINT lowerRight = { rect.right, rect.bottom };
+//
+//		ClientToScreen(hwnd, &upperLeft);
+//		ClientToScreen(hwnd, &lowerRight);
+//
+//		rect.left = upperLeft.x;
+//		rect.top = upperLeft.y;
+//		rect.right = lowerRight.x;
+//		rect.bottom = lowerRight.y;
+//
+//		// Lock the cursor to this rectangle
+//		ClipCursor(&rect);
+//	}
+//}
 
 //---------------------------------------------------------------------
 //
@@ -105,27 +105,75 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//---------------------------------------------------------------------
 	//MiniMap, muss vor allem Initialisiert werden, da ein zweiter Viewport erstellt wird
 	
-	m_zv2.Init(&m_zcMiniMap, 0.15f, 0.25f, 0.85f, 0.05f);
+	m_zv2.Init(&m_zcMiniMap,0.15f, 0.25f, 0.82f, 0.05f);
 	m_zcMiniMap.InitOrtho(100.0f);
 	m_zs.AddPlacement(&m_zpMiniMap);
 	m_zpMiniMap.AddCamera(&m_zcMiniMap);
 	m_zf.AddViewport(&m_zv2);
+	m_zv2.SwitchOn();
+
+	//---------------------------------------------------------------------
+	//Startbildschrim Inits und Overlayadds overlay mit switchoff
+	m_ziStart.Init("textures\\HalloWelt.jpg");
+	m_zoStart.InitFull(&m_ziStart);
+	m_zv.AddOverlay(&m_zoStart);
+
+	//---------------------------------------------------------------------
+	//Startbildschrim zurück
+	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.08f, 0.05f, 0.9f, 0.9f));
+	m_zv.AddOverlay(&m_zoBack2Start);
+	m_zoBack2Start.SetLayer(0.1f);
+
+
+	//---------------------------------------------------------------------
+	//Pausebildschirm
+	m_ziPause.Init("textures\\Pause.png");
+	m_zoPause.InitFull(&m_ziPause);
+	m_zv.AddOverlay(&m_zoPause);
+
+	//---------------------------------------------------------------------
+	//Button 1 und 2
+	m_ziButton.Init("textures\\test.jpg");
+	m_z2dButton.Init(0.3f, 0.2f, 0.4f, 0.1f);
+	m_zoButton.Init(&m_ziButton,m_z2dButton, false);
+	m_zv.AddOverlay(&m_zoButton);
+	m_zoButton.SetLayer(0.3f);
+
+	m_ziButton2.Init("textures\\test 2.jpg");
+	m_z2dButton2.Init(0.3f, 0.2f, 0.39f, 0.39f);
+	m_zoButton2.Init(&m_ziButton2, m_z2dButton2, false);
+	m_zv.AddOverlay(&m_zoButton2);
+	m_zoButton2.SetLayer(0.3f);
+
+	//---------------------------------------------------------------------
+	//Container für die Buttons
+	m_zos.Add(&m_zoButton);
+	m_zos.Add(&m_zoButton2);
+	m_zos.Add(&m_zoBack2Start);
+	m_zosInGame.Add(&m_zoBack2Start);
+
+
+	//---------------------------------------------------------------------
+	//Schwarzer Rand der Map ist transparent gesetzt damit er nicht das Wasser überdeckt
 	m_ziMap.Init("textures\\black_image.jpg");
-	m_z2dMap.Init(0.15f, .025f, 0.85f, 0.05f);
-	m_zoMap.Init(&m_ziMap, m_z2dMap, true);
+	m_z2dMap.Init(0.16f, 0.27f, 0.815f, 0.04f);
+	m_zoMap.Init(&m_ziMap, m_z2dMap, false);
 	m_zv.AddOverlay(&m_zoMap);
+	m_zoMap.SetLayer(0.5f);
+	m_zoMap.SetTransparency(0.7f);
+	/*m_zoMap.SwitchOff();*/
 	
-	
+	/*m_zv.SetWireframeOn();*/
 
 	//---------------------------------------------------------------------
 	//Grundinits wie Window, Kamera Viewport usw
 	m_zr.Init(psplash);
 	m_zf.Init(hwnd, procOS);
-	LockCursorToWindow(hwnd);
+	/*LockCursorToWindow(hwnd);*/
 	m_zv.InitFull(&m_zc);
 	m_zc.Init(PI / 3, 0.3, 170000.0f, true, m_zs.GetSkyLightPlacement());;
-	m_zf.SetFullscreenOn();
-	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	/*m_zf.SetFullscreenOn();
+	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));*/
 	m_zlp.Init(CHVector(-0.8f, 0.02f, 0.2f), CColor(1.0f, 1.0f, 1.0f));
 	m_zr.AddFrame(&m_zf);
 	m_zf.AddViewport(&m_zv);
@@ -161,8 +209,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zw3.PrintF("Speed:");
 	m_zv.AddWriting(&m_zw3);
 	m_zwf3.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
-
-
+	
 
 	//---------------------------------------------------------------------
 	//Object rein
@@ -183,7 +230,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceKeyboard(&m_zdk);
 	m_zf.AddDeviceMouse(&m_zdm);
 	m_zf.AddDeviceGameController(&m_zdgc);
-	m_zdc.Hide();
+	/*m_zdc.Hide();*/
 
 
 	m_pzgPlane = m_PlaneFile.LoadGeoTriangleTable("Models\\Aviones\\Fighter1\\Arsenal_VG33.obj", true);
@@ -191,7 +238,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpPlane.ScaleDelta(1);
 
 	m_zs.AddPlacement(&m_zpPlaneCenter);
-	m_zpPlaneCenter.SetTranslationSensitivity(50);
+	m_zpPlaneCenter.SetTranslationSensitivity(200);
 	m_zpPlaneCenter.AddPlacement(&m_zpCameraPivot);
 	m_zpCameraPivot.AddPlacement(&m_zpCamera);
 	m_zpPlaneCenter.AddPlacement(&m_zpPlane);
@@ -265,7 +312,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Erzeuge die Vertex-Daten des Blueprint Terrains
 	m_zgTerrrainOri.CreateField(
 		2000, 2000, // Ein Quadratkilometer Terrain
-		2000, 2000, // 2000 mal 2000 Vertices0000
+		1000, 1000, // 2000 mal 2000 Vertices0000
 		0.0f, 0.0f, // Die UV-Textur beginnt bei (0,0) …
 		1.0f, 1.0f);// … und geht bis (1,1)
 
@@ -296,7 +343,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Hier kommen alle weiteren Initialisierungen hinein: 
 	
-
+	m_zeStatus = eStart;
+	
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -304,6 +352,126 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//-------------------------------------------
 	// Veränderungen während der Simulationszeit:
 	//-------------------------------------------
+	
+	m_zr.Tick(fTimeDelta);
+
+	//---------------------------------------------------------------------
+	//Pause
+	m_fTimeWithPausings = fTime - m_fTimePausings;	
+
+	if (m_zeStatus == ePaused)
+	{
+		m_fTimePausings += fTimeDelta;
+		fTimeDelta = 0.0f; 
+		
+	}
+
+
+	if (m_zeStatus == eInGame)
+	{
+
+		if (m_zdk.KeyDown(DIK_P))
+		{
+		m_fTimeLastPausingStart = fTime;
+		/*m_bPaused = true;*/
+		m_zoButton.SwitchOn();
+		m_zoButton2.SwitchOn();
+		m_zoPause.SwitchOn();
+		m_zoStart.SwitchOff();
+		m_zv2.SwitchOff();
+		m_zoBack2Start.SwitchOn();
+		m_zdc.Show();
+		m_zeStatus = ePaused;
+
+		}
+
+	}
+
+
+	if (m_zeStatus == ePaused)
+	{
+		//container für button button drücken = pause false
+		if (m_zdc.ButtonDownLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
+			if (pzoPicked == &m_zoBack2Start)
+			{
+				m_zoPause.SwitchOff();
+				m_zoMap.SwitchOff();
+				m_zoStart.SwitchOn();
+				m_zeStatus = eStart; 
+			}
+
+			
+			if (pzoPicked == &m_zoButton)
+			{
+				m_zoPause.SwitchOff();
+				m_zoMap.SwitchOn();
+				m_zoButton.SwitchOff();
+				m_zoButton2.SwitchOff();
+				m_zoBack2Start.SwitchOff();
+				m_zeStatus = eInGame;
+			}
+
+		}
+		
+		
+
+	}
+
+
+
+	//---------------------------------------------------------------------
+	//Startbildschrim
+
+	if (m_zeStatus == eStart)
+	{
+
+		if (m_zdc.ButtonDownLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
+			if (pzoPicked == &m_zoButton)
+			{
+				/*m_bPaused = false;*/
+				m_zoButton.SwitchOff();
+				m_zoButton2.SwitchOff();
+				m_zoPause.SwitchOff();
+				m_zoStart.SwitchOff();
+				m_zv2.SwitchOn();
+				m_zoBack2Start.SwitchOff();
+				m_zdc.Hide();
+				m_zoMap.SwitchOn();
+				m_zeStatus = eInGame;
+
+			}
+		}
+
+	}
+
+	//---------------------------------------------------------------------
+	//Button
+
+	if (m_zdk.KeyDown(DIK_A))
+	{
+		m_zoButton.SwitchOff();
+	}
+
+	if (m_zdk.KeyDown(DIK_S))
+	{
+		m_zoButton.SwitchOn();
+	}
+
+	if (m_zdk.KeyDown(DIK_A))
+	{
+		m_zoButton2.SwitchOff();
+	}
+
+	if (m_zdk.KeyDown(DIK_S))
+	{
+		m_zoButton2.SwitchOn();
+	}
+
+
 
 	// Hier kommen die Veränderungen pro Renderschritt hinein: 
 
@@ -314,12 +482,9 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 
 	// Traversiere am Schluss den Szenengraf und rendere:
-	PlaneSteering(x_initial, y_initial, fTimeDelta);
-	m_zr.Tick(fTimeDelta);
+	if(m_zeStatus == eInGame)
+		PlaneSteering(x_initial, y_initial, fTimeDelta);
 
-	
-
-	
 }
 
 void CGame::Fini()

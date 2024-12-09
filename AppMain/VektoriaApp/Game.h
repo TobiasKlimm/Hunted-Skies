@@ -14,12 +14,16 @@
 //------------------------------------------------------------------------
 #define TERRAIN_HEIGHT 500
 #define TERRAIN_SIZE 2500
-#define WATER_SIZE 20000
+#define WATER_SIZE 13000
 #define TERRAIN_BEACHLIMIT 12
 #define TERRAIN_SANDLIMIT 4
+#define TERRAIN_SNOWLIMIT 130
+#define TERRAIN_SNOWLIMITHEAVY 150
+#define TERRAIN_UV 50
 #define PERLIN_SEED 42
 #define TURRET_COUNT 6
-
+#define TERRAIN_VERTICES 1000
+#define ENTFERNUNG_FLUGZEUGKANONE 1000
 #ifdef _WIN64
 #ifdef _DEBUG
 #pragma comment (lib, "Vektoria_Debug64.lib")
@@ -115,6 +119,13 @@ private:
 	CDeviceGameController m_zdgc;
 	CDeviceKeyboard m_zdk;
 
+	///////////////////////////////////////////////////
+	//////////////////// CROSSHAIR ////////////////////
+	///////////////////////////////////////////////////
+	CImage m_ziCrosshair; CImage m_ziCirclehair;
+	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
+	C2dRect m_zCrosshairRect;
+
 
 	///////////////////////////////////////////////////
 	//////////////////// TERRAIN //////////////////////
@@ -126,58 +137,15 @@ private:
 	CMaterial m_zmRock;
 	CMaterial m_zmSnow;
 	CMaterial m_zmSand;
+	CMaterial m_zmSnowHeavy;
+	CMaterial m_zmSandMossy;
+	CMaterial m_zmMirror;
+	CMaterial m_zmWater; // Wellenmaterial
+	CMaterial m_zmEarth; // Erdmaterial
 
 	CPlacement m_zpLandscape; // Insel- & Wasserplacement
 	CPerlin* m_pperlin = nullptr;// Perlin Noise
 	CPerlin* m_pperlin1 = nullptr;
-
-
-	///////////////////////////////////////////////////
-	//////////////////// PLACEMENTS ///////////////////
-	///////////////////////////////////////////////////
-	/// Cannon
-	CFileWavefront m_CannonFile;
-	CGeoTriangleTable* m_pgCannon = nullptr;
-	CPlacement m_zpCannon;
-
-	/// Ship
-	CFileWavefront m_ShipFile;
-	CGeoTriangleTable* m_zgShip = nullptr;
-	CPlacement m_zpShip;
-
-	/// Plane
-	CPlacement m_zpPlane;
-	CPlacement m_zpPlaneCenter;
-	CPlacement m_zpPlaneTip;
-	CGeoTriangleTable* m_pzgPlane = nullptr;
-	CFileWavefront m_PlaneFile;
-	CPlacement m_zpCameraPivot;
-
-	/// Turrets
-	CFileWavefront m_TurretFile;
-	CGeoTriangleTable* m_zgTurret = nullptr;
-	CPlacement m_zpTurrets[TURRET_COUNT];
-
-	/// Bullets
-	CPlacements m_zpsBullets;
-	CPlacement m_zpBulletTemplate;
-	CGeoSphere m_zgBullet;
-	CMaterial m_zmBullet;
-
-
-	///////////////////////////////////////////////////
-	//////////////////// CROSSHAIR ////////////////////
-	///////////////////////////////////////////////////
-	CImage m_ziCrosshair; CImage m_ziCirclehair;
-	COverlay m_zoCrosshair; COverlay m_zoCirclehair;
-	C2dRect m_zCrosshairRect;
-
-
-	//CGeoTerrain m_zgTerrainMirror;
-	//CGeoTerrain m_zgTerrainMirrorLOD1;
-
-
-
 
 	//Insel Test
 	CPlacement m_zpHauptInsel;
@@ -205,20 +173,130 @@ private:
 
 
 	// Erhebung aus dem Meer
-	CCut m_cutUnderSea; // Schnitt unter N.N.
-	CMaterial m_zmWater; // Wellenmaterial
-	CMaterial m_zmEarth; // Erdmaterial
 	CGeos m_zgsCollision, m_zgsHeight; // Kollisionscontainer
 	CGeoTerrains m_zgsTerrain; // Terrainkollisionscontainer
 
 
 
-
+	CCut m_cutSchoener;
 	CCut m_cutOverSea;
 	CCut m_cutSeaToSand;
 	CCut m_cutSandtoBeach;
 	CCut m_cutSeaToBeach;
+	CCut m_cutUnderSea; // Schnitt unter N.N.
+	CCut m_cutBeachToSnowLimit;
+	CCut m_cutSnowLimitToHeavySnowLimit;
+	CCut m_cutOverHeavySnowLimit;
+	CCut m_cutOverSnowLimit;
 
+	CCut m_cutUnder15Degrees;
+	CCut m_cut15DegreesTo30Degrees;
+	CCut m_cut30DegreesTo45Degrees;
+	CCut m_cut15DegreesTo45Degrees;
+	CCut m_cutOver45Degrees;
+	CCut m_cutUnder45Degrees;
+
+
+	CGeoTerrain m_zgTerrainFlora;
+	CGeoTerrain m_zgTerrainLow;
+	CGeoTerrain m_zgTerrainMirror;
+	CGeoTerrain m_zgTerrainRock;
+	CGeoTerrain m_zgTerrainSnow;
+	CGeoTerrain m_zgTerrainSand;
+	CGeoTerrain m_zgTerrainSandMossy;
+	CGeoTerrain m_zgTerrainSnowHeavy;
+
+
+	///////////////////////////////////////////////////
+	//////////////////// PLACEMENTS ///////////////////
+	///////////////////////////////////////////////////
+	/// Cannon
+	CFileWavefront m_CannonFile;
+	CGeoTriangleTable* m_zgCannon = nullptr;
+	CPlacement m_zpCannon;
+
+	/// Carrier1
+	CFileWavefront m_Carrier1File;
+	CGeoTriangleTable* m_zgCarrier1 = nullptr;
+	CPlacement m_zpCarrier1;
+	CMaterial m_zmCarrier1;
+	
+
+	///Carrier2
+	CFileWavefront m_Carrier2File;
+	CGeoTriangleTable* m_zgCarrier2 = nullptr;
+	CPlacement m_zpCarrier2;
+	CMaterial m_zmCarrier2;
+
+	///Battleship1
+	CFileWavefront m_Battleship1File;
+	CGeoTriangleTable* m_zgBattleship1 = nullptr;
+	CPlacement m_zpBattleship1;
+	CMaterial m_zmBattleship1;
+
+
+	///Battleship1
+	CFileWavefront m_Battleship2File;
+	CGeoTriangleTable* m_zgBattleship2 = nullptr;
+	CPlacement m_zpBattleship2;
+	CMaterial m_zmBattleship2;
+
+
+	/// Ship
+	CFileWavefront m_ShipFile;
+	CGeoTriangleTable* m_zgShip = nullptr;
+	CPlacement m_zpShip;
+	CMaterial m_zmShip;
+
+
+
+	///Destroyer1
+	CFileWavefront m_Destroyer1File;
+	CGeoTriangleTable* m_zgDestroyer1 = nullptr;
+	CPlacement m_zpDestroyer1;
+	CMaterial m_zmDestroyer1;
+
+
+	///Destroyer1
+	CFileWavefront m_Destroyer2File;
+	CGeoTriangleTable* m_zgDestroyer2 = nullptr;
+	CPlacement m_zpDestroyer2;
+	CMaterial m_zmDestroyer2;
+
+
+
+
+	///Lighthouse
+	CFileWavefront m_LighthouseFile;
+	CGeoTriangleTable* m_zgLighthouse = nullptr;
+	CPlacement m_zpLighthouse;
+	CMaterial m_zmLighthouse;
+
+
+	/// Plane
+	CPlacement m_zpPlane;
+	CPlacement m_zpPlaneCenter;
+	CPlacement m_zpPlaneTip;
+	CGeoTriangleTable* m_pzgPlane = nullptr;
+	CFileWavefront m_PlaneFile;
+	CPlacement m_zpCameraPivot;
+	CMaterial m_zmPlane;
+
+
+	/// Turrets
+	CFileWavefront m_TurretFile;
+	CGeoTriangleTable* m_zgTurret = nullptr;
+	CPlacement m_zpTurrets[TURRET_COUNT];
+	CPlacement m_zpTurretPointing[TURRET_COUNT];
+
+	/// Bullets
+	CPlacements m_zpsBullets;
+	CPlacement m_zpBulletTemplate;
+	CGeoSphere m_zgBullet;
+	CMaterial m_zmBullet;
+
+
+	
 
 
 	//Overlay
