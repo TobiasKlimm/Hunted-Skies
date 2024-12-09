@@ -156,11 +156,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Turret.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Turret.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -37,13 +37,6 @@
 using namespace Vektoria;
 
 
-enum Status
-{
-	eStart,
-	eInGame,
-	ePaused
-};
-
 class CGame
 {
 public:
@@ -90,7 +83,6 @@ public:
 	//Sensitivität des Controllers
 	float controllerSensitivity = 1500;
 
-	Status m_zeStatus = eStart;
 
 private:
 
@@ -162,41 +154,6 @@ private:
 	CImage m_ziMap;
 	COverlay m_zoMap;
 	C2dRect m_z2dMap;
-	
-	//---------------------------------------------------------------------
-	//Startbildschrim
-	CImage m_ziStart;
-	COverlay m_zoStart;
-
-	//---------------------------------------------------------------------
-	//Pausebildschirm
-	CImage m_ziPause;
-	COverlay m_zoPause;
-
-	//---------------------------------------------------------------------
-	//Button
-	CImage m_ziButton;
-	COverlay m_zoButton;
-	C2dRect m_z2dButton;
-
-	CImage m_ziButton2;
-	COverlay m_zoButton2;
-	C2dRect m_z2dButton2;
-
-	//---------------------------------------------------------------------
-	//Container für Startbildschirm
-	COverlays m_zos;
-	COverlays m_zosInGame;
-	COverlay m_zoBack2Start;
-	COverlays m_zosButtons;
-
-
-	//---------------------------------------------------------------------
-	//Pause
-	float m_fTimeLastPausingStart = 0.0f;
-	float m_fTimePausings = 0.0f;
-	float m_fTimeWithPausings = 0.0f;
-	bool m_bPaused = true; 
 
 	//---------------------------------------------------------------------
 	//Terrain hier rein
