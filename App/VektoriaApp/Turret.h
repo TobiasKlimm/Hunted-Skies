@@ -25,12 +25,22 @@ public:
 private:
 	float m_timePassed = 0.0;
 
-	CGeoTriangleTable* m_pzgTurret = nullptr;
-	CPlacement m_zpTurret;
+	CGeoTriangleTable* m_pzgTurretBase = nullptr;
+	CGeoTriangleTable* m_pzgTurretFoundation = nullptr;
+	CGeoTriangleTable* m_pzgTurretBarrel = nullptr;
+
+	CPlacement m_zpTurretFoundation;
+	CPlacement m_zpTurretBase;
+	CPlacement m_zpTurretBarrel;
+
 	CPlacement m_zpTurretPointing;
 
 	CPlacement* m_zpTarget;
 
 	CHVector m_vDir;
 	CHVector m_vDirNormal;
+
+	CMaterial m_zmTurretFoundation;
+	CMaterial m_zmTurretBase;
+	CMaterial m_zmTurretBarrel;
 };
