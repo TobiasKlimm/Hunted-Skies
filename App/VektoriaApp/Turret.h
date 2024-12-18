@@ -38,7 +38,6 @@ private:
 	CPlacement* m_zpTarget;
 
 	CHVector m_vDir;
-	CHVector m_vDirNormal;
 
 	CMaterial m_zmTurretFoundation;
 	CMaterial m_zmTurretBase;

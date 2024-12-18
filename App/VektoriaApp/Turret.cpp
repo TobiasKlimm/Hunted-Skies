@@ -44,13 +44,27 @@ void CTurret::Tick(float fTime, float fTimeDelta, CHVector direction, float flyS
 		this->TranslateDelta(GetPosition());
 
 		m_vDir = CHVector(m_zpTarget->GetPosGlobal() - GetPosGlobal());
-		float dist = m_vDir.Length();
-		m_vDir = m_vDir + direction * flySpeed / 2 * dist / BULLETSPEED + CHVector(0, 1, 0) * dist / 50;
-		m_vDirNormal = m_vDir;
-		m_vDirNormal.Normal();
 
-		float fa = m_vDirNormal.AngleXZ();
-		float faUpDown = asinf(m_vDirNormal.y);
+		// Entfernung zum Ziel
+		float dist = m_vDir.Length();
+
+		// Normierung der Richtung
+		m_vDir.Normal();
+
+		// Berechnung der Flugzeit der Kugel basierend auf der Entfernung und der Kugelgeschwindigkeit
+		float bulletTravelTime = dist / BULLETSPEED;
+
+		// Vorhersage der zukünftigen Position des Flugzeugs basierend auf Flugrichtung und Geschwindigkeit
+		CHVector predictedTargetPos = m_zpTarget->GetPosGlobal() + direction * flySpeed * bulletTravelTime;
+
+		// Anpassung der Zielrichtung auf die vorhergesagte Position des Flugzeugs
+		m_vDir = CHVector(predictedTargetPos - GetPosGlobal());
+
+		// Optional: Kleine Korrektur, z.B. für Höhenunterschiede, falls nötig
+		m_vDir = m_vDir + CHVector(0, 1, 0) * dist / 50;
+
+		float fa = m_vDir.AngleXZ();
+		float faUpDown = asinf(m_vDir.y);
 
 		UM_SETINRANGE(faUpDown, -QUARTERPI, QUARTERPI);
 		
@@ -62,7 +76,7 @@ void CTurret::Tick(float fTime, float fTimeDelta, CHVector direction, float flyS
 		m_zpTurretBase.TranslateYDelta(1.f);
 		m_zpTurretBarrel.TranslateZDelta(-0.6f);
 
-		if (m_vDir.Length() < 1000) {
+		if (dist < 1000) {
 			Shoot(fTimeDelta);
 		}
 	}
@@ -77,5 +91,5 @@ void CTurret::Shoot(float fTimeDelta)
 	m_timePassed = 0.0;
 	CHVector vRand;
 	vRand.RandomDir();
-	m_BulletManager.Shoot(m_vDirNormal + vRand * 0.01f);
+	m_BulletManager.Shoot(m_vDir + vRand * 0.01f);
 }
