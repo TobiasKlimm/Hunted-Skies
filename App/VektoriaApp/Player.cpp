@@ -2,15 +2,22 @@
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
-	m_zcCamera.Init(PI / 3);
+	m_zcCamera.Init(PI/3);
 	m_zpCamera.AddCamera(&m_zcCamera);
 	m_zpCamera.TranslateZDelta(40);
 	m_zpCamera.TranslateYDelta(4);
 	m_zpCamera.RotateXDelta(-PI / 12);
+
+	//Backfacing Cam
+	m_zpCameraBack.RotateYDelta(PI);
+	m_zpCameraBack.TranslateZDelta(-40);
+	m_zpCameraBack.TranslateYDelta(4);
+	m_zpCameraBack.RotateXDelta(PI / 12);
+
 	m_zv.InitFull(&m_zcCamera);
 
 	//Minimap Initialierung
-	m_zcMinimap.InitOrtho(200.0f);
+	m_zcMinimap.InitOrtho(500.0f);
 	m_zpMinimap.AddCamera(&m_zcMinimap);
 	this->AddPlacement(&m_zpMinimap);
 	m_zvMinimap.Init(&m_zcMinimap, MINIMAPSIZE * 9, MINIMAPSIZE * 16, 0.81f, 0.01f);
@@ -23,6 +30,7 @@ void CPlayer::Init()
 	m_airplane.TranslateY(500);
 	m_airplane.Init(DAMAGE);
 	m_airplane.AddPlacement(&m_zpCamera);
+	m_airplane.AddPlacement(&m_zpCameraBack);
 
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
 	m_zoCrosshair.Init("textures\\crosshair.bmp", m_zCrosshairRect, true);
@@ -152,6 +160,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		}
 		m_zw2.PrintF("Health: %f", m_airplane.GetHealth());
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
+
+		if(m_zdk.KeyDown(DIK_LSHIFT)){
+			m_zpCamera.SubCamera(&m_zcCamera);
+			m_zpCameraBack.AddCamera(&m_zcCamera);
+		}
+
+		if (m_zdk.KeyUp(DIK_LSHIFT)) {
+			m_zpCameraBack.SubCamera(&m_zcCamera);
+			m_zpCamera.AddCamera(&m_zcCamera);
+		}
 
 		//Minimap Movement
 		CHVector vPlane(m_airplane.GetPosGlobal());

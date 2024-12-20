@@ -9,7 +9,7 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 	m_zgBullet.Init(1.0f, NULL);
 	//m_zgBullet.SetMaterial(&m_zmBulletMaterial);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
-	m_zpBulletTemplate.SetPhysics(0.05f, 0.01f, 0.0f, 20000.1f, true);
+	m_zpBulletTemplate.SetPhysics(0.05f, 0.01f, 0.0f, 50.1f, true);
 	m_zpBulletTemplate.SwitchOff();
 	m_zpsBullets.RingMake(100, m_zpBulletTemplate);
 	this->AddPlacement(&m_zpBulletTemplate);

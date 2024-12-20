@@ -18,25 +18,6 @@ void CBot::Tick(float fTime, float fTimeDelta)
 
 void CBot::ControlPlane(float fTimeDelta)
 {
-
-	/*
-	//GetMausbewegung
-	x += m_zdm.GetRelativeX();
-	y -= m_zdm.GetRelativeY();
-	//Maximiere Ausschlag des Kreises
-	x = ClampValue(x, -0.35f, 0.35f);
-	y = ClampValue(y, -0.35f, 0.35f);
-	//Verschiebe Kreis und das Crosshair
-	CenterSquare(x + 0.5f, y + 0.5f, CROSSHAIRSIZE, m_zoCirclehair);
-	CenterSquare(-x / 5 + 0.5f, -y / 5 + 0.5f, CROSSHAIRSIZE, m_zoCrosshair);
-	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zurück zurück
-	if (x != 0) {
-		x -= x * fTimeDelta * 1.5f;
-	}
-	if (y != 0) {
-		y -= y * fTimeDelta * 1.5f;
-	}
-	*/
 	CHVector vDir = m_airplane.GetDirection(); // Normalized direction vector
 
 	// Calculate the direction to the player
@@ -51,15 +32,22 @@ void CBot::ControlPlane(float fTimeDelta)
 	vCross.y = vDir.z * vToPlayer.x - vDir.x * vToPlayer.z;
 	vCross.z = vDir.x * vToPlayer.y - vDir.y * vToPlayer.x; // Cross product for rotation axis
 
+
+	vCross.Normal();
+
 	// Calculate yaw (x) and pitch (y) adjustments
 	//float x = vCross.y >= 0 ? angle : -angle; // Horizontal adjustment (yaw)
 	float y = -vCross.z; ; // Vertical adjustment (pitch)
 	float x = vCross.y >= 0 ? -angle : angle;
 
+	// Scale adjustments based on the maximum allowed turn rate and time delta
+	x = ClampValue(x, -MAX_TURN_RATE * fTimeDelta, MAX_TURN_RATE * fTimeDelta);
+	y = ClampValue(y, -MAX_TURN_RATE * fTimeDelta, MAX_TURN_RATE * fTimeDelta);
+
 	// Move the airplane
 	m_airplane.MovePlane(x, y, fTimeDelta);
 
-	if (abs(dot - 1.0f) < 0.001f) {
+	if (abs(dot - 1.0f) < 0.0015f) {
 		m_timePassed += fTimeDelta;
 		// Führe die Funktion aus, während genug Zeit vergangen ist
 		if (m_timePassed <= SHOOT_FREQUENCY)

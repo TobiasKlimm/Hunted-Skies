@@ -75,6 +75,7 @@ public:
 private:
     CViewport m_zv;
     CPlacement m_zpCamera;
+    CPlacement m_zpCameraBack;
     CCamera m_zcCamera;
     float m_timePassed = 0.0;
 

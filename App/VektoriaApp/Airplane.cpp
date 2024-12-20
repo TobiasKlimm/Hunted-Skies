@@ -19,7 +19,7 @@ void CAirplane::Init(float damage)
 	case 1:
 	{
 		m_flySpeed = 100;
-		m_minFlySpeed = 150;
+		m_minFlySpeed = 70;
 		m_maxFlySpeed = 200;
 		m_flySpeedChangeRate = 35;
 		break;
