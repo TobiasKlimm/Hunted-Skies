@@ -11,8 +11,8 @@ void CPlayer::InitCam() {
 	//Backfacing Cam
 	m_zpCameraBack.RotateYDelta(PI);
 	m_zpCameraBack.TranslateZDelta(-40);
-	m_zpCameraBack.TranslateYDelta(4);
-	m_zpCameraBack.RotateXDelta(PI / 12);
+	m_zpCameraBack.TranslateYDelta(2);
+	m_zpCameraBack.RotateXDelta(PI / 50);
 
 	m_zv.InitFull(&m_zcCamera);
 

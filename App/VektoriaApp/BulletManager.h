@@ -32,7 +32,7 @@ public:
 private:
 	CHVector lastPosBullets[100];
 	CPlacement m_zpBulletTemplate;
-	CGeoSphere m_zgBullet;
+	CGeoCube m_zgBullet;
 	CMaterial m_zmBulletMaterial;
 	CPlacements m_zpsBullets;
 	CGeoTerrain* m_zgTerrain; //Bullets verschwinden wenn sie das Terrain berühren

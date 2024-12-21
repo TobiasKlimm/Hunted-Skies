@@ -37,13 +37,21 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	//m_zf.SetFullscreenOn();
-	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	m_zf.SetFullscreenOn();
+	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
 	CViewport* m_zvMinimap = m_player.GetViewportMinimap();
 
+	m_zvMinimap->StyleRadar();
+	m_zvMinimap->SetShadowRenderingOff();
+	//m_zvMinimap->SetBrightnessDelta(CColor(0.9,0.9,0.9));
+	//m_zvMinimap->SetBloomOn();
+	//m_zvMinimap->SetBloomDepthDecay(10);
+	//m_zvMinimap->SetOutliningThreshold(0.5);
+	//m_zvMinimap->SetOutliningOn();
+	//m_zvMinimap->SetOutliningStrength(100);
 	m_zr.AddFrame(&m_zf);
 	m_zr.AddScene(&m_zs);
 	m_zf.AddViewport(m_zv);
@@ -53,7 +61,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
-	m_zs.SetSkyFlowOn(0);
+	m_zs.SetSkyFlowOn(1000);
 
 	//Player
 	m_player.Init();

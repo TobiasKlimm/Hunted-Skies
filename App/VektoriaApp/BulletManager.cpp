@@ -5,8 +5,8 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 	m_damage = damage;
 	m_bulletSpeed = bulletSpeed;
 
-	//m_zmBulletMaterial.LoadPreset("AshesGlowing");
-	m_zgBullet.Init(1.0f, NULL);
+	m_zmBulletMaterial.LoadPreset("Sun");
+	m_zgBullet.Init(0.1f, 0.1f,2.0f, &m_zmBulletMaterial);
 	//m_zgBullet.SetMaterial(&m_zmBulletMaterial);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
 	m_zpBulletTemplate.SetPhysics(0.05f, 0.01f, 0.0f, 50.1f, true);
@@ -24,14 +24,13 @@ void CBulletManager::Shoot(const CHVector& direction) {
 	if (m_zpsBullets.RingIsFull())
 		m_zpsBullets.RingDec();
 
-	m_position.CopyTranslation(this->GetPosGlobal());
+	m_position.Rotate(direction, GetDirection());
+	m_position.CopyTranslation(GetPosGlobal());
 	CPlacement* pzp = m_zpsBullets.RingInc();
 	// Kopiere die Matrix (und damit die Startposition)
 	pzp->SetMat(m_position);
 	//schießt die Kugel in die Richtung die das Flugueug zeigt
-	CHVector v;
-	v.Copy(direction);
-	pzp->SetPhysicsVelocity(v * m_bulletSpeed);
+	pzp->SetPhysicsVelocity(direction * m_bulletSpeed);
 }
 
 void CBulletManager::UpdateBullets() {
