@@ -2,8 +2,8 @@
 #include "Enemy.h"
 #include "BulletManager.h"
 
-#define BULLETSPEED 600
-#define DAMAGE 1.0f
+#define BULLETSPEED 400
+#define DAMAGE 0.2f
 #define SHOOT_FREQUENCY 0.1f
 
 

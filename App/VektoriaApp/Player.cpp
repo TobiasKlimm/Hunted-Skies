@@ -2,7 +2,7 @@
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
-	m_zcCamera.Init(PI / 3);
+	m_zcCamera.Init(PI / 3, 1.0f);
 	m_zpCamera.AddCamera(&m_zcCamera);
 	m_zpCamera.TranslateZDelta(40);
 	m_zpCamera.TranslateYDelta(4);
@@ -74,6 +74,24 @@ void CPlayer::Init()
 	m_zos.Add(&m_zoButtonOptionen);
 	m_zos.Add(&m_zoBack2Start);
 	m_zosInGame.Add(&m_zoBack2Start);
+
+
+	m_zv.SetMistOn();
+	m_zv.SetMistStartDistance(1000);
+	m_zv.SetMistStrength(0.0002);
+	m_zv.SetMistHeightMax(500);
+	m_zv.SetMistHeightMin(-500);
+
+	//m_zv.SetHazeOn();
+
+
+	//m_zv.SetBloomOn();
+	//m_zv.SetBloomStrengthNear(5.0f); //6.0
+	//m_zv.SetBloomStrengthFar(0.0f);
+	//m_zv.SetBloomWidth(1.0f); //3.m_zs
+
+
+
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)

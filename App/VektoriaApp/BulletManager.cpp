@@ -69,11 +69,26 @@ void CBulletManager::UpdateBullets() {
 			//Update letzte Position
 			lastPosBullets[i] = currentPos;
 
+			
+
+
+
+
 			if (m_zgTerrain != nullptr) {
 				float yTerrainHeight = m_zgTerrain->GetHeight(currentPos.x, currentPos.z);
 				if (yTerrainHeight > currentPos.y)
 					currentBullet->SwitchOff();
 			}
+
+
+		/*	float x = currentBullet->GetPosGlobal().x;
+			float y = currentBullet->GetPosGlobal().y;
+			float z = currentBullet->GetPosGlobal().z;
+			float y_terrain = m_zgTerrain->GetHeight(x, z);
+			if (y < y_terrain) {
+				LogDebug("Hit at %f %f %f", x, y_terrain, z);
+			}*/
+
 		}
 	}
 }

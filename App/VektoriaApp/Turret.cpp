@@ -62,7 +62,7 @@ void CTurret::Tick(float fTime, float fTimeDelta, CHVector direction, float flyS
 		m_zpTurretBase.TranslateYDelta(1.f);
 		m_zpTurretBarrel.TranslateZDelta(-0.6f);
 
-		if (m_vDir.Length() < 1000) {
+		if (m_vDir.Length() < 500) {
 			Shoot(fTimeDelta);
 		}
 	}
