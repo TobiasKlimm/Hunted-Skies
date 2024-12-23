@@ -88,6 +88,17 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.AddPlacements(*m_botplanes.GetAirplane()->GetBulletManager()->GetBullets());
 	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 	m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes);
+
+	//MUSIC
+	/*m_zaTrackOne.Init("sounds\\TrackOne.wav");
+	m_zaTrackOne.SetVolume(1.0F);
+	m_zs.AddAudio(&m_zaTrackOne);
+	m_zaTrackOne.Loop();*/
+
+	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
+	m_zaWingsOfValor.SetVolume(1.F);
+	m_zs.AddAudio(&m_zaWingsOfValor);
+	m_zaWingsOfValor.Loop();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

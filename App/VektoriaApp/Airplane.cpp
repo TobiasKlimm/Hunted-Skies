@@ -22,7 +22,9 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 200;
 		m_flySpeedChangeRate = 35;
+		m_zaPlaneSound.Init3D("sounds\\F4.wav", 100.0F);
 		break;
+
 	}
 	case 2:
 	{
@@ -30,6 +32,8 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
+		m_zaPlaneSound.Init3D("sounds\\propeller.wav", 20.0F);
+	
 		break;
 	}
 	case 3:
@@ -38,6 +42,7 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 150.0F);
 		break;
 	}
 	case 4:
@@ -46,6 +51,7 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
+		m_zaPlaneSound.Init3D("sounds\\P40.wav", 70.0F);
 		break;
 	}
 	case 5:
@@ -54,6 +60,7 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 200.0F);
 		break;
 	}
 	case 6:
@@ -62,9 +69,16 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
 		break;
 	}
 	}
+
+	m_zpPlaneCenter.AddAudio(&m_zaPlaneSound);
+	this->AddAudio(&m_zaPlaneSound);
+	m_zaPlaneSound.Loop();
+
+
 
 	m_zpPlaneTip.TranslateZDelta(-2);
 	m_zpPlaneTip.RotateXDelta(-PI / 14.0f);
@@ -110,6 +124,12 @@ void CAirplane::Shoot(float randFac)
 	CHVector vRand;
 	vRand.RandomDir();
 	m_BulletManager.Shoot(m_zpPlaneTip.GetDirectionGlobal() + vRand * randFac);
+
+	///SOUNDS///
+
+	m_zaPlaneShot.Init3D("sounds\\PlaneShot.wav", 1.5F);
+	m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
+	m_zaPlaneShot.Start();
 }
 
 void CAirplane::SetSpeed(float change)
