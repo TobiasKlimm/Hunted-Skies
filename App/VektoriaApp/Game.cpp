@@ -60,8 +60,13 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceKeyboard(m_player.GetKeyboard());
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 
+
+
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
 	m_zs.SetSkyFlowOn(1000);
+	//m_zs.m_psceneweather->m_azmSky[0].SetPostprocessingOff();
+	//m_zs.m_psceneweather->m_azmSky[1].SetPostprocessingOff();
+	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
 
 	//Player
 	m_player.Init();

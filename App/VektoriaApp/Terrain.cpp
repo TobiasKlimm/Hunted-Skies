@@ -8,16 +8,20 @@ void CTerrain::Init()
 
 	// Islands erzeugen
 	m_zpLandscape.AddPlacement(&m_zpIsland1);
-	//m_zpLandscape.AddPlacement(&m_zpIsland2);
-	//m_zpLandscape.AddPlacement(&m_zpIsland3);
+	m_zpLandscape.AddPlacement(&m_zpIsland2);
+	m_zpLandscape.AddPlacement(&m_zpIsland3);
+
+
+
+	m_zpIsland1.Translate(6000, 0, -4000);
 
 
 	m_zpIsland2.RotateY(THIRDPI);
-	m_zpIsland2.TranslateDelta(1500, 0, 2500);
+	m_zpIsland2.TranslateDelta(7500, 0, 2500);
 
 
 	m_zpIsland3.RotateY(-HALFPI);
-	m_zpIsland3.TranslateDelta(-1890, 0, -2300);
+	m_zpIsland3.TranslateDelta(-7890, 0, -6300);
 
 
 	m_pperlin = new CPerlin(PERLIN_SEED, 3.0f, 15, 0.5f, 8.0f, 1.50f, 1.5f, ePerlinInterpol_Standard, false);
@@ -147,15 +151,15 @@ void CTerrain::Init()
 	m_zpLandscape.AddGeo(&m_zgTerrainSandMossy);
 
 
-	//m_zpIsland1.AddGeo(&m_zgTerrainFlora);
-	//m_zpIsland1.AddGeo(&m_zgTerrainLow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainRock);
-	//m_zpIsland1.AddGeo(&m_zgTerrainMirror);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSnow);
-	//m_zpIsland1.AddGeo(&m_zgTerrainOri);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSand);
-	//m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
+	m_zpIsland1.AddGeo(&m_zgTerrainFlora);
+	m_zpIsland1.AddGeo(&m_zgTerrainLow);
+	m_zpIsland1.AddGeo(&m_zgTerrainRock);
+	m_zpIsland1.AddGeo(&m_zgTerrainMirror);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnowHeavy);
+	m_zpIsland1.AddGeo(&m_zgTerrainSnow);
+	m_zpIsland1.AddGeo(&m_zgTerrainOri);
+	m_zpIsland1.AddGeo(&m_zgTerrainSand);
+	m_zpIsland1.AddGeo(&m_zgTerrainSandMossy);
 
 	m_zpIsland2.AddGeo(&m_zgTerrainFlora);
 	m_zpIsland2.AddGeo(&m_zgTerrainLow);
@@ -204,13 +208,13 @@ void CTerrain::Init()
 
 	// Wasser
 	m_zmWater.LoadPreset("Water"); //Laden des Wassers
-	m_zmWater.SetAni(8, 8, 7);	//Animierte Wassertextur hat 8x8 Bilder 
+    m_zmWater.SetAni(8, 8, 7);	//Animierte Wassertextur hat 8x8 Bilde
 	m_zmWater.Translate(CColor(0.8f, 0.0f, 0.8f)); //Blauwert vom Wasser erhöhen
 	m_zmWater.SetTransparency(0.2f);//Durchsichtigkeit des Wassers
 	m_zmWater.SetTransparencyOn();
 	m_zmWater.MakeTextureHaze("textures//WaterHaze.jpg");
 	m_zmWater.SetPostprocessingOn();
-	m_zmWater.SetHazeOn();
+	//m_zmWater.SetHazeOn();
 	m_zmWater.SetHazeStrength(1.8);
 
 	// Erzeuge mit dem Terraindaten eine Terraingeometrie: 

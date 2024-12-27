@@ -22,6 +22,9 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 70;
 		m_maxFlySpeed = 200;
 		m_flySpeedChangeRate = 35;
+		m_zaFlugzeugsound.Init3D("sound\\Propeller.wav",3.0F);
+		
+
 		break;
 	}
 	case 2:
@@ -30,6 +33,8 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
+		m_zaFlugzeugsound.Init3D("sound\\Propeller.wav", 3.0F);
+
 		break;
 	}
 	case 3:
@@ -38,6 +43,7 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
+		m_zaFlugzeugsound.Init3D("sound\\Propeller.wav", 3.0F);
 		break;
 	}
 	case 4:
@@ -46,6 +52,7 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
+		m_zaFlugzeugsound.Init3D("sound\\Propeller.wav", 3.0F);
 		break;
 	}
 	case 5:
@@ -62,9 +69,16 @@ void CAirplane::Init(float damage)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
+		m_zaFlugzeugsound.Init3D("sound\\Propeller.wav", 3.0F);
 		break;
 	}
 	}
+
+
+	m_zpPlaneCenter.AddAudio(&m_zaFlugzeugsound);
+	m_zaFlugzeugsound.Loop();
+
+
 
 	m_zpPlaneTip.TranslateZDelta(-2);
 	m_zpPlaneTip.RotateXDelta(-PI / 14.0f);

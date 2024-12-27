@@ -2,7 +2,7 @@
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
-	m_zcCamera.Init(PI/3);
+	m_zcCamera.Init(PI / 3, 1.0f);
 	m_zpCamera.AddCamera(&m_zcCamera);
 	m_zpCamera.TranslateZDelta(40);
 	m_zpCamera.TranslateYDelta(4);
@@ -58,7 +58,7 @@ void CPlayer::Init()
 	m_zoStart.InitFull(&m_ziStart);
 	m_zv.AddOverlay(&m_zoStart);
 
-	//Startbildschrim zurück
+	//Startbildschrim zurï¿½ck
 	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.08f, 0.05f, 0.9f, 0.9f));
 	m_zv.AddOverlay(&m_zoBack2Start);
 	m_zoBack2Start.SetLayer(0.1f);
@@ -77,11 +77,29 @@ void CPlayer::Init()
 	m_zv.AddOverlay(&m_zoButtonOptionen);
 	m_zoButtonOptionen.SetLayer(0.3f);
 
-	//Container für die Buttons
+	//Container fï¿½r die Buttons
 	m_zos.Add(&m_zoButtonStart);
 	m_zos.Add(&m_zoButtonOptionen);
 	m_zos.Add(&m_zoBack2Start);
 	m_zosInGame.Add(&m_zoBack2Start);
+
+
+	m_zv.SetMistOn();
+	m_zv.SetMistStartDistance(1000);
+	m_zv.SetMistStrength(0.0002);
+	m_zv.SetMistHeightMax(500);
+	m_zv.SetMistHeightMin(-500);
+
+	//m_zv.SetHazeOn();
+
+
+	//m_zv.SetBloomOn();
+	//m_zv.SetBloomStrengthNear(5.0f); //6.0
+	//m_zv.SetBloomStrengthFar(0.0f);
+	//m_zv.SetBloomWidth(1.0f); //3.m_zs
+
+
+
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -194,7 +212,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	//Verschiebe Kreis und das Crosshair
 	CenterSquare(x + 0.5f, y + 0.5f, CROSSHAIRSIZE, m_zoCirclehair);
 	CenterSquare(-x / 5 + 0.5f, -y / 5 + 0.5f, CROSSHAIRSIZE, m_zoCrosshair);
-	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zurück zurück
+	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zurï¿½ck zurï¿½ck
 	if (x != 0) {
 		x -= x * fTimeDelta * 1.5f;
 	}
@@ -209,7 +227,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		m_airplane.SetSpeed(-fTimeDelta);
 	if (m_zdm.ButtonPressedLeft()) {
 		m_timePassed += fTimeDelta;
-		// Führe die Funktion aus, während genug Zeit vergangen ist
+		// Fï¿½hre die Funktion aus, wï¿½hrend genug Zeit vergangen ist
 		if (m_timePassed <= SHOOT_FREQUENCY)
 			return;
 		m_timePassed = 0.0;
