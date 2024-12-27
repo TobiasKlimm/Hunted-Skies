@@ -87,6 +87,9 @@ private:
 	CBot m_botplanes;
 
 	CGeos m_zgsTerrainCollision;
+
+	//CAudio m_zaTrackOne;
+	CAudio m_zaWingsOfValor;
 };
 
 
