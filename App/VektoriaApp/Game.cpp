@@ -47,8 +47,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zvMinimap->StyleRadar();
 	m_zvMinimap->SetShadowRenderingOff();
 	//m_zvMinimap->SetBrightnessDelta(CColor(0.9,0.9,0.9));
-	//m_zvMinimap->SetBloomOn();
-	//m_zvMinimap->SetBloomDepthDecay(10);
+	m_zvMinimap->SetBloomOn();
+	m_zvMinimap->SetBloomDepthDecay(10);
 	//m_zvMinimap->SetOutliningThreshold(0.5);
 	//m_zvMinimap->SetOutliningOn();
 	//m_zvMinimap->SetOutliningStrength(100);
