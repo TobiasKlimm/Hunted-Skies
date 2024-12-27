@@ -55,12 +55,9 @@ private:
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
-	CAudio m_zaFlugzeugsound;
-	
 
 
-
-	unsigned m_planeID = 6;
+	unsigned m_planeID = 1;
 
 	float m_damage;
 	float m_flySpeed;
