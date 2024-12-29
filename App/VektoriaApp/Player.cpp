@@ -82,6 +82,12 @@ void CPlayer::Init()
 	m_zos.Add(&m_zoButtonOptionen);
 	m_zos.Add(&m_zoBack2Start);
 	m_zosInGame.Add(&m_zoBack2Start);
+
+	// Bloodscreen
+	m_zi.Init("textures\\BloodOverlay.png");
+	m_zo.Init(&m_zi, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
+	m_zo.SetTransparency(1.1);
+	m_zv.AddOverlay(&m_zo);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -179,6 +185,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		m_airplane.Tick(fTime, fTimeDelta);
 		ControlPlane(fTimeDelta);
+
+		// Blood Overlay
+		if (m_airplane.GetHealth() < 50)
+			m_zo.SetTransparency(0.8);
+		if (m_airplane.GetHealth() < 40)
+			m_zo.SetTransparency(0.6);
+		if (m_airplane.GetHealth() < 30)
+			m_zo.SetTransparency(0.4);
+		if (m_airplane.GetHealth() < 20)
+			m_zo.SetTransparency(0.2);
+		if (m_airplane.GetHealth() < 10)
+			m_zo.SetTransparency(0.0);
 	}
 }
 

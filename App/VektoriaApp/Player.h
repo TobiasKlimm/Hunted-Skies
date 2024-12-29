@@ -130,4 +130,8 @@ private:
     //float m_fTimeLastPausingStart = 0.0f;
     //float m_fTimePausings = 0.0f;
     //float m_fTimeWithPausings = 0.0f;
+
+    // Bloodscreen
+    COverlay m_zo;
+    CImage m_zi;
 };
