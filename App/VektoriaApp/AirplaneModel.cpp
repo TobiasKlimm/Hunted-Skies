@@ -6,19 +6,13 @@ void CAirplaneModel::Init(int planeID)
 
 	//Triebwerke
 	m_zmTriebwerke.LoadPreset("Sun");
-	m_zmTriebwerkStealth.LoadPreset("Sun");
-
-	m_zmTriebwerkStealth.SetGlowStrength(3.0);
+	//m_zmTriebwerkStealth.LoadPreset("Sun");
+	//m_zmTriebwerkStealth.SetGlowStrength(3.0);
 	m_zmTriebwerke.SetGlowStrength(3.0f);
 
-	m_zgTriebwerkL.Init(0.27, &m_zmTriebwerke, 50, 50);
+	m_zgTriebwerk.Init(0.27, &m_zmTriebwerke, 50, 50);
 
-	m_zgTriebwerkR.Init(0.27, &m_zmTriebwerke, 50, 50);
-
-	m_zgTriebwerkStealthR.Init(0.09, 4, &m_zmTriebwerkStealth, 50, true, true);
-	m_zgTriebwerkStealthL.Init(0.09, 4, &m_zmTriebwerkStealth, 50, true, true);
-	
-	
+	m_zgTriebwerkStealth.Init(0.09, 4, &m_zmTriebwerke, 50, true, true);
 	
 	
 	//Flugzeuge
@@ -33,8 +27,8 @@ void CAirplaneModel::Init(int planeID)
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\F4\\textures\\Normal.png");
 		m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\F4\\textures\\Roughness.png");
 
-		m_zpTriebwerkL.AddGeo(&m_zgTriebwerkL);
-		m_zpTriebwerkR.AddGeo(&m_zgTriebwerkR);
+		m_zpTriebwerkL.AddGeo(&m_zgTriebwerk);
+		m_zpTriebwerkR.AddGeo(&m_zgTriebwerk);
 		m_zpTriebwerkL.Translate(0.5, 0.08, 3.5);
 		m_zpTriebwerkR.Translate(-0.5, 0.08, 3.5);
 		
@@ -48,9 +42,10 @@ void CAirplaneModel::Init(int planeID)
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PlaneModel.obj");
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\StandardFlieger\\textures\\Diffuse.png");
 
-		m_pzgPropeller1 = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PropellerModel.obj");
-		m_zpPropeller1.AddGeo(m_pzgPropeller1);
+		m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PropellerModel.obj");
+		m_zpPropellerMiddle.AddGeo(m_pzgPropeller);
 		m_zmPropellerMaterial.Copy(m_zmPlaneMaterial);
+		AddPlacement(&m_zpPropellerMiddle);
 		break;
 	}
 	case 3:
@@ -61,8 +56,8 @@ void CAirplaneModel::Init(int planeID)
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\ORCA\\textures\\Normal.jpg");
 		m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\ORCA\\textures\\Roughness.jpg");
 
-		m_zpTriebwerkL.AddGeo(&m_zgTriebwerkL);
-		m_zpTriebwerkR.AddGeo(&m_zgTriebwerkR);
+		m_zpTriebwerkL.AddGeo(&m_zgTriebwerk);
+		m_zpTriebwerkR.AddGeo(&m_zgTriebwerk);
 		m_zpTriebwerkL.Translate(0.4, 0.4, 5.7);
 		m_zpTriebwerkR.Translate(-0.4, 0.4, 5.7);
 		break;
@@ -75,10 +70,10 @@ void CAirplaneModel::Init(int planeID)
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\P-40 Warhawk\\textures\\Normal.jpg");
 		m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\P-40 Warhawk\\textures\\Roughness.jpg");
 
-		m_pzgPropeller1 = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PropellerModel.obj",true);
-		m_zpPropeller1.AddGeo(m_pzgPropeller1);
+		m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PropellerModel.obj",true);
+		m_zpPropellerMiddle.AddGeo(m_pzgPropeller);
 		m_zmPropellerMaterial.Copy(m_zmPlaneMaterial);
-	
+		AddPlacement(&m_zpPropellerMiddle);
 		break;
 	}
 	case 5:
@@ -98,46 +93,46 @@ void CAirplaneModel::Init(int planeID)
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\F-117 Nighthawk\\textures\\Normal.png");
 		m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\F-117 Nighthawk\\textures\\Specular.png");
 
-
-		
-		m_zpTriebwerkStealthL.AddGeo(&m_zgTriebwerkStealthL);
+		m_zpTriebwerkStealthL.AddGeo(&m_zgTriebwerkStealth);
 		m_zpTriebwerkStealthL.Translate(-0.52, -2.0, 5);
 		m_zpTriebwerkStealthL.RotateZDelta(0.5 * PI);
-		
-
-		
-
-
 		break;
 	}
 	case 7:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\B17Tri.obj");
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\PlaneModel.obj");
 
-		//m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\B17\Texture\\B17.jpeg");
-		//m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\F-117 Nighthawk\\textures\\Normal.png");
-		//m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\F-117 Nighthawk\\textures\\Specular.png");
+		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\B17\\textures\\Diffuse.jpeg");
+
+		m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\PropellerModel.obj");
+		m_zpPropellerMiddle.AddGeo(m_pzgPropeller);
+
+		m_zpPropeller1.AddPlacement(&m_zpPropellerMiddle);
+		m_zpPropeller2.AddPlacement(&m_zpPropellerMiddle);
+		AddPlacement(&m_zpPropeller1);
+		AddPlacement(&m_zpPropeller2);
+		m_zmPropellerMaterial.Copy(m_zmPlaneMaterial);
+
+		m_zpPropeller1.TranslateX(3.3);
+		m_zpPropeller1.TranslateYDelta(0.5);
+		m_zpPropeller2.TranslateX(-3.3);
+		m_zpPropeller2.TranslateYDelta(0.5);
+
 		break;
 	}
 	}
 	AddGeo(m_pzgPlane);
-	AddPlacement(&m_zpPropeller1);
-	AddPlacement(&m_zpPropeller2);
 	AddPlacement(&m_zpTriebwerkL);
 	AddPlacement(&m_zpTriebwerkR);
 	AddPlacement(&m_zpTriebwerkStealthL);
 
 
 		m_pzgPlane->SetMaterial(&m_zmPlaneMaterial);
-	if(m_pzgPropeller1)
-		m_pzgPropeller1->SetMaterial(&m_zmPropellerMaterial);
-	if (m_pzgPropeller2)
-		m_pzgPropeller2->SetMaterial(&m_zmPropellerMaterial);
+	if(m_pzgPropeller)
+		m_pzgPropeller->SetMaterial(&m_zmPropellerMaterial);
 }
 
 void CAirplaneModel::Tick(float fTime, float fTimeDelta)
 {
-	
-	m_zpPropeller1.RotateZ(fTime * 100);
-	m_zpPropeller2.RotateZ(fTime * 100);
+	m_zpPropellerMiddle.RotateZDelta(fTime * 100);
 }

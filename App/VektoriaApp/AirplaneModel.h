@@ -24,26 +24,20 @@ private:
 	
 	
 	//Propeller
-	CGeoTriangleTable* m_pzgPropeller1 = nullptr;
+	CGeoTriangleTable* m_pzgPropeller = nullptr;
 	CPlacement m_zpPropeller1;
-	CGeoTriangleTable* m_pzgPropeller2 = nullptr;
 	CPlacement m_zpPropeller2;
+	CPlacement m_zpPropellerMiddle;
 	
 	//Triebwerk
-	CGeoSphere m_zgTriebwerkL;
-	CGeoSphere m_zgTriebwerkR;
+	CGeoSphere m_zgTriebwerk;
 	CPlacement m_zpTriebwerkL;
 	CPlacement m_zpTriebwerkR;
 
-
 	//Triebwerke Stealth Jet
-
-	CGeoCylinder m_zgTriebwerkStealthL;
-	CGeoCylinder m_zgTriebwerkStealthR;
-
+	CGeoCylinder m_zgTriebwerkStealth;
 	CPlacement m_zpTriebwerkStealthL;
 	CPlacement m_zpTriebwerkStealthR;
-	
 
 	//Materials
 	CMaterial m_zmPlaneMaterial;

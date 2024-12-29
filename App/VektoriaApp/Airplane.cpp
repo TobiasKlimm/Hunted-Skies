@@ -72,6 +72,15 @@ void CAirplane::Init(float damage)
 		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
 		break;
 	}
+	case 7:
+	{
+		m_flySpeed = 80;
+		m_minFlySpeed = 60;
+		m_maxFlySpeed = 110;
+		m_flySpeedChangeRate = 5;
+		m_zaPlaneSound.Init3D("sounds\\B17.wav", 300.0F);
+		break;
+	}
 	}
 
 
