@@ -37,8 +37,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	m_zf.SetFullscreenOn();
-	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	//m_zf.SetFullscreenOn();
+	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
@@ -47,8 +47,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zvMinimap->StyleRadar();
 	m_zvMinimap->SetShadowRenderingOff();
 	//m_zvMinimap->SetBrightnessDelta(CColor(0.9,0.9,0.9));
-	//m_zvMinimap->SetBloomOn();
-	//m_zvMinimap->SetBloomDepthDecay(10);
+	m_zvMinimap->SetBloomOn();
+	m_zvMinimap->SetBloomDepthDecay(10);
 	//m_zvMinimap->SetOutliningThreshold(0.5);
 	//m_zvMinimap->SetOutliningOn();
 	//m_zvMinimap->SetOutliningStrength(100);
@@ -60,8 +60,13 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceKeyboard(m_player.GetKeyboard());
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 
+
+
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
 	m_zs.SetSkyFlowOn(1000);
+	//m_zs.m_psceneweather->m_azmSky[0].SetPostprocessingOff();
+	//m_zs.m_psceneweather->m_azmSky[1].SetPostprocessingOff();
+	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
 
 	//Player
 	m_player.Init();
@@ -96,6 +101,17 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.AddPlacements(*m_botplanes.GetAirplane()->GetBulletManager()->GetBullets());
 	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 	m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes);
+
+	//MUSIC
+	/*m_zaTrackOne.Init("sounds\\TrackOne.wav");
+	m_zaTrackOne.SetVolume(1.0F);
+	m_zs.AddAudio(&m_zaTrackOne);
+	m_zaTrackOne.Loop();*/
+
+	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
+	m_zs.AddAudio(&m_zaWingsOfValor);
+	m_zaWingsOfValor.Loop();
+	m_zaWingsOfValor.SetVolume(0.8F);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
