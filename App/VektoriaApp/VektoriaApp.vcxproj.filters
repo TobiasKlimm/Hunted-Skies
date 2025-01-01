@@ -51,6 +51,9 @@
     <ClInclude Include="Turret.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Planeselection.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -81,6 +84,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Turret.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Planeselection.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

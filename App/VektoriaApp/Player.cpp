@@ -45,35 +45,86 @@ void CPlayer::Init()
 	m_zw3.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.1f), 11, &m_zwf);
 	m_zv.AddWriting(&m_zw3);
 
+	//-----------------
+	// Startbildschirm:
+	//-----------------
+
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
 	m_ziStart.Init("textures\\HalloWelt.jpg");
 	m_zoStart.InitFull(&m_ziStart);
+	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
+	//Button 1 und 2
+	m_zoButtonStart.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.4f, 0.1f), false);
+	m_zoStart.AddOverlay(&m_zoButtonStart);
+	m_zoButtonStart.SetLayer(0.3f);
+	m_zosStart.Add(&m_zoButtonStart);
+
+	m_zoPlaneSelection.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.39f), false);
+	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
+	m_zoPlaneSelection.SetLayer(0.3f);
+	m_zosStart.Add(&m_zoButtonPlaneSelection);
+
+	m_zoButtonOptions.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.59f), false);
+	m_zoStart.AddOverlay(&m_zoButtonOptions);
+	m_zoButtonOptions.SetLayer(0.3f);
+	m_zosStart.Add(&m_zoButtonOptions);
+
+
+	// ----------------
+	// Pausebildschirm:
+	// ----------------
+
+	m_ziPause.Init("textures\\Pause.png");
+	m_zoPause.InitFull(&m_ziPause);
+	m_zoPause.SetLayer(0.9f);
+	m_zv.AddOverlay(&m_zoPause);
+
+	m_zoButtonGoOn.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.39f), false);
+	m_zoPause.AddOverlay(&m_zoButtonGoOn);
+	m_zoButtonGoOn.SetLayer(0.9f);
+
+	m_zosPause.Add(&m_zoButtonGoOn);
+	m_zoPause.SwitchOff();
+
+	
+	// ---------------------
+	// In-Game: 
+	// ---------------------
 	//Startbildschrim zurück
 	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.08f, 0.05f, 0.9f, 0.9f));
 	m_zv.AddOverlay(&m_zoBack2Start);
 	m_zoBack2Start.SetLayer(0.1f);
-
-	//Pausebildschirm
-	m_ziPause.Init("textures\\Pause.png");
-	m_zoPause.InitFull(&m_ziPause);
-	m_zv.AddOverlay(&m_zoPause);
-
-	//Button 1 und 2
-	m_zoButtonStart.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.4f, 0.1f), false);
-	m_zv.AddOverlay(&m_zoButtonStart);
-	m_zoButtonStart.SetLayer(0.3f);
-
-	m_zoButtonOptionen.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.39f), false);
-	m_zv.AddOverlay(&m_zoButtonOptionen);
-	m_zoButtonOptionen.SetLayer(0.3f);
-
-	//Container für die Buttons
-	m_zos.Add(&m_zoButtonStart);
-	m_zos.Add(&m_zoButtonOptionen);
-	m_zos.Add(&m_zoBack2Start);
+	m_zoBack2Start.SwitchOff();
 	m_zosInGame.Add(&m_zoBack2Start);
+
+
+	// ----------------
+	// Plane Selection: 
+	// ----------------
+
+	m_zoPlaneSelection.InitFull("textures\\white_image.jpg");
+	m_zoPlaneSelection.SetLayer(0.9);
+	m_zoPlaneSelection.SwitchOff();
+	m_zPlaneselecion.Init(&m_zv, &m_zdc);
+	AddPlacement(&m_zPlaneselecion);
+	m_zosPlaneSelection.Add(&m_zoPlaneSelection);
+
+
+	// --------------------
+	// Optionen-Bildschirm: 
+	// --------------------
+	
+	m_zoOptions.InitFull("textures\\white_image.jpg");
+	m_zoOptions.SetLayer(0.9);
+	m_zoOptions.SwitchOff();
+	m_zPlaneselecion.Init(&m_zv, &m_zdc);
+	AddPlacement(&m_zPlaneselecion);
+	m_zosOptions.Add(&m_zoOptions);
+
+
+
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -81,22 +132,49 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	//Pause
 	//m_fTimeWithPausings = fTime - m_fTimePausings;
 
+	if (m_zeStatus == eSelection)
+	{
+
+
+
+	}
+
+
 	if (m_zeStatus == eStart)
 	{
 		if (m_zdc.ButtonDownLeft())
 		{
-			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
+			m_zoPause.SwitchOff();
+			m_zoStart.SwitchOff();
+			m_zoPlaneSelection.SwitchOff();
+			m_zoOptions.SwitchOff();
+			m_zoBack2Start.SwitchOff();
+			m_zvMinimap.SwitchOff();
+
+
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosStart);
 			if (pzoPicked == &m_zoButtonStart)
 			{
-				m_zoButtonStart.SwitchOff();
-				m_zoButtonOptionen.SwitchOff();
-				m_zoPause.SwitchOff();
-				m_zoStart.SwitchOff();
 				m_zvMinimap.SwitchOn();
-				m_zoBack2Start.SwitchOff();
 				m_zdc.Hide();
 				//m_zoMap.SwitchOn();
 				m_zeStatus = eInGame;
+			}
+			if (pzoPicked == &m_zoButtonPlaneSelection)
+			{
+				m_zoPlaneSelection.SwitchOn();
+				m_zdc.Show();
+
+				//m_zoMap.SwitchOn();
+				m_zeStatus = eSelection;
+			}
+			if (pzoPicked == &m_zoOptions)
+			{
+				m_zoOptions.SwitchOn();
+				m_zdc.Show();
+
+				//m_zoMap.SwitchOn();
+				m_zeStatus = eOptions;
 			}
 		}
 	}
@@ -105,10 +183,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	{
 		//m_fTimePausings += fTimeDelta;
 		//fTimeDelta = 0.0f;
+		m_zoPause.SwitchOn();
+		m_zoStart.SwitchOff();
+		m_zoPlaneSelection.SwitchOff();
+		m_zoOptions.SwitchOff();
+		m_zoBack2Start.SwitchOff();
+		m_zvMinimap.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
 		{
-			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zos);
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
 				m_zoPause.SwitchOff();
@@ -119,30 +203,57 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 			if (pzoPicked == &m_zoButtonStart)
 			{
-				m_zoPause.SwitchOff();
-				//m_zoMap.SwitchOn();
-				m_zoButtonStart.SwitchOff();
-				m_zoButtonOptionen.SwitchOff();
-				m_zoBack2Start.SwitchOff();
 				m_zeStatus = eInGame;
 			}
 		}
 	}
 
+	if (m_zeStatus == eSelection)
+	{
+		//m_fTimePausings += fTimeDelta;
+		//fTimeDelta = 0.0f;
+		m_zoPause.SwitchOff();
+		m_zoStart.SwitchOff();
+		m_zoPlaneSelection.SwitchOn();
+		m_zoOptions.SwitchOff();
+		m_zoBack2Start.SwitchOff();
+		m_zvMinimap.SwitchOff();
+
+		if (m_zdc.ButtonDownLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPlaneSelection);
+			if (pzoPicked == &m_zoBack2Start)
+			{
+				m_zeStatus = eStart;
+			}
+
+			if (pzoPicked == &m_zoButtonStart)
+			{
+				m_zeStatus = eInGame;
+			}
+		}
+	}
+
+
+
+
 	if (m_zeStatus == eInGame)
 	{
+		m_zoPause.SwitchOff();
+		m_zoStart.SwitchOff();
+		m_zoPlaneSelection.SwitchOff();
+		m_zoOptions.SwitchOff();
+		m_zoBack2Start.SwitchOff();
+		m_zvMinimap.SwitchOn();
+
+
+
 		if (m_zdk.KeyDown(DIK_P))
 		{
-			//m_fTimeLastPausingStart = fTime;
-			m_zoButtonStart.SwitchOn();
-			m_zoButtonOptionen.SwitchOn();
-			m_zoPause.SwitchOn();
-			m_zoStart.SwitchOff();
-			m_zvMinimap.SwitchOff();
-			m_zoBack2Start.SwitchOn();
 			m_zdc.Show();
 			m_zeStatus = ePaused;
 		}
+
 
 		//Score System
 		if (m_airplane.GetBulletManager()->m_killedEnemy) {

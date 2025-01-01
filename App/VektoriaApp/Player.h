@@ -1,6 +1,7 @@
 #pragma once
 #include "Vektoria\Root.h"
 #include "Airplane.h"
+#include "Planeselection.h"
 using namespace Vektoria;
 
 #define CROSSHAIRSIZE 0.003f
@@ -12,7 +13,9 @@ enum Status
 {
     eStart,
     eInGame,
-    ePaused
+    ePaused,
+    eSelection,
+    eOptions
 };
 
 
@@ -110,19 +113,34 @@ private:
     //---------------------------------------------------------------------
     //Startbildschrim
     COverlay m_zoStart; CImage m_ziStart;
-    
+    COverlay m_zoButtonStart;
+    COverlay m_zoButtonOptions;
+    COverlay m_zoButtonPlaneSelection;
+
     //Pausebildschirm
     COverlay m_zoPause; CImage m_ziPause;
-    
-    //Buttons
-    COverlay m_zoButtonStart;
-    COverlay m_zoButtonOptionen;
+    COverlay m_zoButtonGoOn; 
+
+    // Optionenbildschirm
+    COverlay m_zoOptions;
+
+
+    //Planeselection-Bildschirm
+    Planeselection m_zPlaneselecion;
+    COverlay m_zoPlaneSelection;
+   
+    // In-Game-Overlays:
+    COverlay m_zoBack2Start;
 
     //Container für Startbildschirm
-    COverlays m_zos;
+    COverlays m_zosStart;
     COverlays m_zosInGame;
-    COverlay m_zoBack2Start;
-    COverlays m_zosButtons;
+    COverlays m_zosPause;
+    COverlays m_zosPlaneSelection; 
+    COverlays m_zosOptions;
+
+
+
 
     //---------------------------------------------------------------------
     //Pause
