@@ -90,6 +90,14 @@ private:
 
 	//CAudio m_zaTrackOne;
 	CAudio m_zaWingsOfValor;
+
+	////
+	//// Turret Explposion
+	////
+	CPlacement m_zbpExplosion;
+	CPlacement m_zpExplosion;
+	CGeoQuad m_zgExplosion;
+	CMaterial m_zmExplosion;
 };
 
 

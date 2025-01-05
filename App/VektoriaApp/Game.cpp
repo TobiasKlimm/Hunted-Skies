@@ -112,6 +112,20 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
 	m_zaWingsOfValor.SetVolume(0.8F);
+
+	////
+	//// Turret Explosion
+	////
+	m_zmExplosion.MakeTextureBillboard("textures\\explosion_sprite_sheet.png");
+	m_zmExplosion.SetChromaKeyingOn();
+	m_zmExplosion.SetAni(17, 1, 17);
+	m_zgExplosion.Init(100.f, 100.f, &m_zmExplosion);
+	m_zpExplosion.AddGeo(&m_zgExplosion);
+	m_zpExplosion.TranslateY(10.f);
+
+	m_zbpExplosion.AddPlacement(&m_zpExplosion);
+	m_zs.AddPlacement(&m_zbpExplosion);
+	m_zbpExplosion.SetBillboard();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
