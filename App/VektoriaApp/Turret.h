@@ -3,8 +3,8 @@
 #include "BulletManager.h"
 
 #define BULLETSPEED 500
-#define DAMAGE 1.0f
-#define SHOOT_FREQUENCY 0.1f
+#define DAMAGE 0.5f
+#define SHOOT_FREQUENCY 0.25f
 
 
 using namespace Vektoria;

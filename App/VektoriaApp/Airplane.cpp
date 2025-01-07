@@ -84,7 +84,7 @@ void CAirplane::Init(float damage)
 	}
 
 
-	m_zpPlaneCenter.AddAudio(&m_zaPlaneSound);
+	//m_zpPlaneCenter.AddAudio(&m_zaPlaneSound);
 	m_zaPlaneSound.SetVolume(0.85F);
 	m_zaPlaneSound.Loop();
 
@@ -99,7 +99,7 @@ void CAirplane::Init(float damage)
 	m_zpPlaneTip.AddPlacement(&m_BulletManager);
 	m_BulletManager.Init(BULLETSPEED, m_damage);
 	m_zaPlaneShot.Init3D("sounds\\PlaneShot.wav", 1.5F);
-	m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
+	//m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
 }
 
 void CAirplane::Tick(float fTime, float fTimeDelta)

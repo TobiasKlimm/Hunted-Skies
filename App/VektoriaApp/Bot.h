@@ -3,8 +3,8 @@
 #include "Airplane.h"
 using namespace Vektoria;
 
-#define SHOOT_FREQUENCY 0.1f
-#define DAMAGE 1.0f
+#define SHOOT_FREQUENCY 0.2f
+#define DAMAGE 0.5f
 #define MAX_TURN_RATE 75.0f
 
 
