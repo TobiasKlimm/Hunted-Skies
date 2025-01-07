@@ -58,6 +58,8 @@ public:
 	// Wird w�hrend der Laufzeit bei jedem Bildaufbau aufgerufen:
 	void Tick(float fTime, float fTimeDelta);
 
+	void EndExplosion(float fTime);
+
 	// Wird am Ende einmal aufgerufen:
 	void Fini();
 
@@ -70,12 +72,10 @@ public:
 	// Holt die Versionsnummer:
 	float GetVersion();
 
-
-
 	void ScreenOverlaysInit(CViewport* m_zv);
 
 private:
-
+	float m_fBotTime = 0.0f; 
 	CRoot m_zr;
 	CFrame m_zf;
 	CScene m_zs;
@@ -98,6 +98,8 @@ private:
 	CPlacement m_zpExplosion;
 	CGeoQuad m_zgExplosion;
 	CMaterial m_zmExplosion;
+	int m_iExplosion = 0;
+	int Elapsedticks = 0; 
 };
 
 

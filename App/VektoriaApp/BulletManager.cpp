@@ -56,6 +56,7 @@ void CBulletManager::UpdateBullets() {
 					currentBullet->SwitchOff();
 					currentTarget->GetParent()->GetName();;
 					CEnemy* currentEnemy = static_cast<CEnemy*>(currentTarget);
+
 					if (currentEnemy->RegisterHit(m_damage)) {
 						m_killedEnemy = true;
 						

@@ -30,4 +30,5 @@ public:
 private:
 	float m_health =100;
 	CHVector m_position;
+
 };

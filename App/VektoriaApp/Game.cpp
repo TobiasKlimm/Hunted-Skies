@@ -37,8 +37,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	//m_zf.SetFullscreenOn();
-	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	m_zf.SetFullscreenOn();
+	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
@@ -61,9 +61,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 
 
-
-	m_zs.SetSkyOn(m_player.GetCameraPlacement());
-	m_zs.SetSkyFlowOn(1000);
+	m_zs.SetSkyOn(m_player.GetCameraPlacement(),true);
+	m_zs.SetSkyFlowOn(0);
 	//m_zs.m_psceneweather->m_azmSky[0].SetPostprocessingOff();
 	//m_zs.m_psceneweather->m_azmSky[1].SetPostprocessingOff();
 	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
@@ -118,14 +117,17 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	////
 	m_zmExplosion.MakeTextureBillboard("textures\\explosion_sprite_sheet.png");
 	m_zmExplosion.SetChromaKeyingOn();
-	m_zmExplosion.SetAni(17, 1, 17);
-	m_zgExplosion.Init(100.f, 100.f, &m_zmExplosion);
+	m_zmExplosion.SetBot(17, 1);
+	
+
+	m_zgExplosion.Init(50.f, 50.f, &m_zmExplosion);
 	m_zpExplosion.AddGeo(&m_zgExplosion);
 	m_zpExplosion.TranslateY(10.f);
 
 	m_zbpExplosion.AddPlacement(&m_zpExplosion);
 	m_zs.AddPlacement(&m_zbpExplosion);
 	m_zbpExplosion.SetBillboard();
+
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -140,6 +142,20 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//Turet Spawning
 	for (int i = 0; i < 10; i++) {
 		if (!m_turrets[i].IsOn()) {
+
+
+			//m_zmExplosion.MakeTextureBillboard("textures\\explosion_sprite_sheet.png");
+			//m_zmExplosion.SetChromaKeyingOn();
+			//m_zmExplosion.SetAni(17, 1, 17);
+			//m_zgExplosion.Init(100.f, 100.f, &m_zmExplosion);
+			//m_zpExplosion.AddGeo(&m_zgExplosion);
+			//m_zpExplosion.TranslateY(10.f);
+			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
+			m_zpExplosion.SwitchOn();
+			m_zmExplosion.SetPic(0,0);
+			LogDebug("Bang!");
+
+
 			CHVector vrand;
 			vrand.RandomDir();
 			vrand *= 1000;
@@ -155,9 +171,28 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		m_turrets[i].Tick(fTime, fTimeDelta, m_player.GetAirplane()->GetDirection(), m_player.GetAirplane()->GetFlySpeed());
 	}
 
+	if (m_zpExplosion.IsOn())
+			{
+		m_zmExplosion.SetPic(m_iExplosion, 0);
+				EndExplosion(fTime);
+//				LogDebug("Tick ");
+			}
 	m_botplanes.Tick(fTime, fTimeDelta);
 
 	m_zr.Tick(fTimeDelta);
+}
+
+void CGame::EndExplosion(float fTime) {
+	if (fTime - m_fBotTime > 0.1f)
+	{
+		m_iExplosion++;
+		if (m_iExplosion > 17) {
+			m_zpExplosion.SwitchOff();
+			// 	LogDebug("End Explosion");
+			m_iExplosion = 0;
+		}
+		m_fBotTime = fTime; 
+	}
 }
 
 void CGame::Fini()
@@ -188,5 +223,3 @@ float CGame::GetVersion()
 {
 	return m_zr.GetVersion();
 }
-
-
