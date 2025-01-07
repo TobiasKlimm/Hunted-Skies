@@ -225,4 +225,10 @@ void CTerrain::Init()
 
 	// Füge das Terrain dem Kollisionscontainer hinzu:
 	m_zgsTerrain.Add(&m_zgTerrain);
+
+
+
+
+	
+	
 }

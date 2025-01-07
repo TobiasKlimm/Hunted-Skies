@@ -105,4 +105,8 @@ private:
 	CGeoTerrain m_zgTerrainSand;
 	CGeoTerrain m_zgTerrainSandMossy;
 	CGeoTerrain m_zgTerrainSnowHeavy;
+
+
+
+
 };

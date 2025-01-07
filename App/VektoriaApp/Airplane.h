@@ -8,6 +8,7 @@ using namespace Vektoria;
 
 #define MAX_ROTATION_SPEED  0.25f
 #define BULLETSPEED 1000
+#define DEAD 1000;
 
 
 class CAirplane :
@@ -68,5 +69,11 @@ private:
 	float m_maxFlySpeed;
 	float m_flySpeedChangeRate;
 
+
+
+	//Collision Detection
+	float m_lastx=0;
+	float m_lasty=0;
+	float m_lastz=0;
 
 };

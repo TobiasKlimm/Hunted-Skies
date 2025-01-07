@@ -1,4 +1,5 @@
 #include "Airplane.h"
+#include <cmath>
 
 CAirplane::CAirplane()
 {
@@ -97,6 +98,36 @@ void CAirplane::Tick(float fTime, float fTimeDelta)
 	this->SetTranslationSensitivity(m_flySpeed);
 	m_vDirection = m_zpPlaneTip.GetPosGlobal()-m_zpPlaneCenter.GetPosGlobal();
 	m_vDirection.Normal();
+
+
+
+
+
+
+	//Collision Detection
+	float x = m_zpPlaneCenter.GetPosGlobal().x;
+	float y = m_zpPlaneCenter.GetPosGlobal().y;
+	float z = m_zpPlaneCenter.GetPosGlobal().z;
+
+
+
+	if (x == m_lastx && y == m_lasty && z == m_lastz)
+	{
+		//LogDebug("TOT");
+		RegisterHit(10000);
+		
+		
+	}
+	else
+	{
+		m_lastx = x;
+		m_lasty = y;
+		m_lastz = z;
+	}
+
+
+
+
 }
 
 float CAirplane::ClampValue(float value, float minValue, float maxValue) {

@@ -54,8 +54,23 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 
 
+
+	//Carrier
+	m_zgCarrier = m_zfCarrier.LoadGeoTriangleTable("models\\Carrier\\source\\untitled.obj",true);
+	m_zpCarrier.AddGeo(m_zgCarrier);
+	m_zs.AddPlacement(&m_zpCarrier);
+	m_zgCarrier->SetMaterial(&m_zmCarrier);
+	m_zmCarrier.MakeTextureDiffuse("models\\Carrier\\textures\\Nimitz_Albedo.png");
+	m_zmCarrier.MakeTextureBump("models\\Carrier\\textures\\Nimitz_Normal_(1).png");
+	m_zmCarrier.MakeTextureSpecular("models\\Carrier\\textures\\Nimitz_Metalness.png");
+	m_zpCarrier.ScaleDelta(2);
+	m_zpCarrier.RotateYDelta(-HALFPI);
+	m_zpCarrier.TranslateDelta(2000,0,-1000);
+
+
+	//Himmel &Tag Nacht Zyklus
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
-	m_zs.SetSkyFlowOn(1000);
+	m_zs.SetSkyFlowOn(100);
 	//m_zs.m_psceneweather->m_azmSky[0].SetPostprocessingOff();
 	//m_zs.m_psceneweather->m_azmSky[1].SetPostprocessingOff();
 	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
@@ -72,6 +87,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//Terraincollision Airplane
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainGeo());
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainWater());
+	m_zgsTerrainCollision.Add(m_zgCarrier);
 	m_player.GetAirplane()->m_zgsCollisionObjects = m_zgsTerrainCollision;
 	//Terraincollision Bullets Airplane
 	m_player.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
@@ -123,6 +139,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	}
 
 	m_botplanes.Tick(fTime, fTimeDelta);
+
 
 	m_zr.Tick(fTimeDelta);
 }

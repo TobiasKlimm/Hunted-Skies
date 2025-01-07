@@ -87,6 +87,21 @@ private:
 	CBot m_botplanes;
 
 	CGeos m_zgsTerrainCollision;
+
+
+
+	//Carrier
+	CMaterial m_zmCarrier;
+	CPlacement m_zpCarrier;
+	CGeoTriangleTable* m_zgCarrier=nullptr;
+	CFileWavefront m_zfCarrier;
+
+
 };
+
+
+
+
+
 
 
