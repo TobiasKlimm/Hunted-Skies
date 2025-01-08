@@ -100,6 +100,20 @@ private:
 	CMaterial m_zmExplosion;
 	int m_iExplosion = 0;
 	int Elapsedticks = 0; 
+
+
+	//Carrier
+	CMaterial m_zmCarrier;
+	CPlacement m_zpCarrier;
+	CGeoTriangleTable* m_zgCarrier=nullptr;
+	CFileWavefront m_zfCarrier;
+
+
 };
+
+
+
+
+
 
 

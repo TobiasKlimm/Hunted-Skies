@@ -27,7 +27,8 @@ void CPlayer::InitCam() {
 void CPlayer::Init()
 {
 	this->AddPlacement(&m_airplane);
-	m_airplane.TranslateY(500);
+	m_airplane.RotateY(HALFPI); //Ausrichtung Startbahn flugzeugträger
+	m_airplane.TranslateDelta(2000, 20, -1000);
 	m_airplane.Init(DAMAGE);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
@@ -215,6 +216,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		if (m_airplane.GetHealth() < 10)
 			m_zo.SetTransparency(0.0);
 	}
+
+
+	
 }
 
 
@@ -250,6 +254,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		m_timePassed = 0.0;
 		m_airplane.Shoot(0.001f);
 	}
+
 }
 
 void CPlayer::CenterSquare(float x, float y, float size, COverlay& rect) {
