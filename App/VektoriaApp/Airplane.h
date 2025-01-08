@@ -9,6 +9,7 @@ using namespace Vektoria;
 #define MAX_ROTATION_SPEED  0.25f
 #define BULLETSPEED 1000
 #define DEAD 1000;
+#define MAX_DISTANCE 2000;
 
 
 class CAirplane :
@@ -56,6 +57,8 @@ private:
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
+	
+	CAABB m_zDistanceBox;
 
 
 	unsigned m_planeID = 1;
@@ -76,5 +79,14 @@ private:
 	float m_lastx=0;
 	float m_lasty=0;
 	float m_lastz=0;
+
+
+
+	//Abstandsvektor f�r Warnung
+	CHVector m_zhvAbstand;
+	float m_distanceX = 0;
+	float m_distanceY = 0;
+	float m_distanceZ = 0;
+
 
 };

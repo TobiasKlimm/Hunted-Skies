@@ -109,6 +109,20 @@ private:
 	CFileWavefront m_zfCarrier;
 
 
+
+	//Collision Kugel Blender
+	CPlacement m_zpCollisionKugelBlender;
+	CGeoTriangleTable* m_zgCollisionKugelBlender = nullptr;
+	CFileWavefront m_zfCollisionKugelBlender;
+
+
+	//Collision Kugel
+	CGeoSphere m_zgSphereCollision;
+	CPlacement m_zpSphereCollision;
+
+	
+
+
 };
 
 
