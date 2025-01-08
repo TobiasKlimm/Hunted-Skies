@@ -7,6 +7,7 @@ using namespace Vektoria;
 #define MINIMAPSIZE 0.02f
 #define SHOOT_FREQUENCY 0.05f
 #define DAMAGE 10.0f
+#define MAX_DISTANCE 2000;
 
 enum Status
 {
@@ -134,4 +135,34 @@ private:
     // Bloodscreen
     COverlay m_zo;
     CImage m_zi;
+
+
+
+
+    //------------------------------------------------------------------------
+    // Abstandswarnung
+    //Abstandsvektor f?r Warnung
+    CHVector m_zhvAbstand;
+    float m_distanceX = 0;
+    float m_distanceY = 0;
+    float m_distanceZ = 0;
+
+
+
+
+    //Warnung
+    COverlay m_zoAbstand;
+    CImage m_ziAbstand;
+    float m_WarningTransparency = 1.0;
+    float m_bloodTransparency = 1.0;
+    float m_lastHealth = 100;
+
+    //You have died screen
+    COverlay m_zoDied;
+    CImage m_ziDied;
+
+    //Collision Detection
+    float m_lastx = 0;
+    float m_lasty = 0;
+    float m_lastz = 0;
 };

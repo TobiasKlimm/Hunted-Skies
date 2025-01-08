@@ -9,7 +9,7 @@ using namespace Vektoria;
 #define MAX_ROTATION_SPEED  0.25f
 #define BULLETSPEED 1000
 #define DEAD 1000;
-#define MAX_DISTANCE 2000;
+
 
 
 class CAirplane :
@@ -75,18 +75,18 @@ private:
 	CAudio m_zaPlaneShot; 
 	CAudio m_zaPlaneSound;
 
-	//Collision Detection
-	float m_lastx=0;
-	float m_lasty=0;
-	float m_lastz=0;
+	////Collision Detection
+	//float m_lastx=0;
+	//float m_lasty=0;
+	//float m_lastz=0;
 
 
 
-	//Abstandsvektor f�r Warnung
-	CHVector m_zhvAbstand;
-	float m_distanceX = 0;
-	float m_distanceY = 0;
-	float m_distanceZ = 0;
+	////Abstandsvektor f�r Warnung
+	//CHVector m_zhvAbstand;
+	//float m_distanceX = 0;
+	//float m_distanceY = 0;
+	//float m_distanceZ = 0;
 
 
 };

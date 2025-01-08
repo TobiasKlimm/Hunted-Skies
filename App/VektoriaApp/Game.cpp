@@ -37,8 +37,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	m_zf.SetFullscreenOn();
-	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	//m_zf.SetFullscreenOn();
+	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();

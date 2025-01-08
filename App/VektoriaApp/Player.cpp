@@ -1,4 +1,5 @@
-#include "Player.h"
+﻿#include "Player.h"
+#define MAX_DISTANCE 2000;
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -27,7 +28,7 @@ void CPlayer::InitCam() {
 void CPlayer::Init()
 {
 	this->AddPlacement(&m_airplane);
-	m_airplane.RotateY(HALFPI); //Ausrichtung Startbahn flugzeugtr�ger
+	m_airplane.RotateY(HALFPI); //Ausrichtung Startbahn flugzeugträger
 	m_airplane.TranslateDelta(2000, 20, -1000);
 	m_airplane.Init(DAMAGE);
 	m_airplane.AddPlacement(&m_zpCamera);
@@ -59,7 +60,7 @@ void CPlayer::Init()
 	m_zoStart.InitFull(&m_ziStart);
 	m_zv.AddOverlay(&m_zoStart);
 
-	//Startbildschrim zur�ck
+	//Startbildschrim zurï¿½ck
 	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.08f, 0.05f, 0.9f, 0.9f));
 	m_zv.AddOverlay(&m_zoBack2Start);
 	m_zoBack2Start.SetLayer(0.1f);
@@ -78,7 +79,7 @@ void CPlayer::Init()
 	m_zv.AddOverlay(&m_zoButtonOptionen);
 	m_zoButtonOptionen.SetLayer(0.3f);
 
-	//Container f�r die Buttons
+	//Container fuer die Buttons
 	m_zos.Add(&m_zoButtonStart);
 	m_zos.Add(&m_zoButtonOptionen);
 	m_zos.Add(&m_zoBack2Start);
@@ -87,9 +88,13 @@ void CPlayer::Init()
 	// Bloodscreen
 	m_zi.Init("textures\\BloodOverlay.png");
 	m_zo.Init(&m_zi, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
-	m_zo.SetTransparency(1.1);
+	m_zo.SetTransparency(1.0);
 	m_zv.AddOverlay(&m_zo);
 
+
+
+
+	//Nebel in der Ferne
 	m_zv.SetMistOn();
 	m_zv.SetMistStartDistance(1000);
 	m_zv.SetMistStrength(0.0002);
@@ -105,7 +110,23 @@ void CPlayer::Init()
 	//m_zv.SetBloomWidth(1.0f); //3.m_zs
 
 
+	//You have died Screen
+	m_ziDied.Init("textures\\YOUVE DIED.jpeg");
+	m_zoDied.Init(&m_ziDied, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
+	m_zv.AddOverlay(&m_zoDied);
+	m_zoDied.SwitchOff();
 
+
+
+
+
+	//Abstands Warnung
+	m_zhvAbstand.Init(0.0, 0.0, 0.0, 1.0);
+	m_ziAbstand.Init("textures\\Warning.png");
+	m_zoAbstand.Init(&m_ziAbstand, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
+	m_zoAbstand.SetTransparency(0.5f);
+	m_zoAbstand.SwitchOff();
+	m_zv.AddOverlay(&m_zoAbstand);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -185,7 +206,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zw2.PrintF("Health: %f", m_airplane.GetHealth());
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
-		if(m_zdk.KeyDown(DIK_LSHIFT)){
+		if (m_zdk.KeyDown(DIK_LSHIFT)) {
 			m_zpCamera.SubCamera(&m_zcCamera);
 			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
@@ -205,20 +226,92 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		ControlPlane(fTimeDelta);
 
 		// Blood Overlay
-		if (m_airplane.GetHealth() < 50)
-			m_zo.SetTransparency(0.8);
-		if (m_airplane.GetHealth() < 40)
-			m_zo.SetTransparency(0.6);
-		if (m_airplane.GetHealth() < 30)
-			m_zo.SetTransparency(0.4);
-		if (m_airplane.GetHealth() < 20)
-			m_zo.SetTransparency(0.2);
-		if (m_airplane.GetHealth() < 10)
-			m_zo.SetTransparency(0.0);
+		bool hit = false;
+		if (m_airplane.GetHealth() >= 50)
+		{
+
+			m_zo.SwitchOff();
+		}
+		if (m_lastHealth != m_airplane.GetHealth()) // If player was hit
+		{
+			float transparency = m_airplane.GetHealth() / 100;
+			m_zo.SetTransparency(transparency);
+			m_bloodTransparency = transparency;
+		}
+
+		m_bloodTransparency = ClampValue(m_bloodTransparency + 0.5 * fTimeDelta, 0.0f, 1.0f);
+		m_zo.SetTransparency(m_bloodTransparency);
+		if (m_bloodTransparency == 1.0)
+		{
+			m_zo.SwitchOff();
+			LogDebug("switch off");
+
+		}
+
+		m_lastHealth = m_airplane.GetHealth();
+
+
+
+
+
+		int MaxAbstand = MAX_DISTANCE;
+		//Collision Warnung fuer zu weit weg
+
+		//m_zoAbstand.SetTransparency(0.1f);
+
+		CHVector PlayerPos = m_airplane.GetPosGlobal();
+		if (abs(PlayerPos.x - m_zhvAbstand.x) > MaxAbstand || abs(PlayerPos.y - m_zhvAbstand.y) > MaxAbstand || abs(PlayerPos.z - m_zhvAbstand.z) > MaxAbstand)
+		{
+			m_zo.SwitchOff();
+			m_zoAbstand.SwitchOn();
+			LogDebug("Warnung sie verlassen das Kriegsgebiet");
+			m_WarningTransparency = ClampValue(m_WarningTransparency - 0.2 * fTimeDelta, 0.0f, 1.0f);
+			m_zoAbstand.SetTransparency(m_WarningTransparency);
+		}
+		else
+		{
+			m_WarningTransparency = ClampValue(m_WarningTransparency + 0.5 * fTimeDelta, 0.0f, 1.0f);
+			m_zoAbstand.SetTransparency(m_WarningTransparency);
+			if (m_WarningTransparency == 1.0)
+			{
+				m_zoAbstand.SwitchOff();
+				m_zo.SwitchOn();
+			}
+		}
+
+		//-----------------------
+		//Collision Detection
+		//-----------------------
+		float x = m_airplane.GetPosGlobal().x;
+		float y = m_airplane.GetPosGlobal().y;
+		float z = m_airplane.GetPosGlobal().z;
+
+
+
+
+		//Collision fuer Objekte
+		if (x == m_lastx && y == m_lasty && z == m_lastz)
+		{
+			//LogDebug("TOT");
+
+			m_airplane.RegisterHit(10000);
+			m_zoDied.SwitchOn();
+
+
+		}
+		else
+
+		{
+			m_lastx = x;
+			m_lasty = y;
+			m_lastz = z;
+		}
+
+
 	}
 
 
-	
+
 }
 
 
@@ -233,7 +326,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	//Verschiebe Kreis und das Crosshair
 	CenterSquare(x + 0.5f, y + 0.5f, CROSSHAIRSIZE, m_zoCirclehair);
 	CenterSquare(-x / 5 + 0.5f, -y / 5 + 0.5f, CROSSHAIRSIZE, m_zoCrosshair);
-	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zur�ck zur�ck
+	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zurueck
 	if (x != 0) {
 		x -= x * fTimeDelta * 1.5f;
 	}
@@ -248,7 +341,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		m_airplane.SetSpeed(-fTimeDelta);
 	if (m_zdm.ButtonPressedLeft()) {
 		m_timePassed += fTimeDelta;
-		// F�hre die Funktion aus, w�hrend genug Zeit vergangen ist
+		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
 		if (m_timePassed <= SHOOT_FREQUENCY)
 			return;
 		m_timePassed = 0.0;
@@ -265,4 +358,3 @@ void CPlayer::CenterSquare(float x, float y, float size, COverlay& rect) {
 float CPlayer::ClampValue(float value, float minValue, float maxValue) {
 	return max(minValue, min(value, maxValue));
 }
-
