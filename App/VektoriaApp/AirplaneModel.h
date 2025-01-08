@@ -51,4 +51,8 @@ private:
 	CMaterial m_zmTriebwerke;
 	CMaterial m_zmTriebwerkStealth;
 	CEmitter m_zeTriebwerke;
+
+
+
+	
 };

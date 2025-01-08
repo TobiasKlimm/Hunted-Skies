@@ -89,6 +89,13 @@ void CAirplane::Init(float damage)
 
 	m_zpPlaneTip.AddPlacement(&m_BulletManager);
 	m_BulletManager.Init(BULLETSPEED, m_damage);
+
+
+
+	//Abstands Vektor
+	
+	m_zhvAbstand.Init(0.0, 0.0, 0.0, 1.0);
+	
 }
 
 void CAirplane::Tick(float fTime, float fTimeDelta)
@@ -103,14 +110,25 @@ void CAirplane::Tick(float fTime, float fTimeDelta)
 
 
 
-
+	//-----------------------
 	//Collision Detection
+	//-----------------------
 	float x = m_zpPlaneCenter.GetPosGlobal().x;
 	float y = m_zpPlaneCenter.GetPosGlobal().y;
 	float z = m_zpPlaneCenter.GetPosGlobal().z;
+	int MaxAbstand =MAX_DISTANCE;
 
+	//Collision Warnung für zu weit weg
+	if (abs(x - m_zhvAbstand.x) > MaxAbstand || abs(y - m_zhvAbstand.y) > MaxAbstand || abs(z - m_zhvAbstand.z) > MaxAbstand)
+	{
+		LogDebug("Warnung sie verlassen das Kriegsgebiet");
+	}
+	else
+	{
 
+	}
 
+	//Collision für Objekte
 	if (x == m_lastx && y == m_lasty && z == m_lastz)
 	{
 		//LogDebug("TOT");

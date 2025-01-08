@@ -84,10 +84,40 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_terrain.Init();
 	m_zs.AddPlacement(&m_terrain);
 
+
+
+
+	//Collision Kugel Blender für weite Entfernungen;
+	m_zgCollisionKugelBlender = m_zfCollisionKugelBlender.LoadGeoTriangleTable("models\\Collision Ball\\untitled.obj");
+	m_zpCollisionKugelBlender.AddGeo(m_zgCollisionKugelBlender);
+	m_zs.AddPlacement(&m_zpCollisionKugelBlender);
+	m_zpCollisionKugelBlender.Scale(700);
+	m_zpCollisionKugelBlender.TranslateYDelta(100);
+	m_zgCollisionKugelBlender->Flip();
+	m_zpCollisionKugelBlender.SetDrawingOff();
+	
+
+
+
+	
+
+
+
+	//Collision Kugel für weite Entfernungen
+	//m_zs.AddPlacement(&m_zpSphereCollision);
+	//m_zgSphereCollision.Init(5000,&m_zmCarrier,6,6);
+	//m_zgSphereCollision.SwitchCollisionFrontalOn();
+	//m_zpSphereCollision.AddGeo(&m_zgSphereCollision);
+	//m_zpSphereCollision.SetDrawingOff();
+
+
 	//Terraincollision Airplane
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainGeo());
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainWater());
 	m_zgsTerrainCollision.Add(m_zgCarrier);
+	//m_zgsTerrainCollision.Add(m_zgSphereCollision);
+	m_zgsTerrainCollision.Add(m_zgCollisionKugelBlender);
+
 	m_player.GetAirplane()->m_zgsCollisionObjects = m_zgsTerrainCollision;
 	//Terraincollision Bullets Airplane
 	m_player.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
