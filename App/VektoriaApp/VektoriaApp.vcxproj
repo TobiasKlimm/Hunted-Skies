@@ -160,6 +160,7 @@
     <ClInclude Include="Enemies.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Planeselection.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Planeselection.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Turret.cpp" />

@@ -45,6 +45,7 @@ using namespace Vektoria;
 
 class CGame
 {
+	friend class CPlayer; 
 public:
 	// Wird vor Begin einmal aufgerufen (Konstruktor):
 	CGame(void);
@@ -79,6 +80,27 @@ private:
 	CRoot m_zr;
 	CFrame m_zf;
 	CScene m_zs;
+
+
+
+
+	// 2. Szenenobjekte: 
+	/*
+	CScene m_zsPlaneSelection;
+	CPlacement m_zpPlane2; 
+	CPlacement m_zpCamera2;
+	CCamera m_zc2;
+	CLightParallel m_zl2; 
+	CViewport m_zvPlaneSelection; 
+	*/
+
+	CLightParallel m_zlp2; 
+	CGeoSphere m_zgBlackSphere; 
+	CPlacement m_zpBlackSphere; 
+	CMaterial m_zmBlackSphere; 
+
+
+
 
 	CPlayer m_player;
 	CTerrain m_terrain;

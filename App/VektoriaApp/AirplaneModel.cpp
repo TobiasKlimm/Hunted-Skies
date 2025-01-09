@@ -19,7 +19,7 @@ void CAirplaneModel::Init(int planeID)
 	m_planeID = planeID;
 	switch (m_planeID)
 	{
-	case 1:
+	case 0:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\F4\\PlaneModel.obj", true);
 
@@ -37,7 +37,7 @@ void CAirplaneModel::Init(int planeID)
 
 		break;
 	}
-	case 2:
+	case 1:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PlaneModel.obj");
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\StandardFlieger\\textures\\Diffuse.png");
@@ -48,7 +48,7 @@ void CAirplaneModel::Init(int planeID)
 		AddPlacement(&m_zpPropellerMiddle);
 		break;
 	}
-	case 3:
+	case 2:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\ORCA\\NewOne.obj");
 
@@ -62,7 +62,7 @@ void CAirplaneModel::Init(int planeID)
 		m_zpTriebwerkR.Translate(-0.4, 0.4, 5.7);
 		break;
 	}
-	case 4:
+	case 3:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\P-40 Warhawk\\PlaneModel.obj",true);
 
@@ -76,7 +76,7 @@ void CAirplaneModel::Init(int planeID)
 		AddPlacement(&m_zpPropellerMiddle);
 		break;
 	}
-	case 5:
+	case 4:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\MiG-35\\newone.obj");//Geht nicht
 
@@ -85,7 +85,7 @@ void CAirplaneModel::Init(int planeID)
 		m_zmPlaneMaterial.MakeTextureSpecular("models\\Airplanes\\MiG-35\\textures\\Roughness.png");
 		break;
 	}
-	case 6:
+	case 5:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\F-117 Nighthawk\\PlaneModel.obj");
 

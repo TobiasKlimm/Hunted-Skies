@@ -1,7 +1,7 @@
 #pragma once
 #include "Vektoria\Root.h"
 #include "Airplane.h"
-#include <string>
+#include "Planeselection.h"
 using namespace Vektoria;
 
 #define CROSSHAIRSIZE 0.003f
@@ -14,16 +14,19 @@ enum Status
 {
     eStart,
     eInGame,
-    ePaused
+    ePaused,
+    eSelection,
+    eGameOver
 };
 
 
+class CGame; 
 class CPlayer :
     public CPlacement
 {
 public:
     //pack dann in Init::: CGeos* CollisionObjects, CGeoTerrains* CollsisionTerrains
-    void Init();
+    void Init(CGame * pgame);
 
     void Tick(float fTime, float fTimeDelta);
 
@@ -113,23 +116,65 @@ private:
     CWriting m_zw2;
     CWriting m_zw3;
 
-    //Pause
+    // 
     //---------------------------------------------------------------------
     //Startbildschrim
     COverlay m_zoStart; CImage m_ziStart;
-    
+    COverlay m_zoButtonStart;
+ //   COverlay m_zoButtonOptions;
+    COverlay m_zoButtonPlaneSelection;
+
+    CMaterial m_zmButtonStart;
+
+
     //Pausebildschirm
     COverlay m_zoPause; CImage m_ziPause;
-    
-    //Buttons
-    COverlay m_zoButtonStart;
-    COverlay m_zoButtonOptionen;
+    COverlay m_zoButtonGoOn; 
 
-    //Container für Startbildschirm
-    COverlays m_zos;
-    COverlays m_zosInGame;
+    // GameOver-Bildschirm
+    COverlay m_zoGameOver;
+    COverlay m_zoRestart;
+    COverlay m_zoEnd;
+   
+
+
+
+    //Planeselection-Bildschirm
+    Planeselection m_zPlaneselecion;
+    COverlay m_zoPlaneSelection;
+
+    COverlay m_zoNext;
+    COverlay m_zoPrev;
+    COverlay m_zoBack;
+
+
+    // In-Game-Overlays:
     COverlay m_zoBack2Start;
-    COverlays m_zosButtons;
+    CPlacement m_zpPlane2Select; 
+
+    CAirplaneModel m_zpModel[6];
+
+    int m_iFlugGeo = 0;
+
+    int m_iFlugGeos = 6;
+
+
+
+
+
+
+    //Container fï¿½r Startbildschirm
+    COverlays m_zosStart;
+    COverlays m_zosInGame;
+    COverlays m_zosPause;
+    COverlays m_zosPlaneSelection; 
+    COverlays m_zosGameOver;
+
+
+    CHMat m_mLastCamPos; 
+
+
+    CGame *   m_pgame = nullptr; 
 
 
     // Bloodscreen

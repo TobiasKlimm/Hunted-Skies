@@ -37,9 +37,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	//m_zf.SetFullscreenOn();
-	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-	LockCursorToWindow(hwnd);
+	/*m_zf.SetFullscreenOn();
+	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	LockCursorToWindow(hwnd);*/
 
 	CViewport* m_zv = m_player.GetViewport();
 	CViewport* m_zvMinimap = m_player.GetViewportMinimap();
@@ -81,7 +81,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
 
 	//Player
-	m_player.Init();
+	m_player.Init(this);
 	m_zs.AddPlacement(&m_player);
 	m_zs.AddPlacements(*m_player.GetAirplane()->GetBulletManager()->GetBullets());
 
@@ -153,6 +153,23 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zbpExplosion.AddPlacement(&m_zpExplosion);
 	m_zs.AddPlacement(&m_zbpExplosion);
 	m_zbpExplosion.SetBillboard();
+
+	
+	// Schwarze Kugel für Planeselection initialisieren: 
+
+	m_zmBlackSphere.MakeTextureSky("textures//black_image.jpg");
+	m_zs.AddPlacement(&m_zpBlackSphere);
+	m_zpBlackSphere.AddGeo(&m_zgBlackSphere);
+	m_zpBlackSphere.SetSky();
+	m_zgBlackSphere.Init(3000, &m_zmBlackSphere);
+	m_zgBlackSphere.Flip();
+
+
+
+
+
+	
+
 
 }
 
