@@ -1,5 +1,7 @@
 ﻿#include "Player.h"
 #define MAX_DISTANCE 2000;
+#define MAX_ZOOMIN	10;
+#define MAX_ZOOMOUT 20;
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -303,8 +305,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	//Airplane Zoom
 	//----------------------------------------------------------------------------------
 
-	float zoomSpeedIn = 10.0f;
-	float zoomSpeedOut = 20.0f;
+	float zoomSpeedIn = MAX_ZOOMIN;
+	float zoomSpeedOut = MAX_ZOOMOUT;
 	if (m_zdk.KeyPressed(DIK_Z))
 	{
 		m_zoom += fTimeDelta * zoomSpeedIn;
