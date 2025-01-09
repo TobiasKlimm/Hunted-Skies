@@ -60,9 +60,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceKeyboard(m_player.GetKeyboard());
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 
-
-
-
 	//Carrier
 	m_zgCarrier = m_zfCarrier.LoadGeoTriangleTable("models\\Carrier\\source\\untitled.obj",true);
 	m_zpCarrier.AddGeo(m_zgCarrier);
@@ -92,9 +89,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_terrain.Init();
 	m_zs.AddPlacement(&m_terrain);
 
-
-
-
 	//Collision Kugel Blender für weite Entfernungen;
 	m_zgCollisionKugelBlender = m_zfCollisionKugelBlender.LoadGeoTriangleTable("models\\Collision Ball\\untitled.obj");
 	m_zpCollisionKugelBlender.AddGeo(m_zgCollisionKugelBlender);
@@ -103,30 +97,15 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpCollisionKugelBlender.TranslateYDelta(100);
 	m_zgCollisionKugelBlender->Flip();
 	m_zpCollisionKugelBlender.SetDrawingOff();
-	
-
-
-
-	
-
-
-
-	//Collision Kugel für weite Entfernungen
-	//m_zs.AddPlacement(&m_zpSphereCollision);
-	//m_zgSphereCollision.Init(5000,&m_zmCarrier,6,6);
-	//m_zgSphereCollision.SwitchCollisionFrontalOn();
-	//m_zpSphereCollision.AddGeo(&m_zgSphereCollision);
-	//m_zpSphereCollision.SetDrawingOff();
-
 
 	//Terraincollision Airplane
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainGeo());
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainWater());
 	m_zgsTerrainCollision.Add(m_zgCarrier);
-	//m_zgsTerrainCollision.Add(m_zgSphereCollision);
 	m_zgsTerrainCollision.Add(m_zgCollisionKugelBlender);
 
 	m_player.GetAirplane()->m_zgsCollisionObjects = m_zgsTerrainCollision;
+
 	//Terraincollision Bullets Airplane
 	m_player.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 
@@ -189,30 +168,21 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	//Turet Spawning
 	for (int i = 0; i < 10; i++) {
 		if (!m_turrets[i].IsOn()) {
-
-
-			//m_zmExplosion.MakeTextureBillboard("textures\\explosion_sprite_sheet.png");
-			//m_zmExplosion.SetChromaKeyingOn();
-			//m_zmExplosion.SetAni(17, 1, 17);
-			//m_zgExplosion.Init(100.f, 100.f, &m_zmExplosion);
-			//m_zpExplosion.AddGeo(&m_zgExplosion);
-			//m_zpExplosion.TranslateY(10.f);
 			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
 			m_zpExplosion.SwitchOn();
 			m_zmExplosion.SetPic(0,0);
-			LogDebug("Bang!");
-
 
 			CHVector vrand;
 			vrand.RandomDir();
 			vrand *= 1000;
 			float fHeightTerrain = m_terrain.GetTerrainGeo()->GetHeight(vrand.x, vrand.z);
-			LogDebug("Turret Height: %f", fHeightTerrain);
+			LogDebug("New Turret spawned at Height: %f", fHeightTerrain);
 
 			if (fHeightTerrain > 0.0f) {
 				m_turrets[i].SwitchOn();
 				vrand.y = fHeightTerrain;
 				m_turrets[i].SetPosition(vrand);
+				m_turrets[i].AddHealth(100);
 			}
 		}
 		m_turrets[i].Tick(fTime, fTimeDelta, m_player.GetAirplane()->GetDirection(), m_player.GetAirplane()->GetFlySpeed());
@@ -222,10 +192,8 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			{
 		m_zmExplosion.SetPic(m_iExplosion, 0);
 				EndExplosion(fTime);
-//				LogDebug("Tick ");
 			}
 	m_botplanes.Tick(fTime, fTimeDelta);
-
 
 	m_zr.Tick(fTimeDelta);
 }
@@ -236,7 +204,6 @@ void CGame::EndExplosion(float fTime) {
 		m_iExplosion++;
 		if (m_iExplosion > 17) {
 			m_zpExplosion.SwitchOff();
-			// 	LogDebug("End Explosion");
 			m_iExplosion = 0;
 		}
 		m_fBotTime = fTime; 

@@ -5,10 +5,9 @@ bool CEnemy::RegisterHit(float damage)
 	LogDebug("%s HIT, Health: %f",this->GetName(),m_health);
 	m_health -= damage;
 	if (m_health <= 0) {
-		//explosion
+		m_health = 0;
 		LogDebug("KILL");
 		SwitchOff();
-		m_health = 100;
 		return true;
 	}
 	else

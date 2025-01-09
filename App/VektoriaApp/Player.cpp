@@ -184,6 +184,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 	if (m_zeStatus == eInGame)
 	{
+		float airplaneHealth = m_airplane.GetHealth();
 		if (m_zdk.KeyDown(DIK_P))
 		{
 			//m_fTimeLastPausingStart = fTime;
@@ -203,9 +204,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_airplane.AddHealth(10);
 			m_zwScore.PrintF("Score: %d", m_score);
 		}
-		m_zw2.PrintF("Health: %f", m_airplane.GetHealth());
+		m_zw2.PrintF("Health: %f", airplaneHealth);
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
+		//Backfacing Cam
 		if (m_zdk.KeyDown(DIK_LSHIFT)) {
 			m_zpCamera.SubCamera(&m_zcCamera);
 			m_zpCameraBack.AddCamera(&m_zcCamera);
@@ -225,93 +227,55 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_airplane.Tick(fTime, fTimeDelta);
 		ControlPlane(fTimeDelta);
 
-		// Blood Overlay
-		bool hit = false;
-		if (m_airplane.GetHealth() >= 50)
-		{
-
-			m_zo.SwitchOff();
-		}
-		if (m_lastHealth != m_airplane.GetHealth()) // If player was hit
-		{
-			float transparency = m_airplane.GetHealth() / 100;
+		// Blood Overlay if player was hit
+		if (m_lastHealth != airplaneHealth) {
+			m_zo.SwitchOn();
+			float transparency = airplaneHealth / 100;
 			m_zo.SetTransparency(transparency);
 			m_bloodTransparency = transparency;
 		}
 
-		m_bloodTransparency = ClampValue(m_bloodTransparency + 0.5 * fTimeDelta, 0.0f, 1.0f);
-		m_zo.SetTransparency(m_bloodTransparency);
-		if (m_bloodTransparency == 1.0)
-		{
-			m_zo.SwitchOff();
-			LogDebug("switch off");
-
+		if (m_bloodTransparency != 1.0) {
+			m_bloodTransparency = ClampValue(m_bloodTransparency + 0.45 * fTimeDelta, 0.0f, 1.0f);
+			m_zo.SetTransparency(m_bloodTransparency);
+			if (m_bloodTransparency == 1.0)
+				m_zo.SwitchOff();
 		}
 
-		m_lastHealth = m_airplane.GetHealth();
+		m_lastHealth = airplaneHealth;
+
+		//DIED
+		if (airplaneHealth == 0) {
+			m_zoDied.SwitchOn();
+			//REST
+		}
 
 
-
-
-
-		int MaxAbstand = MAX_DISTANCE;
 		//Collision Warnung fuer zu weit weg
-
-		//m_zoAbstand.SetTransparency(0.1f);
+		float MaxAbstand = MAX_DISTANCE;
 
 		CHVector PlayerPos = m_airplane.GetPosGlobal();
-		if (abs(PlayerPos.x - m_zhvAbstand.x) > MaxAbstand || abs(PlayerPos.y - m_zhvAbstand.y) > MaxAbstand || abs(PlayerPos.z - m_zhvAbstand.z) > MaxAbstand)
-		{
+		if (PlayerPos.Length()> MaxAbstand) {
 			m_zo.SwitchOff();
 			m_zoAbstand.SwitchOn();
 			LogDebug("Warnung sie verlassen das Kriegsgebiet");
-			m_WarningTransparency = ClampValue(m_WarningTransparency - 0.2 * fTimeDelta, 0.0f, 1.0f);
+			m_WarningTransparency = ClampValue(m_WarningTransparency - 0.25 * fTimeDelta, 0.0f, 1.0f);
 			m_zoAbstand.SetTransparency(m_WarningTransparency);
 		}
-		else
-		{
+		else if(m_WarningTransparency != 1.0) {
 			m_WarningTransparency = ClampValue(m_WarningTransparency + 0.5 * fTimeDelta, 0.0f, 1.0f);
 			m_zoAbstand.SetTransparency(m_WarningTransparency);
-			if (m_WarningTransparency == 1.0)
-			{
+			if (m_WarningTransparency == 1.0) {
 				m_zoAbstand.SwitchOff();
 				m_zo.SwitchOn();
 			}
 		}
 
-		//-----------------------
-		//Collision Detection
-		//-----------------------
-		float x = m_airplane.GetPosGlobal().x;
-		float y = m_airplane.GetPosGlobal().y;
-		float z = m_airplane.GetPosGlobal().z;
-
-
-
-
 		//Collision fuer Objekte
-		if (x == m_lastx && y == m_lasty && z == m_lastz)
-		{
-			//LogDebug("TOT");
-
+		if (m_lastPos == PlayerPos)
 			m_airplane.RegisterHit(10000);
-			m_zoDied.SwitchOn();
-
-
-		}
-		else
-
-		{
-			m_lastx = x;
-			m_lasty = y;
-			m_lastz = z;
-		}
-
-
+		m_lastPos = PlayerPos;
 	}
-
-
-
 }
 
 
@@ -347,7 +311,6 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		m_timePassed = 0.0;
 		m_airplane.Shoot(0.001f);
 	}
-
 }
 
 void CPlayer::CenterSquare(float x, float y, float size, COverlay& rect) {

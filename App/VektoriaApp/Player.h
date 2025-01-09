@@ -7,7 +7,7 @@ using namespace Vektoria;
 #define MINIMAPSIZE 0.02f
 #define SHOOT_FREQUENCY 0.05f
 #define DAMAGE 10.0f
-#define MAX_DISTANCE 2000;
+#define MAX_DISTANCE 2500;
 
 enum Status
 {
@@ -126,18 +126,10 @@ private:
     COverlay m_zoBack2Start;
     COverlays m_zosButtons;
 
-    //---------------------------------------------------------------------
-    //Pause
-    //float m_fTimeLastPausingStart = 0.0f;
-    //float m_fTimePausings = 0.0f;
-    //float m_fTimeWithPausings = 0.0f;
 
     // Bloodscreen
     COverlay m_zo;
     CImage m_zi;
-
-
-
 
     //------------------------------------------------------------------------
     // Abstandswarnung
@@ -146,9 +138,6 @@ private:
     float m_distanceX = 0;
     float m_distanceY = 0;
     float m_distanceZ = 0;
-
-
-
 
     //Warnung
     COverlay m_zoAbstand;
@@ -162,7 +151,5 @@ private:
     CImage m_ziDied;
 
     //Collision Detection
-    float m_lastx = 0;
-    float m_lasty = 0;
-    float m_lastz = 0;
+    CHVector m_lastPos;
 };
