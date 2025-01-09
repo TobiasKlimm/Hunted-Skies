@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Game.h"
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -17,8 +18,9 @@ void CPlayer::InitCam() {
 	m_zvMinimap.SwitchOff();
 }
 
-void CPlayer::Init()
+void CPlayer::Init(CGame* pgame)
 {
+	m_pgame = pgame; 
 	this->AddPlacement(&m_airplane);
 	m_airplane.TranslateY(500);
 	m_airplane.Init(DAMAGE);
@@ -50,78 +52,132 @@ void CPlayer::Init()
 	//-----------------
 
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
-	m_ziStart.Init("textures\\HalloWelt.jpg");
+	m_ziStart.Init("textures\\start.png");
 	m_zoStart.InitFull(&m_ziStart);
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
 	//Button 1 und 2
-	m_zoButtonStart.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.4f, 0.1f), false);
+	m_zoButtonStart.Init("textures\\Button.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoStart.AddOverlay(&m_zoButtonStart);
 	m_zoButtonStart.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonStart);
 
-	m_zoPlaneSelection.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.39f), false);
+	m_zoButtonPlaneSelection.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
-	m_zoPlaneSelection.SetLayer(0.3f);
+	m_zoButtonPlaneSelection.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
 
-	m_zoButtonOptions.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.59f), false);
+	/*
+	m_zoButtonOptions.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoStart.AddOverlay(&m_zoButtonOptions);
 	m_zoButtonOptions.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonOptions);
-
+	*/
 
 	// ----------------
 	// Pausebildschirm:
 	// ----------------
 
-	m_ziPause.Init("textures\\Pause.png");
+	m_ziPause.Init("textures\\Pause.jpg");
 	m_zoPause.InitFull(&m_ziPause);
 	m_zoPause.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoPause);
-
-	m_zoButtonGoOn.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.39f, 0.39f), false);
-	m_zoPause.AddOverlay(&m_zoButtonGoOn);
-	m_zoButtonGoOn.SetLayer(0.9f);
-
-	m_zosPause.Add(&m_zoButtonGoOn);
 	m_zoPause.SwitchOff();
 
+	m_zoButtonGoOn.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoPause.AddOverlay(&m_zoButtonGoOn);
+	m_zoButtonGoOn.SetLayer(0.3f);
 	
+	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoPause.AddOverlay(&m_zoBack2Start);
+	m_zoBack2Start.SetLayer(0.1f);
+
+	m_zosPause.Add(&m_zoButtonGoOn);
+	m_zosPause.Add(&m_zoBack2Start);
+
+
+
 	// ---------------------
 	// In-Game: 
 	// ---------------------
 	//Startbildschrim zurück
-	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.08f, 0.05f, 0.9f, 0.9f));
-	m_zv.AddOverlay(&m_zoBack2Start);
-	m_zoBack2Start.SetLayer(0.1f);
-	m_zoBack2Start.SwitchOff();
-	m_zosInGame.Add(&m_zoBack2Start);
-
 
 	// ----------------
 	// Plane Selection: 
 	// ----------------
 
-	m_zoPlaneSelection.InitFull("textures\\white_image.jpg");
+	m_zoPlaneSelection.Init("textures\\placeholder.png", C2dRect(0.5,1.0f, 0.0f, 0.0f));
 	m_zoPlaneSelection.SetLayer(0.9);
 	m_zoPlaneSelection.SwitchOff();
+	m_zv.AddOverlay(&m_zoPlaneSelection);
+
 	m_zPlaneselecion.Init(&m_zv, &m_zdc);
 	AddPlacement(&m_zPlaneselecion);
-	m_zosPlaneSelection.Add(&m_zoPlaneSelection);
+	/*
+	m_zoPrev.SetTexts("Prev", "Prev");
+	m_zoNext.SetTexts("Next", "Next");
+	m_zoPrev.SetColorWriting(CColor(eColor_White));
+	m_zoNext.SetColorWriting(CColor(eColor_White));
+	m_zoPrev.SetColor(CColor(eColor_Black));
+	m_zoNext.SetColor(CColor(eColor_Black));
+	m_zoPrev.Init(C2dRect(0.3f, 0.1f, 0.05f, 0.05f), 4);
+	m_zoNext.Init(C2dRect(0.3f, 0.1f, 0.45f, 0.05f), 4);
+	*/
+
+	m_zoNext.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.1f), false);
+	m_zoNext.SetLayer(0.3f);
+	m_zosPlaneSelection.Add(&m_zoNext);
+	m_zoPlaneSelection.AddOverlay(&m_zoNext);
+
+	m_zoPrev.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.4f), false);
+	m_zoPrev.SetLayer(0.3f);
+	m_zosPlaneSelection.Add(&m_zoPrev);
+	m_zoPlaneSelection.AddOverlay(&m_zoPrev);
+
+	m_zoBack.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoBack.SetLayer(0.3f);
+	m_zosPlaneSelection.Add(&m_zoBack);
+	m_zoPlaneSelection.AddOverlay(&m_zoBack);
+
+
+
+
+
+	m_zosPlaneSelection.Add(&m_zoPrev);
+	m_zosPlaneSelection.Add(&m_zoNext);
+
+
+	m_zpCamera.AddPlacement(&m_zpPlane2Select);
+	for (int i = 0; i < 6; i++)
+	{
+		m_zpModel[i].Init(i);
+		m_zpPlane2Select.AddPlacement(&m_zpModel[i]);
+	}
+	m_zpPlane2Select.SwitchOff();
 
 
 	// --------------------
 	// Optionen-Bildschirm: 
 	// --------------------
 	
-	m_zoOptions.InitFull("textures\\white_image.jpg");
-	m_zoOptions.SetLayer(0.9);
-	m_zoOptions.SwitchOff();
-	m_zPlaneselecion.Init(&m_zv, &m_zdc);
-	AddPlacement(&m_zPlaneselecion);
-	m_zosOptions.Add(&m_zoOptions);
+	m_zoGameOver.InitFull("textures\\white_image.jpg");
+	m_zoGameOver.SetLayer(0.9);
+	m_zoGameOver.SwitchOff();
+
+	m_zoRestart.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoGameOver.AddOverlay(&m_zoRestart);
+	m_zoRestart.SetLayer(0.3f);
+	m_zosStart.Add(&m_zoRestart);
+
+	m_zoEnd.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoGameOver.AddOverlay(&m_zoEnd);
+	m_zoEnd.SetLayer(0.3f);
+	m_zosStart.Add(&m_zoEnd);
+
+
+	m_zosGameOver.Add(&m_zoRestart);
+	m_zosGameOver.Add(&m_zoEnd);
 
 
 
@@ -132,25 +188,58 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	//Pause
 	//m_fTimeWithPausings = fTime - m_fTimePausings;
 
+			/*
+
 	if (m_zeStatus == eSelection)
 	{
+		m_zoPause.SwitchOff();
+		m_zoStart.SwitchOff();
+		m_zoCrosshair.SwitchOff();
+		m_zoCirclehair.SwitchOff();
+
+		COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPlaneSelection);
+
+		if (m_zoNext.IsDown(m_zdc))
+		{
+			m_iFlugGeo++;
+			m_iFlugGeo %= m_iFlugGeos;
+		// 	for (int i = 0; i < m_iFlugGeos; i++)
+		//		m_zpModel[i].SwitchOff();
+		//	m_zpModel[m_iFlugGeo].SwitchOn();
+		}
+		if (m_zoPrev.IsDown(m_zdc))
+		{
+			m_iFlugGeo--;
+			if (m_iFlugGeo < 0)
+				m_iFlugGeo = m_iFlugGeos - 1;
+		//	for (int i = 0; i < m_iFlugGeos; i++)
+		// 		m_zpModel[i].SwitchOff();
+		// 	m_zpModel[m_iFlugGeo].SwitchOn();
+		}
+
 
 
 
 	}
 
+		*/
 
 	if (m_zeStatus == eStart)
 	{
+		m_zoPause.SwitchOff();
+		m_zoStart.SwitchOn();
+		m_zoPlaneSelection.SwitchOff();
+		m_zoGameOver.SwitchOff();
+		m_zvMinimap.SwitchOff();
+		m_zoCrosshair.SwitchOff();
+		m_zoCirclehair.SwitchOff();
+		m_pgame->m_zpBlackSphere.SwitchOff();
+		m_zpPlane2Select.SwitchOff();
+
+
+
 		if (m_zdc.ButtonDownLeft())
 		{
-			m_zoPause.SwitchOff();
-			m_zoStart.SwitchOff();
-			m_zoPlaneSelection.SwitchOff();
-			m_zoOptions.SwitchOff();
-			m_zoBack2Start.SwitchOff();
-			m_zvMinimap.SwitchOff();
-
 
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosStart);
 			if (pzoPicked == &m_zoButtonStart)
@@ -162,89 +251,103 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
 			{
-				m_zoPlaneSelection.SwitchOn();
 				m_zdc.Show();
 
-				//m_zoMap.SwitchOn();
+				//m_zoMa.SwitchOn();
 				m_zeStatus = eSelection;
-			}
-			if (pzoPicked == &m_zoOptions)
-			{
-				m_zoOptions.SwitchOn();
-				m_zdc.Show();
-
-				//m_zoMap.SwitchOn();
-				m_zeStatus = eOptions;
+				m_mLastCamPos = m_zpCamera.GetMat();
 			}
 		}
 	}
-
-	if (m_zeStatus == ePaused)
+	else if (m_zeStatus == ePaused)
 	{
 		//m_fTimePausings += fTimeDelta;
 		//fTimeDelta = 0.0f;
 		m_zoPause.SwitchOn();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
-		m_zoOptions.SwitchOff();
-		m_zoBack2Start.SwitchOff();
+		m_zoGameOver.SwitchOff();
 		m_zvMinimap.SwitchOff();
+		m_zoCrosshair.SwitchOff();
+		m_zoCirclehair.SwitchOff();
+		m_pgame->m_zpBlackSphere.SwitchOff();
+		m_zpPlane2Select.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
 		{
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
-				m_zoPause.SwitchOff();
-				//m_zoMinimap.SwitchOff();
-				m_zoStart.SwitchOn();
 				m_zeStatus = eStart;
 			}
 
-			if (pzoPicked == &m_zoButtonStart)
+			if (pzoPicked == &m_zoButtonGoOn)
 			{
 				m_zeStatus = eInGame;
 			}
 		}
 	}
-
-	if (m_zeStatus == eSelection)
+	else if (m_zeStatus == eSelection)
 	{
 		//m_fTimePausings += fTimeDelta;
 		//fTimeDelta = 0.0f;
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOn();
-		m_zoOptions.SwitchOff();
-		m_zoBack2Start.SwitchOff();
+		m_zoGameOver.SwitchOff();
 		m_zvMinimap.SwitchOff();
+		m_zoCrosshair.SwitchOff();
+		m_zoCirclehair.SwitchOff();
+		m_pgame->m_zpBlackSphere.SwitchOn();
+		m_zpCamera.TranslateY(1000);
+		m_pgame->m_zpBlackSphere.TranslateY(1000);
+		m_zpPlane2Select.SwitchOn();
+
+
+		for (int i = 0; i < 6; i++)
+		{
+			m_zpModel[i].SwitchOff();
+			if(m_iFlugGeo == i)
+				m_zpModel[i].SwitchOn();
+		}
+
 
 		if (m_zdc.ButtonDownLeft())
 		{
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPlaneSelection);
-			if (pzoPicked == &m_zoBack2Start)
+			if (pzoPicked == &m_zoNext)
 			{
-				m_zeStatus = eStart;
+				m_iFlugGeo++;
+				m_iFlugGeo %= m_iFlugGeos;
 			}
-
-			if (pzoPicked == &m_zoButtonStart)
+			if (pzoPicked == &m_zoPrev)
 			{
+				m_iFlugGeo--;
+				if (m_iFlugGeo < 0)
+					m_iFlugGeo = m_iFlugGeos - 1;
+			}
+			if (pzoPicked == &m_zoBack)
+			{
+				m_zpCamera.SetMat(m_mLastCamPos);
 				m_zeStatus = eInGame;
 			}
+
+
 		}
+		m_zpPlane2Select.RotateY(fTime);
+		m_zpPlane2Select.TranslateDelta(10.0f, 0, -30.0f);
+
 	}
-
-
-
-
-	if (m_zeStatus == eInGame)
+	else if (m_zeStatus == eInGame)
 	{
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
-		m_zoOptions.SwitchOff();
-		m_zoBack2Start.SwitchOff();
+		m_zoGameOver.SwitchOff();
 		m_zvMinimap.SwitchOn();
+		m_zoCrosshair.SwitchOn();
+		m_zoCirclehair.SwitchOn();
+		m_pgame->m_zpBlackSphere.SwitchOff();
 
 
 

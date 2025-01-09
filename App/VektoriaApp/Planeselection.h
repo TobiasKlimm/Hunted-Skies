@@ -8,9 +8,6 @@ class Planeselection : public CPlacement
 {
 	private:
 	
-	COvertrolButton m_zoNext;
-	COvertrolButton m_zoPrev;
-
 	CAirplaneModel m_zpModel[7];
 
 	int m_iFlugGeo = 0;

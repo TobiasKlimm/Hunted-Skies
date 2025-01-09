@@ -56,7 +56,7 @@ private:
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
 
-	unsigned m_planeID = 1;
+	unsigned m_planeID = 5;
 
 	float m_damage;
 	float m_flySpeed;
