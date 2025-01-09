@@ -52,18 +52,18 @@ void CPlayer::Init(CGame* pgame)
 	//-----------------
 
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
-	m_ziStart.Init("textures\\start.png");
+	m_ziStart.Init("textures\\startbildschrim.png");
 	m_zoStart.InitFull(&m_ziStart);
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
 	//Button 1 und 2
-	m_zoButtonStart.Init("textures\\Button.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
+	m_zoButtonStart.Init("textures\\START.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoStart.AddOverlay(&m_zoButtonStart);
 	m_zoButtonStart.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonStart);
 
-	m_zoButtonPlaneSelection.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoButtonPlaneSelection.Init("textures\\SELECTION.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
 	m_zoButtonPlaneSelection.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
@@ -85,11 +85,11 @@ void CPlayer::Init(CGame* pgame)
 	m_zv.AddOverlay(&m_zoPause);
 	m_zoPause.SwitchOff();
 
-	m_zoButtonGoOn.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoButtonGoOn.Init("textures\\RESUME.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
 	m_zoPause.AddOverlay(&m_zoButtonGoOn);
 	m_zoButtonGoOn.SetLayer(0.3f);
 	
-	m_zoBack2Start.Init("textures\\HalloWelt.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoBack2Start.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoPause.AddOverlay(&m_zoBack2Start);
 	m_zoBack2Start.SetLayer(0.1f);
 
@@ -107,7 +107,7 @@ void CPlayer::Init(CGame* pgame)
 	// Plane Selection: 
 	// ----------------
 
-	m_zoPlaneSelection.Init("textures\\placeholder.png", C2dRect(0.5,1.0f, 0.0f, 0.0f));
+	m_zoPlaneSelection.Init("textures\\PLANESELECTION.jpg", C2dRect(0.5,1.0f, 0.0f, 0.0f));
 	m_zoPlaneSelection.SetLayer(0.9);
 	m_zoPlaneSelection.SwitchOff();
 	m_zv.AddOverlay(&m_zoPlaneSelection);
@@ -125,17 +125,17 @@ void CPlayer::Init(CGame* pgame)
 	m_zoNext.Init(C2dRect(0.3f, 0.1f, 0.45f, 0.05f), 4);
 	*/
 
-	m_zoNext.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.1f), false);
+	m_zoNext.Init("textures\\NEXT.png", C2dRect(0.3f, 0.2f, 0.1f, 0.1f), false);
 	m_zoNext.SetLayer(0.3f);
 	m_zosPlaneSelection.Add(&m_zoNext);
 	m_zoPlaneSelection.AddOverlay(&m_zoNext);
 
-	m_zoPrev.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.4f), false);
+	m_zoPrev.Init("textures\\PREV.png", C2dRect(0.3f, 0.2f, 0.1f, 0.4f), false);
 	m_zoPrev.SetLayer(0.3f);
 	m_zosPlaneSelection.Add(&m_zoPrev);
 	m_zoPlaneSelection.AddOverlay(&m_zoPrev);
 
-	m_zoBack.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoBack.Init("textures\\START.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
 	m_zoBack.SetLayer(0.3f);
 	m_zosPlaneSelection.Add(&m_zoBack);
 	m_zoPlaneSelection.AddOverlay(&m_zoBack);
@@ -161,7 +161,7 @@ void CPlayer::Init(CGame* pgame)
 	// Optionen-Bildschirm: 
 	// --------------------
 	
-	m_zoGameOver.InitFull("textures\\white_image.jpg");
+	m_zoGameOver.InitFull("textures\\death.png");
 	m_zoGameOver.SetLayer(0.9);
 	m_zoGameOver.SwitchOff();
 
