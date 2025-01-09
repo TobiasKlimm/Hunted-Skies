@@ -122,9 +122,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	//BotPlanes
 	m_botplanes.Init(m_player.GetAirplane());
+	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
+	m_botplanes.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 	m_zs.AddPlacement(&m_botplanes);
 	m_zs.AddPlacements(*m_botplanes.GetAirplane()->GetBulletManager()->GetBullets());
-	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 	m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes);
 
 	//MUSIC

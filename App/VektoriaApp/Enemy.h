@@ -28,7 +28,7 @@ public:
 		m_health += health;
 	}
 private:
-	float m_health =100;
+	float m_health =0;
 	CHVector m_position;
 
 };

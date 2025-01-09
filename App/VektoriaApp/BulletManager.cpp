@@ -69,11 +69,6 @@ void CBulletManager::UpdateBullets() {
 			//Update letzte Position
 			lastPosBullets[i] = currentPos;
 
-			
-
-
-
-
 			if (m_zgTerrain != nullptr) {
 				float yTerrainHeight = m_zgTerrain->GetHeight(currentPos.x, currentPos.z);
 				if (yTerrainHeight > currentPos.y)

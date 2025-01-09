@@ -1,5 +1,5 @@
-#include "Player.h"
 #include "Game.h"
+#include "Player.h"
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -199,13 +199,6 @@ void CPlayer::Init(CGame* pgame)
 	m_zosGameOver.Add(&m_zoEnd);
 
 
-
-	//Container fuer die Buttons
-	m_zos.Add(&m_zoButtonStart);
-	m_zos.Add(&m_zoButtonOptionen);
-	m_zos.Add(&m_zoBack2Start);
-	m_zosInGame.Add(&m_zoBack2Start);
-
 	// Bloodscreen
 	m_zi.Init("textures\\BloodOverlay.png");
 	m_zo.Init(&m_zi, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
@@ -297,7 +290,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		if (m_zdc.ButtonDownLeft())
 		{
-
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosStart);
 			if (pzoPicked == &m_zoButtonStart)
 			{
@@ -344,10 +336,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 		}
 	}
+
 	else if (m_zeStatus == eSelection)
 	{
-		//m_fTimePausings += fTimeDelta;
-		//fTimeDelta = 0.0f;
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOn();
@@ -360,14 +351,12 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_pgame->m_zpBlackSphere.TranslateY(1000);
 		m_zpPlane2Select.SwitchOn();
 
-
 		for (int i = 0; i < 6; i++)
 		{
 			m_zpModel[i].SwitchOff();
 			if(m_iFlugGeo == i)
 				m_zpModel[i].SwitchOn();
 		}
-
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -386,19 +375,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			if (pzoPicked == &m_zoBack)
 			{
 				m_zpCamera.SetMat(m_mLastCamPos);
-				m_zeStatus = eInGame;
+				m_zeStatus = eStart;
 			}
-
-
 		}
 		m_zpPlane2Select.RotateY(fTime);
-		m_zpPlane2Select.TranslateDelta(10.0f, 0, -30.0f);
-
+		m_zpPlane2Select.RotateZDelta(.1);
+		m_zpPlane2Select.TranslateDelta(10.0f, 0, -35.0f);
 	}
+
 	else if (m_zeStatus == eInGame)
 	{
-		float airplaneHealth = m_airplane.GetHealth();
-
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
@@ -409,15 +395,13 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_pgame->m_zpBlackSphere.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
 
-
-
-
 		if (m_zdk.KeyDown(DIK_P))
 		{
 			m_zdc.Show();
 			m_zeStatus = ePaused;
 		}
 
+		float airplaneHealth = m_airplane.GetHealth();
 
 		//Score System
 		if (m_airplane.GetBulletManager()->m_killedEnemy) {
@@ -532,7 +516,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	if (m_zdm.ButtonPressedLeft()) {
 		m_timePassed += fTimeDelta;
 		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
-		if (m_timePassed <= SHOOT_FREQUENCY)
+		if (m_timePassed <=  SHOOT_FREQUENCY)
 			return;
 		m_timePassed = 0.0;
 		m_airplane.Shoot(0.001f);

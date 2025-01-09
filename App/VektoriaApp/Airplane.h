@@ -74,19 +74,4 @@ private:
 	/// SOUNDS ///
 	CAudio m_zaPlaneShot; 
 	CAudio m_zaPlaneSound;
-
-	////Collision Detection
-	//float m_lastx=0;
-	//float m_lasty=0;
-	//float m_lastz=0;
-
-
-
-	////Abstandsvektor f�r Warnung
-	//CHVector m_zhvAbstand;
-	//float m_distanceX = 0;
-	//float m_distanceY = 0;
-	//float m_distanceZ = 0;
-
-
 };

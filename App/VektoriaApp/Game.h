@@ -33,11 +33,12 @@
 
 
 #include "Vektoria\Root.h"
-#include "Player.h"
 #include "Terrain.h"
 
 #include "Bot.h"
 #include "Turret.h"
+#include "Player.h"
+
 
 
 using namespace Vektoria;
