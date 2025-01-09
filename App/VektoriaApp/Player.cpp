@@ -348,6 +348,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCrosshair.SwitchOn();
 		m_zoCirclehair.SwitchOn();
 		m_pgame->m_zpBlackSphere.SwitchOff();
+		m_zpPlane2Select.SwitchOff();
+
 
 
 
