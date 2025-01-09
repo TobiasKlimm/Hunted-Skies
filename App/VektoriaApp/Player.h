@@ -1,6 +1,7 @@
 #pragma once
 #include "Vektoria\Root.h"
 #include "Airplane.h"
+#include <string>
 using namespace Vektoria;
 
 #define CROSSHAIRSIZE 0.003f
@@ -83,6 +84,10 @@ private:
     unsigned m_score = 0;
 
     CAirplane m_airplane;
+
+    std::fstream m_scoreFile;
+    unsigned m_highscore;
+
 
     //Input
     CDeviceCursor m_zdc;

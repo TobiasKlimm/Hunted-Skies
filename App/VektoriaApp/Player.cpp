@@ -1,5 +1,4 @@
 ﻿#include "Player.h"
-#define MAX_DISTANCE 2000;
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -28,8 +27,9 @@ void CPlayer::InitCam() {
 void CPlayer::Init()
 {
 	this->AddPlacement(&m_airplane);
-	m_airplane.RotateY(HALFPI); //Ausrichtung Startbahn flugzeugträger
-	m_airplane.TranslateDelta(2000, 20, -1000);
+	//Ausrichtung Startbahn flugzeugträger
+	m_airplane.RotateY(HALFPI);
+	m_airplane.TranslateDelta(2000, 25, -1000);
 	m_airplane.Init(DAMAGE);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
@@ -40,6 +40,15 @@ void CPlayer::Init()
 	CenterSquare(0.5, 0.5, CROSSHAIRSIZE, m_zoCrosshair);
 	m_zoCirclehair.Init("textures\\circlehair.bmp", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
+
+
+	//Highscore wird aus File geladen
+	m_scoreFile.open("highscore.txt",std::ios::in);
+	if (m_scoreFile.is_open()) {
+		m_scoreFile >> m_highscore;
+		m_scoreFile.close();
+		LogDebug("%d", m_highscore);
+	}
 
 	//---------------------------------------------------------------------
 	//Overlay
@@ -91,9 +100,6 @@ void CPlayer::Init()
 	m_zo.SetTransparency(1.0);
 	m_zv.AddOverlay(&m_zo);
 
-
-
-
 	//Nebel in der Ferne
 	m_zv.SetMistOn();
 	m_zv.SetMistStartDistance(1000);
@@ -102,23 +108,16 @@ void CPlayer::Init()
 	m_zv.SetMistHeightMin(-500);
 
 	//m_zv.SetHazeOn();
-
-
 	//m_zv.SetBloomOn();
 	//m_zv.SetBloomStrengthNear(5.0f); //6.0
 	//m_zv.SetBloomStrengthFar(0.0f);
 	//m_zv.SetBloomWidth(1.0f); //3.m_zs
-
 
 	//You have died Screen
 	m_ziDied.Init("textures\\YOUVE DIED.jpeg");
 	m_zoDied.Init(&m_ziDied, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
 	m_zv.AddOverlay(&m_zoDied);
 	m_zoDied.SwitchOff();
-
-
-
-
 
 	//Abstands Warnung
 	m_zhvAbstand.Init(0.0, 0.0, 0.0, 1.0);
@@ -247,7 +246,12 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//DIED
 		if (airplaneHealth == 0) {
 			m_zoDied.SwitchOn();
-			//REST
+			//Highscore
+			m_scoreFile.open("highscore.txt", std::ios::out);
+			if (m_scoreFile.is_open() && m_score > m_highscore) {
+				m_scoreFile << m_score;
+				m_scoreFile.close();
+			}
 		}
 
 
