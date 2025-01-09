@@ -150,6 +150,7 @@ private:
 
     // In-Game-Overlays:
     COverlay m_zoBack2Start;
+    CPlacement m_zpPlaneSelection;
     CPlacement m_zpPlane2Select; 
 
     CAirplaneModel m_zpModel[6];
