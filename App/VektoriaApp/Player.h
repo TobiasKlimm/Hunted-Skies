@@ -165,4 +165,8 @@ private:
     float m_lastx = 0;
     float m_lasty = 0;
     float m_lastz = 0;
+
+
+    //Zoom
+    float m_zoom = 0;
 };

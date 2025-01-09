@@ -17,7 +17,7 @@ void CAirplane::Init(float damage)
 
 	switch (m_planeID)
 	{
-	case 1:
+	case 0:
 	{
 		m_flySpeed = 100;
 		m_minFlySpeed = 70;
@@ -27,7 +27,7 @@ void CAirplane::Init(float damage)
 		break;
 
 	}
-	case 2:
+	case 1:
 	{
 		m_flySpeed = 30;
 		m_minFlySpeed = 30;
@@ -37,7 +37,7 @@ void CAirplane::Init(float damage)
 	
 		break;
 	}
-	case 3:
+	case 2:
 	{
 		m_flySpeed = 120;
 		m_minFlySpeed = 150;
@@ -46,7 +46,7 @@ void CAirplane::Init(float damage)
 		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 150.0F);
 		break;
 	}
-	case 4:
+	case 3:
 	{
 		m_flySpeed = 60;
 		m_minFlySpeed = 30;
@@ -55,7 +55,7 @@ void CAirplane::Init(float damage)
 		m_zaPlaneSound.Init3D("sounds\\P40.wav", 70.0F);
 		break;
 	}
-	case 5:
+	case 4:
 	{
 		m_flySpeed = 120;
 		m_minFlySpeed = 150;
@@ -64,7 +64,7 @@ void CAirplane::Init(float damage)
 		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 200.0F);
 		break;
 	}
-	case 6:
+	case 5:
 	{
 		m_flySpeed = 120;
 		m_minFlySpeed = 150;
@@ -73,7 +73,7 @@ void CAirplane::Init(float damage)
 		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
 		break;
 	}
-	case 7:
+	case 6:
 	{
 		m_flySpeed = 80;
 		m_minFlySpeed = 60;

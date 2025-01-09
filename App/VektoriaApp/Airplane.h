@@ -61,7 +61,7 @@ private:
 	CAABB m_zDistanceBox;
 
 
-	unsigned m_planeID = 1;
+	unsigned m_planeID = 0;
 
 	float m_damage;
 	float m_flySpeed;
