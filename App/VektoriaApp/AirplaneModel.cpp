@@ -98,7 +98,7 @@ void CAirplaneModel::Init(int planeID)
 		m_zpTriebwerkStealthL.RotateZDelta(0.5 * PI);
 		break;
 	}
-	case 7:
+	case 6:
 	{
 		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\PlaneModel.obj");
 

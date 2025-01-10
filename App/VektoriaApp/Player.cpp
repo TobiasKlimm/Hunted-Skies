@@ -1,5 +1,8 @@
 #include "Game.h"
 #include "Player.h"
+#define MAX_DISTANCE 2000;
+#define MAX_ZOOMIN	10;
+#define MAX_ZOOMOUT 20;
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -223,7 +226,7 @@ void CPlayer::Init(CGame* pgame)
 	//Abstands Warnung
 	m_zhvAbstand.Init(0.0, 0.0, 0.0, 1.0);
 	m_ziAbstand.Init("textures\\Warning.png");
-	m_zoAbstand.Init(&m_ziAbstand, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
+	m_zoAbstand.Init(&m_ziAbstand, C2dRect(1.0f, 1.0f, 0.0f, 0.6f), false);
 	m_zoAbstand.SetTransparency(0.5f);
 	m_zoAbstand.SwitchOff();
 	m_zv.AddOverlay(&m_zoAbstand);
@@ -417,8 +420,12 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		}
 
 
+
+
+		//----------------------------------------------------------------------------------
 		//Collision Warnung fuer zu weit weg
-		float MaxAbstand = MAX_DISTANCE;
+		//----------------------------------------------------------------------------------
+		int MaxAbstand = MAX_DISTANCE;
 
 		CHVector PlayerPos = m_airplane.GetPosGlobal();
 		if (PlayerPos.Length()> MaxAbstand) {
@@ -443,7 +450,36 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_lastPos = PlayerPos;
 
 		//LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
+
 	}
+	//----------------------------------------------------------------------------------
+	//Airplane Zoom
+	//----------------------------------------------------------------------------------
+
+	float zoomSpeedIn = MAX_ZOOMIN;
+	float zoomSpeedOut = MAX_ZOOMOUT;
+	if (m_zdk.KeyPressed(DIK_Z))
+	{
+		m_zoom += fTimeDelta * zoomSpeedIn;
+		if (m_zoom > 100.0f)
+		{
+			m_zoom = 100.0f;
+		}
+		m_zcCamera.SetFov((PI/3) / m_zoom);
+	}
+	else if (m_zdk.KeyPressed(DIK_U))
+	{
+		m_zoom -= fTimeDelta * zoomSpeedOut;
+		if (m_zoom < 1.0f)
+		{
+			m_zcCamera.SetFov(PI/3);
+			m_zoom = 1.0f;
+
+		}
+		else
+		m_zcCamera.SetFov((PI/3) / m_zoom);
+	}
+
 }
 
 

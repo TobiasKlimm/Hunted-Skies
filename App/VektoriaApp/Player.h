@@ -164,7 +164,7 @@ private:
 
 
 
-    //Container f�r Startbildschirm
+    //Container fuer Startbildschirm
     COverlays m_zosStart;
     COverlays m_zosInGame;
     COverlays m_zosPause;
@@ -203,4 +203,7 @@ private:
 
     //Collision Detection
     CHVector m_lastPos;
+
+    //Zoom
+    float m_zoom = 0;
 };
