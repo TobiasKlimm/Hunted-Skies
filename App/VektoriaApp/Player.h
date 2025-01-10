@@ -91,6 +91,8 @@ private:
     std::fstream m_scoreFile;
     unsigned m_highscore;
 
+    float x = 0, y = 0;
+
 
     //Input
     CDeviceCursor m_zdc;

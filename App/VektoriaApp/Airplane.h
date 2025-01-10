@@ -19,7 +19,7 @@ public:
 	CAirplane();
 	~CAirplane();
 
-	void Init(float damage);
+	void Init(float damage, unsigned planeID = 0);
 
 	void Tick(float fTime, float fTimeDelta);
 
@@ -49,9 +49,9 @@ public:
 	}
 
 	CGeos m_zgsCollisionObjects;
-
-private:
 	float m_Xrotation = 0.0f, m_Yrotation = 0.0f;
+private:
+	
 	CBulletManager m_BulletManager;
 	CAirplaneModel m_planeModel;
 	CPlacement m_zpPlaneCenter;
@@ -61,7 +61,7 @@ private:
 	CAABB m_zDistanceBox;
 
 
-	unsigned m_planeID = 0;
+	unsigned m_planeID;
 
 	float m_damage;
 	float m_flySpeed;

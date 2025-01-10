@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Player.h"
-#define MAX_DISTANCE 2000;
 #define MAX_ZOOMIN	10;
 #define MAX_ZOOMOUT 20;
 
@@ -38,6 +37,8 @@ void CPlayer::Init(CGame* pgame)
 	m_airplane.Init(DAMAGE);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
+	m_airplane.SetHealth(100);
+
 
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
 	m_zoCrosshair.Init("textures\\crosshair.bmp", m_zCrosshairRect, true);
@@ -78,7 +79,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
-	//Button 1 und 2
+	//Button Start und PlaneSelection
 	m_zoButtonStart.Init("textures\\START.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoStart.AddOverlay(&m_zoButtonStart);
 	m_zoButtonStart.SetLayer(0.3f);
@@ -86,15 +87,8 @@ void CPlayer::Init(CGame* pgame)
 
 	m_zoButtonPlaneSelection.Init("textures\\SELECTION.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
-	m_zoButtonPlaneSelection.SetLayer(0.3f);
+	m_zoButtonPlaneSelection.SetLayer(0.4f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
-
-	/*
-	m_zoButtonOptions.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
-	m_zoStart.AddOverlay(&m_zoButtonOptions);
-	m_zoButtonOptions.SetLayer(0.3f);
-	m_zosStart.Add(&m_zoButtonOptions);
-	*/
 
 	// ----------------
 	// Pausebildschirm:
@@ -106,6 +100,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zv.AddOverlay(&m_zoPause);
 	m_zoPause.SwitchOff();
 
+	//Buttons Resume und BacktoMainMenu
 	m_zoButtonGoOn.Init("textures\\RESUME.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
 	m_zoPause.AddOverlay(&m_zoButtonGoOn);
 	m_zoButtonGoOn.SetLayer(0.3f);
@@ -117,34 +112,19 @@ void CPlayer::Init(CGame* pgame)
 	m_zosPause.Add(&m_zoButtonGoOn);
 	m_zosPause.Add(&m_zoBack2Start);
 
-
-
-	// ---------------------
-	// In-Game: 
-	// ---------------------
-	//Startbildschrim zur�ck
-
 	// ----------------
 	// Plane Selection: 
 	// ----------------
 
+	
 	//m_zoPlaneSelection.Init("textures\\PLANESELECTION.jpg", C2dRect(0.5,1.0f, 0.0f, 0.0f));
 	m_zoPlaneSelection.SetLayer(0.9);
 	m_zoPlaneSelection.SwitchOff();
 	m_zv.AddOverlay(&m_zoPlaneSelection);
+	
 
 	m_zPlaneselecion.Init(&m_zv, &m_zdc);
 	AddPlacement(&m_zPlaneselecion);
-	/*
-	m_zoPrev.SetTexts("Prev", "Prev");
-	m_zoNext.SetTexts("Next", "Next");
-	m_zoPrev.SetColorWriting(CColor(eColor_White));
-	m_zoNext.SetColorWriting(CColor(eColor_White));
-	m_zoPrev.SetColor(CColor(eColor_Black));
-	m_zoNext.SetColor(CColor(eColor_Black));
-	m_zoPrev.Init(C2dRect(0.3f, 0.1f, 0.05f, 0.05f), 4);
-	m_zoNext.Init(C2dRect(0.3f, 0.1f, 0.45f, 0.05f), 4);
-	*/
 
 	m_zoNext.Init("textures\\NEXT.png", C2dRect(0.3f, 0.2f, 0.1f, 0.1f), false);
 	m_zoNext.SetLayer(0.3f);
@@ -156,7 +136,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zosPlaneSelection.Add(&m_zoPrev);
 	m_zoPlaneSelection.AddOverlay(&m_zoPrev);
 
-	m_zoBack.Init("textures\\START.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoBack.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
 	m_zoBack.SetLayer(0.3f);
 	m_zosPlaneSelection.Add(&m_zoBack);
 	m_zoPlaneSelection.AddOverlay(&m_zoBack);
@@ -179,22 +159,19 @@ void CPlayer::Init(CGame* pgame)
 	// Optionen-Bildschirm: 
 	// --------------------
 	
-	m_zoGameOver.InitFull("textures\\death.png");
+	m_zoGameOver.InitFull("textures\\YOUVE DIED.jpeg");
 	m_zoGameOver.SetLayer(0.9);
 	m_zoGameOver.SwitchOff();
+	m_zv.AddOverlay(&m_zoGameOver);
 
-	m_zoRestart.Init("textures\\test.jpg", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoRestart.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
 	m_zoGameOver.AddOverlay(&m_zoRestart);
 	m_zoRestart.SetLayer(0.3f);
-	m_zosStart.Add(&m_zoRestart);
+	m_zosGameOver.Add(&m_zoRestart);
 
 	m_zoEnd.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
 	m_zoGameOver.AddOverlay(&m_zoEnd);
 	m_zoEnd.SetLayer(0.3f);
-	m_zosStart.Add(&m_zoEnd);
-
-
-	m_zosGameOver.Add(&m_zoRestart);
 	m_zosGameOver.Add(&m_zoEnd);
 
 
@@ -236,6 +213,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 {
 	if (m_zeStatus == eStart)
 	{
+		m_zwScore.SwitchOff();
+		m_zw2.SwitchOff();
+		m_zw3.SwitchOff();
+		m_zo.SwitchOff();
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOn();
 		m_zoPlaneSelection.SwitchOff();
@@ -254,6 +235,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zvMinimap.SwitchOn();
 				m_zdc.Hide();
 				//m_zoMap.SwitchOn();
+				m_airplane.Translate(2000, 55, -1000);
 				m_zeStatus = eInGame;
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
@@ -285,6 +267,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
+				m_airplane.Translate(2000, 55, -1000);
 				m_zeStatus = eStart;
 			}
 
@@ -333,6 +316,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			if (pzoPicked == &m_zoBack)
 			{
 				m_zpPlane2Select.SwitchOff();
+				m_zpPlaneSelection.SubCamera(&m_zcCamera);
+				m_zpCamera.AddCamera(&m_zcCamera);
 				m_zeStatus = eStart;
 			}
 		}
@@ -342,9 +327,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eInGame)
 	{
-		m_zpPlaneSelection.SubCamera(&m_zcCamera);
-		m_zpCamera.AddCamera(&m_zcCamera);
-
+		m_zoAbstand.SwitchOn();
+		m_zwScore.SwitchOn();
+		m_zw2.SwitchOn();
+		m_zw3.SwitchOn();
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
@@ -382,6 +368,32 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zpCamera.AddCamera(&m_zcCamera);
 		}
 
+		//----------------------------------------------------------------------------------
+		//Airplane Zoom
+		//----------------------------------------------------------------------------------
+		float zoomSpeedIn = MAX_ZOOMIN;
+		float zoomSpeedOut = MAX_ZOOMOUT;
+		if (m_zdk.KeyPressed(DIK_Z))
+		{
+			m_zoom += fTimeDelta * zoomSpeedIn;
+			if (m_zoom > 100.0f)
+			{
+				m_zoom = 100.0f;
+			}
+			m_zcCamera.SetFov((PI / 3) / m_zoom);
+		}
+		else if (m_zdk.KeyPressed(DIK_U))
+		{
+			m_zoom -= fTimeDelta * zoomSpeedOut;
+			if (m_zoom < 1.0f)
+			{
+				m_zcCamera.SetFov(PI / 3);
+				m_zoom = 1.0f;
+			}
+			else
+				m_zcCamera.SetFov((PI / 3) / m_zoom);
+		}
+
 		//Minimap Movement
 		CHVector vPlane(m_airplane.GetPosGlobal());
 		vPlane.y += 100;
@@ -410,17 +422,15 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		//DIED
 		if (airplaneHealth == 0) {
-			m_zoDied.SwitchOn();
 			//Highscore
 			m_scoreFile.open("highscore.txt", std::ios::out);
 			if (m_scoreFile.is_open() && m_score > m_highscore) {
 				m_scoreFile << m_score;
 			}
 			m_scoreFile.close();
+			m_zeStatus = eGameOver;
+			m_zdc.Show();
 		}
-
-
-
 
 		//----------------------------------------------------------------------------------
 		//Collision Warnung fuer zu weit weg
@@ -446,45 +456,45 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		//Collision fuer Objekte
 		if (m_lastPos == PlayerPos)
-			m_airplane.RegisterHit(10000);
+			m_airplane.RegisterHit(1);
+		LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
 		m_lastPos = PlayerPos;
 
-		//LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
+		LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
 
 	}
-	//----------------------------------------------------------------------------------
-	//Airplane Zoom
-	//----------------------------------------------------------------------------------
-
-	float zoomSpeedIn = MAX_ZOOMIN;
-	float zoomSpeedOut = MAX_ZOOMOUT;
-	if (m_zdk.KeyPressed(DIK_Z))
+	else if (m_zeStatus == eGameOver)
 	{
-		m_zoom += fTimeDelta * zoomSpeedIn;
-		if (m_zoom > 100.0f)
+		m_zoAbstand.SwitchOff();
+		m_zwScore.SwitchOff();
+		m_zw2.SwitchOff();
+		m_zw3.SwitchOff();
+		m_zoGameOver.SwitchOn();
+		m_zvMinimap.SwitchOff();
+		m_zoCrosshair.SwitchOff();
+		m_zoCirclehair.SwitchOff();
+		if (m_zdc.ButtonDownLeft())
 		{
-			m_zoom = 100.0f;
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosGameOver);
+			if (pzoPicked == &m_zoRestart)
+			{
+				y = 0;
+				x = 0;
+				m_airplane.m_Xrotation = 0.0f;
+				m_airplane.m_Yrotation = 0.0f;
+				m_lastPos = CHVector(0, 0, 0, 1);
+				m_airplane.RotateY(HALFPI);
+				m_airplane.Translate(2000, 55, -1000);
+				m_airplane.SetHealth(100);
+				m_zeStatus = eStart;
+				m_airplane.SwitchOn();
+			}
 		}
-		m_zcCamera.SetFov((PI/3) / m_zoom);
 	}
-	else if (m_zdk.KeyPressed(DIK_U))
-	{
-		m_zoom -= fTimeDelta * zoomSpeedOut;
-		if (m_zoom < 1.0f)
-		{
-			m_zcCamera.SetFov(PI/3);
-			m_zoom = 1.0f;
-
-		}
-		else
-		m_zcCamera.SetFov((PI/3) / m_zoom);
-	}
-
 }
 
 
 void CPlayer::ControlPlane(float fTimeDelta) {
-	static float x = 0, y = 0;
 	//GetMausbewegung
 	x += m_zdm.GetRelativeX();
 	y -= m_zdm.GetRelativeY();

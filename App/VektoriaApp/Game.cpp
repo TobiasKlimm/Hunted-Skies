@@ -124,6 +124,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_botplanes.Init(m_player.GetAirplane());
 	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 	m_botplanes.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
+	m_botplanes.GetAirplane()->SetHealth(100);
 	m_zs.AddPlacement(&m_botplanes);
 	m_zs.AddPlacements(*m_botplanes.GetAirplane()->GetBulletManager()->GetBullets());
 	m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes);
@@ -200,7 +201,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 				m_turrets[i].SwitchOn();
 				vrand.y = fHeightTerrain;
 				m_turrets[i].SetPosition(vrand);
-				m_turrets[i].AddHealth(100);
+				m_turrets[i].SetHealth(100);
 			}
 		}
 		m_turrets[i].Tick(fTime, fTimeDelta, m_player.GetAirplane()->GetDirection(), m_player.GetAirplane()->GetFlySpeed());

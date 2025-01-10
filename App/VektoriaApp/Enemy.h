@@ -19,6 +19,9 @@ public:
 	void SetPosition(CHVector position) {
 		m_position = position;
 	}
+	void SetHealth(float health) {
+		m_health = health;
+	}
 	float GetHealth()
 	{
 		return m_health;
