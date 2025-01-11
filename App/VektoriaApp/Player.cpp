@@ -212,6 +212,21 @@ void CPlayer::Init(CGame* pgame)
 	m_zoAbstand.SetTransparency(0.5f);
 	m_zoAbstand.SwitchOff();
 	m_zv.AddOverlay(&m_zoAbstand);
+
+
+
+	//Cursor 
+	m_ziFlugzeugCursor.Init("textures\\FlugzeugCursor.png");
+	m_ziEasterCursor.Init("textures\\bombe.png");
+	m_ziPickingCursor.Init("textures\\explosion.png");
+
+	m_zoFlugzeugCursor.Init(&m_ziFlugzeugCursor, C2dRect(0.04f, 0.04f), true);
+	m_zoPickingCursor.Init(&m_ziPickingCursor, C2dRect(0.04f, 0.04f), true);
+	m_zoEasterCursor.Init(&m_ziEasterCursor, C2dRect(0.04f, 0.04f), true);
+
+	m_zoFlugzeugCursor.SetLayer(0.05f);
+	m_zoPickingCursor.SetLayer(0.05f);
+	m_zoEasterCursor.SetLayer(0.05f);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -339,6 +354,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eInGame)
 	{
+		m_zoPickingCursor.SwitchOff();
+		m_zoFlugzeugCursor.SwitchOff();
+		m_zoEasterCursor.SwitchOff();
 		m_zwScore.SwitchOn();
 		m_zw2.SwitchOn();
 		m_zw3.SwitchOn();
@@ -544,6 +562,36 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zeStatus = eStart;
 				m_airplane.SwitchOn();
 			}
+		}
+	}
+	//Cursor verändern
+	if (m_zeStatus != eInGame)
+	{
+		m_zv.AddOverlay(&m_zoPickingCursor);
+		m_zv.AddOverlay(&m_zoFlugzeugCursor);
+		m_zv.AddOverlay(&m_zoEasterCursor);
+		float fx, fy;
+		m_zdc.GetFractional(fx, fy,true);
+		if (m_zdc.ButtonPressedRight())
+		{
+			m_zoEasterCursor.SwitchOn();
+			m_zoPickingCursor.SwitchOff();
+			m_zoFlugzeugCursor.SwitchOff();
+			m_zoEasterCursor.SetPos(fx, fy);
+		}
+		else if (m_zdc.ButtonPressedLeft())
+		{
+			m_zoEasterCursor.SwitchOff();
+			m_zoPickingCursor.SwitchOn();
+			m_zoFlugzeugCursor.SwitchOff();
+			m_zoPickingCursor.SetPos(fx, fy);
+		}
+		else
+		{
+			m_zoEasterCursor.SwitchOff();
+			m_zoPickingCursor.SwitchOff();
+			m_zoFlugzeugCursor.SwitchOn();
+			m_zoFlugzeugCursor.SetPos(fx, fy);
 		}
 	}
 }

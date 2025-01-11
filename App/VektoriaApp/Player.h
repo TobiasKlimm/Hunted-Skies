@@ -219,4 +219,13 @@ private:
 
     // Fuel
     float m_fuel = 100;
+
+    //Andere Cursor
+    CImage m_ziPickingCursor;
+    CImage m_ziEasterCursor;
+    CImage m_ziFlugzeugCursor;
+
+    COverlay m_zoPickingCursor;
+    COverlay m_zoEasterCursor;
+    COverlay m_zoFlugzeugCursor;
 };
