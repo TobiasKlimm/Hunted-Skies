@@ -166,14 +166,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpBlackSphere.SetSky();
 	m_zgBlackSphere.Init(3000, &m_zmBlackSphere);
 	m_zgBlackSphere.Flip();
-
-
-
-
-
-	
-
-
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

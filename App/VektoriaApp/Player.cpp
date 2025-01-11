@@ -362,14 +362,13 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
 		//Backfacing Cam
-		if (m_zdk.KeyDown(DIK_LSHIFT) || m_zdgc.ButtonDown(2)) {
-			m_zpCamera.SubCamera(&m_zcCamera);
-			m_zpCameraBack.AddCamera(&m_zcCamera);
-		}
-
-		if (m_zdk.KeyUp(DIK_LSHIFT) || m_zdgc.ButtonUp(2)) {
+		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(2)) {
 			m_zpCameraBack.SubCamera(&m_zcCamera);
 			m_zpCamera.AddCamera(&m_zcCamera);
+		}
+		if (m_zdk.KeyPressed(DIK_LSHIFT) || m_zdgc.ButtonDown(2)) {
+			m_zpCamera.SubCamera(&m_zcCamera);
+			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
 
 		//----------------------------------------------------------------------------------
