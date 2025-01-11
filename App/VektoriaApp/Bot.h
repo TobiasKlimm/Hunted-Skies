@@ -5,7 +5,7 @@ using namespace Vektoria;
 
 #define SHOOT_FREQUENCY 0.2f
 #define DAMAGE 0.5f
-#define MAX_TURN_RATE 75.0f
+#define MAX_TURN_RATE 70.0f
 
 
 

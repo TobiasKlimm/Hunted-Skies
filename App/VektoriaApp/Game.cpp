@@ -122,13 +122,15 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	}
 
 	//BotPlanes
-	m_botplanes.Init(m_player.GetAirplane());
-	m_botplanes.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
-	m_botplanes.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
-	m_botplanes.GetAirplane()->SetHealth(100);
-	m_zs.AddPlacement(&m_botplanes);
-	m_zs.AddPlacements(*m_botplanes.GetAirplane()->GetBulletManager()->GetBullets());
-	m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes);
+	for (int i = 0; i < 5; i++) {
+		m_botplanes[i].Init(m_player.GetAirplane());
+		m_botplanes[i].GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
+		m_botplanes[i].GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
+		m_botplanes[i].GetAirplane()->SwitchOff();
+		m_zs.AddPlacement(&m_botplanes[i]);
+		m_zs.AddPlacements(*m_botplanes[i].GetAirplane()->GetBulletManager()->GetBullets());
+		m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes[i]);
+	}
 
 	//MUSIC
 	/*m_zaTrackOne.Init("sounds\\TrackOne.wav");
@@ -182,6 +184,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		if (!m_turrets[i].IsOn()) {
 			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
 			m_zpExplosion.SwitchOn();
+			m_bTurretDestroyed = true;
 			m_zmExplosion.SetPic(0,0);
 
 			CHVector vrand;
@@ -200,12 +203,32 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		m_turrets[i].Tick(fTime, fTimeDelta, m_player.GetAirplane()->GetDirection(), m_player.GetAirplane()->GetFlySpeed());
 	}
 
+	for (int i = 0; i < 5; i++) {
+		if (!m_botplanes[i].GetAirplane()->IsOn()) {
+			m_zbpExplosion.Translate(m_botplanes[i].GetAirplane()->GetPosGlobal());
+			m_zpExplosion.SwitchOn();
+			m_bTurretDestroyed = true;
+			m_zmExplosion.SetPic(0, 0);
+
+			CHVector vrand2;
+			vrand2.RandomDir();
+			vrand2 *= 1000;
+			LogDebug("New Bot spawned");
+
+			m_botplanes[i].GetAirplane()->SwitchOn();
+			vrand2.y = 100+i*5;
+			m_botplanes[i].GetAirplane()->Translate(vrand2);
+			m_botplanes[i].GetAirplane()->SetHealth(100);
+	
+		}
+		m_botplanes[i].Tick(fTime, fTimeDelta);
+	}
+
 	if (m_zpExplosion.IsOn())
-			{
+	{
 		m_zmExplosion.SetPic(m_iExplosion, 0);
-				EndExplosion(fTime);
-			}
-	m_botplanes.Tick(fTime, fTimeDelta);
+		EndExplosion(fTime);
+	}
 
 	m_zr.Tick(fTimeDelta);
 }
@@ -213,11 +236,14 @@ void CGame::Tick(float fTime, float fTimeDelta)
 void CGame::EndExplosion(float fTime) {
 	if (fTime - m_fBotTime > 0.1f)
 	{
+		if (m_bTurretDestroyed == true)
+			m_iExplosion = 0;
 		m_iExplosion++;
 		if (m_iExplosion > 17) {
 			m_zpExplosion.SwitchOff();
 			m_iExplosion = 0;
 		}
+		m_bTurretDestroyed = false;
 		m_fBotTime = fTime; 
 	}
 }

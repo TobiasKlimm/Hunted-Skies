@@ -238,5 +238,5 @@ void CAirplane::SetSpeed(float change)
 
 void CAirplane::ReduceSpeedWhenOutOfFuel()
 {
-	m_flySpeed = ClampValue(m_flySpeed - 5, 30, 200);
+	m_flySpeed = ClampValue(m_flySpeed - 5, 50, 200);
 }

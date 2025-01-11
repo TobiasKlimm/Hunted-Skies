@@ -77,6 +77,7 @@ public:
 	void ScreenOverlaysInit(CViewport* m_zv);
 
 private:
+	bool m_bTurretDestroyed;
 	float m_fBotTime = 0.0f; 
 	CRoot m_zr;
 	CFrame m_zf;
@@ -107,7 +108,7 @@ private:
 	CTerrain m_terrain;
 
 	CTurret m_turrets[10];
-	CBot m_botplanes;
+	CBot m_botplanes[5];
 
 	CGeos m_zgsTerrainCollision;
 

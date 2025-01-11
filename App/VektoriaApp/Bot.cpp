@@ -3,12 +3,10 @@
 void CBot::Init(CPlacement* target)
 {
 	m_zpTarget = target;
-	this->AddPlacement(&m_airplane);
-	m_airplane.TranslateY(150);
-	m_airplane.SetHealth(100);
+	AddPlacement(&m_airplane);
 
 	m_airplane.Init(DAMAGE,1);
-	this->SetName("BotPlane");
+	SetName("BotPlane");
 }
 
 void CBot::Tick(float fTime, float fTimeDelta)

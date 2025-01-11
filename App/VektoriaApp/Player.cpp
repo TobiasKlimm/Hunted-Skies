@@ -41,10 +41,10 @@ void CPlayer::Init(CGame* pgame)
 
 
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
-	m_zoCrosshair.Init("textures\\crosshair.bmp", m_zCrosshairRect, true);
+	m_zoCrosshair.Init("textures\\crosshair.png", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCrosshair);
 	CenterSquare(0.5, 0.5, CROSSHAIRSIZE, m_zoCrosshair);
-	m_zoCirclehair.Init("textures\\circlehair.bmp", m_zCrosshairRect, true);
+	m_zoCirclehair.Init("textures\\circlehair.png", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
 
 
@@ -73,7 +73,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zwFuel.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.15f), 11, &m_zwf);
 	m_zv.AddWriting(&m_zwFuel);
 
-	m_zwHighScore.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.0f), 14, &m_zwf);
+	m_zwHighScore.Init(C2dRect(0.25f, 0.1f, 0.0f, 0.0f), 14, &m_zwf);
 	m_zv.AddWriting(&m_zwHighScore);
 	m_zwHighScore.PrintF("Highscore: %d", m_highscore);
 
@@ -222,6 +222,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zwScore.SwitchOff();
 		m_zw2.SwitchOff();
 		m_zw3.SwitchOff();
+		m_zwFuel.SwitchOff();
 		m_zo.SwitchOff();
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOn();
@@ -242,6 +243,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zdc.Hide();
 				m_zwHighScore.SwitchOff();
 				//m_zoMap.SwitchOn();
+				m_fuel = 100;
 				m_zeStatus = eInGame;
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
@@ -340,6 +342,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zwScore.SwitchOn();
 		m_zw2.SwitchOn();
 		m_zw3.SwitchOn();
+		m_zwFuel.SwitchOn();
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
@@ -520,6 +523,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zwScore.SwitchOff();
 		m_zw2.SwitchOff();
 		m_zw3.SwitchOff();
+		m_zwFuel.SwitchOff();
 		m_zoGameOver.SwitchOn();
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
@@ -547,10 +551,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 void CPlayer::ControlPlane(float fTimeDelta) {
 	float controllerXInput = m_zdgc.GetRelativeX() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerXInput) < 0.0005f)
+	if (abs(controllerXInput) < 0.0003f)
 		controllerXInput = 0;
 	float controllerYInput = m_zdgc.GetRelativeY() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerYInput) < 0.0005f)
+	if (abs(controllerYInput) < 0.0003f)
 		controllerYInput = 0;
 	x += controllerXInput;
 	y += controllerYInput;

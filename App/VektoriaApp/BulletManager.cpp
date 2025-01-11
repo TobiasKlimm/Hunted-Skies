@@ -6,7 +6,7 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 	m_bulletSpeed = bulletSpeed;
 
 	m_zmBulletMaterial.LoadPreset("Sun");
-	m_zgBullet.Init(0.1f, 0.1f,2.0f, &m_zmBulletMaterial);
+	m_zgBullet.Init(0.2f, 0.2f,2.0f, &m_zmBulletMaterial);
 	//m_zgBullet.SetMaterial(&m_zmBulletMaterial);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
 	m_zpBulletTemplate.SetPhysics(0.05f, 0.01f, 0.0f, 50.1f, true);
