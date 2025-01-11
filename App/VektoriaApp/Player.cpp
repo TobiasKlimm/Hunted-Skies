@@ -34,7 +34,7 @@ void CPlayer::Init(CGame* pgame)
 	//Ausrichtung Startbahn flugzeugträger
 	m_airplane.RotateY(HALFPI);
 	m_airplane.TranslateDelta(2000, 25, -1000);
-	m_airplane.Init(DAMAGE);
+	m_airplane.Init(DAMAGE,1);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
 	m_airplane.SetHealth(100);
@@ -53,7 +53,7 @@ void CPlayer::Init(CGame* pgame)
 	if (m_scoreFile.is_open()) {
 		m_scoreFile >> m_highscore;
 		m_scoreFile.close();
-		LogDebug("%d", m_highscore);
+		LogDebug("Highscore Loaded: %d", m_highscore);
 	}
 
 	//---------------------------------------------------------------------
@@ -69,13 +69,19 @@ void CPlayer::Init(CGame* pgame)
 	m_zw3.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.1f), 11, &m_zwf);
 	m_zv.AddWriting(&m_zw3);
 
+	m_zwHighScore.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.0f), 14, &m_zwf);
+	m_zv.AddWriting(&m_zwHighScore);
+	m_zwHighScore.PrintF("Highscore: %d", m_highscore);
+
+
 	//-----------------
 	// Startbildschirm:
 	//-----------------
 
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
 	m_ziStart.Init("textures\\startbildschrim.png");
-	m_zoStart.InitFull(&m_ziStart);
+	//m_zoStart.InitFull(&m_ziStart);
+	m_zoStart.Init("textures\\startbildschrim.png", C2dRect(0.01f, 0.01f, 0.0f, 0.0f), true);
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
@@ -148,7 +154,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zpPlaneSelection.RotateY(HALFPI);
 	m_zpPlaneSelection.TranslateDelta(2004.553711, 117.965439, -1515.466431);
 	m_zpPlaneSelection.AddPlacement(&m_zpPlane2Select);
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		m_zpModel[i].Init(i);
 		m_zpPlane2Select.AddPlacement(&m_zpModel[i]);
@@ -213,6 +219,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 {
 	if (m_zeStatus == eStart)
 	{
+		m_zwHighScore.SwitchOn();
 		m_zwScore.SwitchOff();
 		m_zw2.SwitchOff();
 		m_zw3.SwitchOff();
@@ -234,8 +241,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			{
 				m_zvMinimap.SwitchOn();
 				m_zdc.Hide();
+				m_zwHighScore.SwitchOff();
 				//m_zoMap.SwitchOn();
-				m_airplane.Translate(2000, 55, -1000);
 				m_zeStatus = eInGame;
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
@@ -267,7 +274,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
-				m_airplane.Translate(2000, 55, -1000);
 				m_zeStatus = eStart;
 			}
 
@@ -292,7 +298,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//m_pgame->m_zpBlackSphere.TranslateY(1000);
 		m_zpPlane2Select.SwitchOn();
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 7; i++)
 		{
 			m_zpModel[i].SwitchOff();
 			if(m_iFlugGeo == i)
@@ -318,16 +324,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zpPlane2Select.SwitchOff();
 				m_zpPlaneSelection.SubCamera(&m_zcCamera);
 				m_zpCamera.AddCamera(&m_zcCamera);
+				m_airplane.ReInit(m_iFlugGeo);
 				m_zeStatus = eStart;
 			}
 		}
 		m_zpPlane2Select.RotateY(fTime);
-		m_zpPlane2Select.RotateZDelta(.1);
+		m_zpPlane2Select.RotateZDelta(.3);
 		m_zpPlane2Select.TranslateDelta(10.0f, 0, -35.0f);
 	}
 	else if (m_zeStatus == eInGame)
 	{
-		m_zoAbstand.SwitchOn();
 		m_zwScore.SwitchOn();
 		m_zw2.SwitchOn();
 		m_zw3.SwitchOn();
@@ -373,16 +379,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		float zoomSpeedIn = MAX_ZOOMIN;
 		float zoomSpeedOut = MAX_ZOOMOUT;
-		if (m_zdk.KeyPressed(DIK_Z))
+		if (m_zdc.ButtonPressedRight())
 		{
 			m_zoom += fTimeDelta * zoomSpeedIn;
-			if (m_zoom > 100.0f)
+			if (m_zoom > 10.0f)
 			{
-				m_zoom = 100.0f;
+				m_zoom = 10.0f;
 			}
 			m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
-		else if (m_zdk.KeyPressed(DIK_U))
+		else if (!m_zdc.ButtonPressedRight())
 		{
 			m_zoom -= fTimeDelta * zoomSpeedOut;
 			if (m_zoom < 1.0f)
@@ -426,8 +432,12 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_scoreFile.open("highscore.txt", std::ios::out);
 			if (m_scoreFile.is_open() && m_score > m_highscore) {
 				m_scoreFile << m_score;
+				m_highscore = m_score;
+				m_zwHighScore.PrintF("Highscore: %d", m_score);
+				LogDebug("Highscore Broken! NewHighscore: %d", m_score);
 			}
 			m_scoreFile.close();
+			m_score = 0;
 			m_zeStatus = eGameOver;
 			m_zdc.Show();
 		}
@@ -441,7 +451,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		if (PlayerPos.Length()> MaxAbstand) {
 			m_zo.SwitchOff();
 			m_zoAbstand.SwitchOn();
-			LogDebug("Warnung sie verlassen das Kriegsgebiet");
+			//LogDebug("Warnung sie verlassen das Kriegsgebiet");
 			m_WarningTransparency = ClampValue(m_WarningTransparency - 0.25 * fTimeDelta, 0.0f, 1.0f);
 			m_zoAbstand.SetTransparency(m_WarningTransparency);
 		}
@@ -484,7 +494,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_airplane.m_Yrotation = 0.0f;
 				m_lastPos = CHVector(0, 0, 0, 1);
 				m_airplane.RotateY(HALFPI);
-				m_airplane.Translate(2000, 55, -1000);
+				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_airplane.SetHealth(100);
 				m_zeStatus = eStart;
 				m_airplane.SwitchOn();

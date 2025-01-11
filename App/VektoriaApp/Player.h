@@ -10,6 +10,7 @@ using namespace Vektoria;
 #define DAMAGE 10.0f
 #define MAX_DISTANCE 2500;
 
+
 enum Status
 {
     eStart,
@@ -115,6 +116,7 @@ private:
     //Stats
     CWritingFont m_zwf;
     CWriting m_zwScore;
+    CWriting m_zwHighScore;
     CWriting m_zw2;
     CWriting m_zw3;
 
@@ -155,11 +157,11 @@ private:
     CPlacement m_zpPlaneSelection;
     CPlacement m_zpPlane2Select; 
 
-    CAirplaneModel m_zpModel[6];
+    CAirplaneModel m_zpModel[7];
 
     int m_iFlugGeo = 0;
 
-    int m_iFlugGeos = 6;
+    int m_iFlugGeos = 7;
 
 
 

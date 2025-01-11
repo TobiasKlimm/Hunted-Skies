@@ -101,10 +101,80 @@ void CAirplane::Init(float damage, unsigned planeID)
 	m_BulletManager.Init(BULLETSPEED, m_damage);
 	m_zaPlaneShot.Init3D("sounds\\PlaneShot.wav", 1.5F);
 	//m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
+}
 
-	
-	
-	
+void CAirplane::ReInit(unsigned planeID)
+{
+	m_planeID = planeID;
+	m_planeModel.ReInit(m_planeID);
+
+	switch (m_planeID)
+	{
+	case 0:
+	{
+		m_flySpeed = 100;
+		m_minFlySpeed = 70;
+		m_maxFlySpeed = 200;
+		m_flySpeedChangeRate = 35;
+		m_zaPlaneSound.Init3D("sounds\\F4.wav", 100.0F);
+		break;
+
+	}
+	case 1:
+	{
+		m_flySpeed = 30;
+		m_minFlySpeed = 30;
+		m_maxFlySpeed = 130;
+		m_flySpeedChangeRate = 15;
+		m_zaPlaneSound.Init3D("sounds\\propeller.wav", 20.0F);
+		break;
+	}
+	case 2:
+	{
+		m_flySpeed = 120;
+		m_minFlySpeed = 150;
+		m_maxFlySpeed = 250;
+		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 150.0F);
+		break;
+	}
+	case 3:
+	{
+		m_flySpeed = 60;
+		m_minFlySpeed = 30;
+		m_maxFlySpeed = 130;
+		m_flySpeedChangeRate = 15;
+		m_zaPlaneSound.Init3D("sounds\\P40.wav", 70.0F);
+		break;
+	}
+	case 4:
+	{
+		m_flySpeed = 120;
+		m_minFlySpeed = 150;
+		m_maxFlySpeed = 250;
+		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 200.0F);
+		break;
+	}
+	case 5:
+	{
+		m_flySpeed = 120;
+		m_minFlySpeed = 150;
+		m_maxFlySpeed = 250;
+		m_flySpeedChangeRate = 40;
+		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
+		break;
+	}
+	case 6:
+	{
+		m_flySpeed = 80;
+		m_minFlySpeed = 60;
+		m_maxFlySpeed = 110;
+		m_flySpeedChangeRate = 5;
+		m_zaPlaneSound.Init3D("sounds\\B17.wav", 300.0F);
+		break;
+	}
+	}
 }
 
 void CAirplane::Tick(float fTime, float fTimeDelta)
@@ -133,7 +203,7 @@ void CAirplane::MovePlane(float& x, float& y, float fTimeDelta)
 	float RotationX = x * 15;
 	float RotationY = -y * 15;
 	float MoveAD = 0, MoveWS = -1, MoveUD = 0;
-	this->MoveWithCollisionDetection(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY, m_zgsCollisionObjects);
+	MoveWithCollisionDetection(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY, m_zgsCollisionObjects);
 }
 
 void CAirplane::Shoot(float randFac)

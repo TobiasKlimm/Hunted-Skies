@@ -16,6 +16,8 @@ class CAirplaneModel :
 public:
 	void Init(int planeID);
 
+	void ReInit(int planeID);
+
 	void Tick(float fTime, float fTimeDelta);
 private:
 	int m_planeID;

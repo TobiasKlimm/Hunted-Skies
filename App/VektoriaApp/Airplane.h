@@ -21,6 +21,8 @@ public:
 
 	void Init(float damage, unsigned planeID = 0);
 
+	void ReInit(unsigned planeID);
+
 	void Tick(float fTime, float fTimeDelta);
 
 	float ClampValue(float value, float minValue, float maxValue);

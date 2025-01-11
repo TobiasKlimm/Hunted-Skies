@@ -9,7 +9,6 @@ class CEnemy :
 public:
 	void Init();
 	bool RegisterHit(float damage);
-	void Kill();
 	CHVector GetPosition() {
 		return m_position;
 	}
