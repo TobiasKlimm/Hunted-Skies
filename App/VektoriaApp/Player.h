@@ -9,6 +9,7 @@ using namespace Vektoria;
 #define SHOOT_FREQUENCY 0.05f
 #define DAMAGE 10.0f
 #define MAX_DISTANCE 2500;
+#define CONTROLLER_SENSITIVITY 250;
 
 
 enum Status

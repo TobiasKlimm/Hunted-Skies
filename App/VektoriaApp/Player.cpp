@@ -503,8 +503,14 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 
 void CPlayer::ControlPlane(float fTimeDelta) {
-	x += m_zdgc.GetRelativeRX();
-	y += m_zdgc.GetRelativeRY();
+	float controllerXInput = m_zdgc.GetRelativeX() / CONTROLLER_SENSITIVITY;
+	if (abs(controllerXInput) < 0.0001f)
+		controllerXInput = 0;
+	float controllerYInput = m_zdgc.GetRelativeY() / CONTROLLER_SENSITIVITY;
+	if (abs(controllerYInput) < 0.0001f)
+		controllerYInput = 0;
+	x += controllerXInput;
+	y += controllerYInput;
 	//GetMausbewegung
 	x += m_zdm.GetRelativeX();
 	y -= m_zdm.GetRelativeY();
@@ -523,10 +529,10 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	}
 	m_airplane.MovePlane(x, y, fTimeDelta);
 
-	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(11))
+	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(7))
 		m_airplane.SetSpeed(fTimeDelta);
 	if (m_zdk.KeyPressed(DIK_S) )
-	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(10))
+	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(6))
 		m_airplane.SetSpeed(-fTimeDelta);
 	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(37)) {
 		m_timePassed += fTimeDelta;
