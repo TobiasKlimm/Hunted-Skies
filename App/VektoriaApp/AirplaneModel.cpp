@@ -165,7 +165,7 @@ void CAirplaneModel::ReInit(int planeID)
 	}
 	case 1:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PlaneModel.obj");
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PlaneModel.obj", true);
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\StandardFlieger\\textures\\Diffuse.png");
 
 		m_pzgPropeller = objLoader.LoadGeoTriangleTable("models\\Airplanes\\StandardFlieger\\PropellerModel.obj");
@@ -176,7 +176,7 @@ void CAirplaneModel::ReInit(int planeID)
 	}
 	case 2:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\ORCA\\NewOne.obj");
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\ORCA\\NewOne.obj", true);
 
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\ORCA\\textures\\Diffuse.jpg");
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\ORCA\\textures\\Normal.jpg");
@@ -204,7 +204,7 @@ void CAirplaneModel::ReInit(int planeID)
 	}
 	case 4:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\MiG-35\\newone.obj");//Geht nicht
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\MiG-35\\newone.obj", true);//Geht nicht
 
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\MiG-35\\textures\\Diffuse.png");
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\MiG-35\\textures\\Normal.png");
@@ -213,7 +213,7 @@ void CAirplaneModel::ReInit(int planeID)
 	}
 	case 5:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\F-117 Nighthawk\\PlaneModel.obj");
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\F-117 Nighthawk\\PlaneModel.obj", true);
 
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\F-117 Nighthawk\\textures\\Diffuse.png");
 		m_zmPlaneMaterial.MakeTextureBump("models\\Airplanes\\F-117 Nighthawk\\textures\\Normal.png");
@@ -226,7 +226,7 @@ void CAirplaneModel::ReInit(int planeID)
 	}
 	case 6:
 	{
-		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\PlaneModel.obj");
+		m_pzgPlane = objLoader.LoadGeoTriangleTable("models\\Airplanes\\B17\\PlaneModel.obj", true);
 
 		m_zmPlaneMaterial.MakeTextureDiffuse("models\\Airplanes\\B17\\textures\\Diffuse.jpeg");
 

@@ -344,7 +344,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCirclehair.SwitchOn();
 		m_pgame->m_zpBlackSphere.SwitchOff();
 
-		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(45))
+		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(1))
 		{
 			m_zdc.Show();
 			m_zeStatus = ePaused;
@@ -362,12 +362,12 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
 		//Backfacing Cam
-		if (m_zdk.KeyDown(DIK_LSHIFT)) {
+		if (m_zdk.KeyDown(DIK_LSHIFT) || m_zdgc.ButtonDown(2)) {
 			m_zpCamera.SubCamera(&m_zcCamera);
 			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
 
-		if (m_zdk.KeyUp(DIK_LSHIFT)) {
+		if (m_zdk.KeyUp(DIK_LSHIFT) || m_zdgc.ButtonUp(2)) {
 			m_zpCameraBack.SubCamera(&m_zcCamera);
 			m_zpCamera.AddCamera(&m_zcCamera);
 		}
@@ -377,7 +377,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		float zoomSpeedIn = MAX_ZOOMIN;
 		float zoomSpeedOut = MAX_ZOOMOUT;
-		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(44))
+		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(7))
 		{
 			m_zoom += fTimeDelta * zoomSpeedIn;
 			if (m_zoom > 5.0f)
@@ -386,7 +386,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
-		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(44))
+		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(7))
 		{
 			m_zoom -= fTimeDelta * zoomSpeedOut;
 			if (m_zoom < 1.0f)
@@ -473,6 +473,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eGameOver)
 	{
+		m_zo.SwitchOff();
 		m_zoAbstand.SwitchOff();
 		m_zwScore.SwitchOff();
 		m_zw2.SwitchOff();
@@ -504,10 +505,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 void CPlayer::ControlPlane(float fTimeDelta) {
 	float controllerXInput = m_zdgc.GetRelativeX() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerXInput) < 0.0001f)
+	if (abs(controllerXInput) < 0.0005f)
 		controllerXInput = 0;
 	float controllerYInput = m_zdgc.GetRelativeY() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerYInput) < 0.0001f)
+	if (abs(controllerYInput) < 0.0005f)
 		controllerYInput = 0;
 	x += controllerXInput;
 	y += controllerYInput;
@@ -529,12 +530,11 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	}
 	m_airplane.MovePlane(x, y, fTimeDelta);
 
-	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(7))
+	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(5))
 		m_airplane.SetSpeed(fTimeDelta);
-	if (m_zdk.KeyPressed(DIK_S) )
-	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(6))
+	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(4))
 		m_airplane.SetSpeed(-fTimeDelta);
-	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(37)) {
+	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(6)) {
 		m_timePassed += fTimeDelta;
 		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
 		if (m_timePassed <=  SHOOT_FREQUENCY)
