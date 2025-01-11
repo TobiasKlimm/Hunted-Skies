@@ -124,6 +124,7 @@ private:
     CWriting m_zwHighScore;
     CWriting m_zw2;
     CWriting m_zw3;
+    CWriting m_zwFuel;
 
     // 
     //---------------------------------------------------------------------
@@ -193,7 +194,7 @@ private:
 
     //------------------------------------------------------------------------
     // Abstandswarnung
-    //Abstandsvektor f?r Warnung
+    //Abstandsvektor fuer Warnung
     CHVector m_zhvAbstand;
     float m_distanceX = 0;
     float m_distanceY = 0;
@@ -215,4 +216,7 @@ private:
 
     //Zoom
     float m_zoom = 0;
+
+    // Fuel
+    float m_fuel = 100;
 };

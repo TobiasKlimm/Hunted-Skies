@@ -68,6 +68,10 @@ void CPlayer::Init(CGame* pgame)
 
 	m_zw3.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.1f), 11, &m_zwf);
 	m_zv.AddWriting(&m_zw3);
+	
+	// Fuel Overlay
+	m_zwFuel.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.15f), 11, &m_zwf);
+	m_zv.AddWriting(&m_zwFuel);
 
 	m_zwHighScore.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.0f), 14, &m_zwf);
 	m_zv.AddWriting(&m_zwHighScore);
@@ -77,6 +81,7 @@ void CPlayer::Init(CGame* pgame)
 	//-----------------
 	// Startbildschirm:
 	//-----------------
+
 
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
 	m_ziStart.Init("textures\\startbildschrim.png");
@@ -349,13 +354,51 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zdc.Show();
 			m_zeStatus = ePaused;
 		}
+		
+		// Fuel
+		bool bHasInitializedRotationY = false;
+		if (m_fuel > 0)
+		{
+			m_fuel -= 2.f * fTimeDelta;
+		}
+		else // falls kein Fuel mehr
+		{
+			if (m_airplane.GetFlySpeed() > 30) // falls noch Momentum
+			{
+				m_airplane.ReduceSpeedWhenOutOfFuel();
+			}
+			else // falls kein Momentum mehr
+			{
+				float RotationY; // Lokale Variable für RotationY
+
+				if (!bHasInitializedRotationY)
+				{
+					RotationY = -1.0f; // Beim ersten Mal
+					bHasInitializedRotationY = true; // Initialisierung merken
+				}
+				else
+				{
+					RotationY = 0.0f; // Ab dem zweiten Mal
+				}
+
+				float RotationX = 0.0f;    // Keine Rotation
+				float MoveAD = 0.0f; // Keine Bewegung in x-Richtung
+				float MoveWS = 0.0f; // Bewegung in y-Richtung nach unten
+				float MoveUD = -2.5f;  // Keine Bewegung in z-Richtung
+
+				m_airplane.MoveWithCollisionDetection(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY, m_airplane.m_zgsCollisionObjects);
+
+				LogDebug("Mayday");
+			}
+		}
+		m_zwFuel.PrintF("Fuel: %f", m_fuel);
 
 		float airplaneHealth = m_airplane.GetHealth();
 
 		//Score System
 		if (m_airplane.GetBulletManager()->m_killedEnemy) {
 			m_score++;
-			m_airplane.AddHealth(10);
+			m_fuel += 10;
 		}
 		m_zwScore.PrintF("Score: %d", m_score);
 		m_zw2.PrintF("Health: %f", airplaneHealth);
@@ -529,10 +572,14 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	}
 	m_airplane.MovePlane(x, y, fTimeDelta);
 
-	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(5))
-		m_airplane.SetSpeed(fTimeDelta);
-	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(4))
-		m_airplane.SetSpeed(-fTimeDelta);
+
+	if (m_fuel > 0)
+	{
+		if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(5))
+			m_airplane.SetSpeed(fTimeDelta);
+		if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(4))
+			m_airplane.SetSpeed(-fTimeDelta);
+	}
 	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(6)) {
 		m_timePassed += fTimeDelta;
 		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist

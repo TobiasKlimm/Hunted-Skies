@@ -33,6 +33,8 @@ public:
 
 	void SetSpeed(float change);
 
+	void ReduceSpeedWhenOutOfFuel();
+
 	CPlacement* GetCenter()
 	{
 		return &m_zpPlaneCenter;
