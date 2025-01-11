@@ -91,7 +91,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zoButtonStart.SetLayer(0.3f);
 	m_zosStart.Add(&m_zoButtonStart);
 
-	m_zoButtonPlaneSelection.Init("textures\\SELECTION.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoButtonPlaneSelection.Init("textures\\SELECTION.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), true);
 	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
 	m_zoButtonPlaneSelection.SetLayer(0.4f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
@@ -107,11 +107,11 @@ void CPlayer::Init(CGame* pgame)
 	m_zoPause.SwitchOff();
 
 	//Buttons Resume und BacktoMainMenu
-	m_zoButtonGoOn.Init("textures\\RESUME.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoButtonGoOn.Init("textures\\RESUME.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoPause.AddOverlay(&m_zoButtonGoOn);
 	m_zoButtonGoOn.SetLayer(0.3f);
 	
-	m_zoBack2Start.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
+	m_zoBack2Start.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), true);
 	m_zoPause.AddOverlay(&m_zoBack2Start);
 	m_zoBack2Start.SetLayer(0.1f);
 
@@ -170,16 +170,10 @@ void CPlayer::Init(CGame* pgame)
 	m_zoGameOver.SwitchOff();
 	m_zv.AddOverlay(&m_zoGameOver);
 
-	m_zoRestart.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), false);
+	m_zoRestart.Init("textures\\MAINMENU.png", C2dRect(0.3f, 0.2f, 0.35f, 0.7f), true);
 	m_zoGameOver.AddOverlay(&m_zoRestart);
 	m_zoRestart.SetLayer(0.3f);
 	m_zosGameOver.Add(&m_zoRestart);
-
-	m_zoEnd.Init("textures\\test 2.jpg", C2dRect(0.3f, 0.2f, 0.6f, 0.7f), false);
-	m_zoGameOver.AddOverlay(&m_zoEnd);
-	m_zoEnd.SetLayer(0.3f);
-	m_zosGameOver.Add(&m_zoEnd);
-
 
 	// Bloodscreen
 	m_zi.Init("textures\\BloodOverlay.png");
@@ -274,6 +268,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
+				m_airplane.SetHealth(100);
+				m_score = 0;
+				m_airplane.RotateY(HALFPI);
+				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_zeStatus = eStart;
 			}
 
@@ -467,10 +465,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//Collision fuer Objekte
 		if (m_lastPos == PlayerPos)
 			m_airplane.RegisterHit(1);
-		LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
+		//LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
 		m_lastPos = PlayerPos;
 
-		LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
+		//LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
 
 	}
 	else if (m_zeStatus == eGameOver)

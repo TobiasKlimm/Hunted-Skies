@@ -11,10 +11,19 @@ CAirplane::~CAirplane()
 
 void CAirplane::Init(float damage, unsigned planeID)
 {
+
 	m_planeID = planeID;
 	m_damage = damage;
 	this->AddPlacement(&m_zpPlaneCenter);
-	m_planeModel.Init(m_planeID);
+
+	for (int i = 0; i < 7; i++)
+	{
+		m_planeModel[i].Init(i);
+		m_zpPlaneCenter.AddPlacement(&m_planeModel[i]);
+		m_planeModel[i].SwitchOff();
+	}
+	m_planeModel[m_planeID].SwitchOn();
+
 
 	switch (m_planeID)
 	{
@@ -94,7 +103,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 	m_zpPlaneTip.TranslateZDelta(-2);
 	m_zpPlaneTip.RotateXDelta(-PI / 14.0f);
 
-	m_zpPlaneCenter.AddPlacement(&m_planeModel);
 	m_zpPlaneCenter.AddPlacement(&m_zpPlaneTip);
 
 	m_zpPlaneTip.AddPlacement(&m_BulletManager);
@@ -106,7 +114,13 @@ void CAirplane::Init(float damage, unsigned planeID)
 void CAirplane::ReInit(unsigned planeID)
 {
 	m_planeID = planeID;
-	m_planeModel.ReInit(m_planeID);
+
+	for (int i = 0; i < 7; i++)
+	{
+		m_planeModel[i].SwitchOff();
+		if (m_planeID == i)
+			m_planeModel[i].SwitchOn();
+	}
 
 	switch (m_planeID)
 	{
@@ -179,7 +193,7 @@ void CAirplane::ReInit(unsigned planeID)
 
 void CAirplane::Tick(float fTime, float fTimeDelta)
 {
-	m_planeModel.Tick(fTime, fTimeDelta);
+	m_planeModel[m_planeID].Tick(fTime, fTimeDelta);
 	m_BulletManager.Tick(fTime, fTimeDelta);
 	this->SetTranslationSensitivity(m_flySpeed);
 	m_vDirection = m_zpPlaneTip.GetPosGlobal()-m_zpPlaneCenter.GetPosGlobal();
@@ -196,9 +210,9 @@ void CAirplane::MovePlane(float& x, float& y, float fTimeDelta)
 	m_Xrotation = ClampValue(x, m_Xrotation - MAX_ROTATION_SPEED * fTimeDelta, m_Xrotation + MAX_ROTATION_SPEED * fTimeDelta);
 	m_Yrotation = ClampValue(y, m_Yrotation - MAX_ROTATION_SPEED * fTimeDelta, m_Yrotation + MAX_ROTATION_SPEED * fTimeDelta);
 
-	m_planeModel.RotateY(-m_Xrotation / 2);
-	m_planeModel.RotateZDelta(-m_Xrotation * 5);
-	m_planeModel.RotateXDelta(-m_Yrotation);
+	m_planeModel[m_planeID].RotateY(-m_Xrotation / 2);
+	m_planeModel[m_planeID].RotateZDelta(-m_Xrotation * 5);
+	m_planeModel[m_planeID].RotateXDelta(-m_Yrotation);
 	//Move Plane and Camera
 	float RotationX = x * 15;
 	float RotationY = -y * 15;

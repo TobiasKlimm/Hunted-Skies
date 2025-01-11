@@ -3,7 +3,7 @@
 #include "BulletManager.h"
 
 #define BULLETSPEED 500
-#define DAMAGE 5.0f
+#define DAMAGE 0.5f
 #define SHOOT_FREQUENCY 0.25f
 
 

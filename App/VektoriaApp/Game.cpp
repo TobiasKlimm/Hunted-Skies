@@ -138,7 +138,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
 	m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
-	m_zaWingsOfValor.SetVolume(0.8F);
+	m_zaWingsOfValor.SetVolume(0.9F);
 
 	////
 	//// Turret Explosion

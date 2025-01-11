@@ -159,7 +159,8 @@ void CAirplaneModel::ReInit(int planeID)
 		m_zpTriebwerkL.Translate(0.5, 0.08, 3.5);
 		m_zpTriebwerkR.Translate(-0.5, 0.08, 3.5);
 
-		m_zmPlaneMaterial = planeMaterial;
+		m_zmPlaneMaterial.LoadPreset("AshesGlowing");
+		m_zmPlaneMaterial.Copy(planeMaterial);
 		break;
 	}
 	case 1:

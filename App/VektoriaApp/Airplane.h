@@ -55,7 +55,7 @@ public:
 private:
 	
 	CBulletManager m_BulletManager;
-	CAirplaneModel m_planeModel;
+	CAirplaneModel m_planeModel[7];
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
