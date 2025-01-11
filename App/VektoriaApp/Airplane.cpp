@@ -148,6 +148,11 @@ void CAirplane::Shoot(float randFac)
 
 void CAirplane::SetSpeed(float change)
 {
-	LogDebug("%f", m_flySpeedChangeRate * change);
+	//LogDebug("%f", m_flySpeedChangeRate * change);
 	m_flySpeed = ClampValue(m_flySpeed + m_flySpeedChangeRate * change, m_minFlySpeed, m_maxFlySpeed);
+}
+
+void CAirplane::ReduceSpeedWhenOutOfFuel()
+{
+	m_flySpeed = ClampValue(m_flySpeed - 5, 30, 200);
 }
