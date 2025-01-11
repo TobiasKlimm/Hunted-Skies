@@ -344,7 +344,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCirclehair.SwitchOn();
 		m_pgame->m_zpBlackSphere.SwitchOff();
 
-		if (m_zdk.KeyDown(DIK_P))
+		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(45))
 		{
 			m_zdc.Show();
 			m_zeStatus = ePaused;
@@ -377,16 +377,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		float zoomSpeedIn = MAX_ZOOMIN;
 		float zoomSpeedOut = MAX_ZOOMOUT;
-		if (m_zdc.ButtonPressedRight())
+		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(44))
 		{
 			m_zoom += fTimeDelta * zoomSpeedIn;
-			if (m_zoom > 10.0f)
+			if (m_zoom > 5.0f)
 			{
-				m_zoom = 10.0f;
+				m_zoom = 5.0f;
 			}
 			m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
-		else if (!m_zdc.ButtonPressedRight())
+		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(44))
 		{
 			m_zoom -= fTimeDelta * zoomSpeedOut;
 			if (m_zoom < 1.0f)
@@ -503,6 +503,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 
 void CPlayer::ControlPlane(float fTimeDelta) {
+	x += m_zdgc.GetRelativeRX();
+	y += m_zdgc.GetRelativeRY();
 	//GetMausbewegung
 	x += m_zdm.GetRelativeX();
 	y -= m_zdm.GetRelativeY();
@@ -521,11 +523,12 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	}
 	m_airplane.MovePlane(x, y, fTimeDelta);
 
-	if (m_zdk.KeyPressed(DIK_W))
+	if (m_zdk.KeyPressed(DIK_W) || m_zdgc.ButtonPressed(11))
 		m_airplane.SetSpeed(fTimeDelta);
-	if (m_zdk.KeyPressed(DIK_S))
+	if (m_zdk.KeyPressed(DIK_S) )
+	if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(10))
 		m_airplane.SetSpeed(-fTimeDelta);
-	if (m_zdm.ButtonPressedLeft()) {
+	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(37)) {
 		m_timePassed += fTimeDelta;
 		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
 		if (m_timePassed <=  SHOOT_FREQUENCY)

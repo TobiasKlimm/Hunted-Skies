@@ -71,6 +71,10 @@ public:
     {
         return &m_zdc;
     }
+    CDeviceGameController* GetGameController()
+    {
+        return &m_zdgc;
+    }
     CAirplane* GetAirplane()
     {
         return &m_airplane;

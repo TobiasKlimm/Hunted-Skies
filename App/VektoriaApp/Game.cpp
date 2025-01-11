@@ -59,6 +59,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceMouse(m_player.GetMouse());
 	m_zf.AddDeviceKeyboard(m_player.GetKeyboard());
 	m_zf.AddDeviceCursor(m_player.GetCursor());
+	m_zf.AddDeviceGameController(m_player.GetGameController());
 
 	//Carrier
 	m_zgCarrier = m_zfCarrier.LoadGeoTriangleTable("models\\Carrier\\source\\untitled.obj",true);
