@@ -8,9 +8,8 @@ using namespace Vektoria;
 #define MINIMAPSIZE 0.02f
 #define SHOOT_FREQUENCY 0.05f
 #define DAMAGE 10.0f
-#define MAX_DISTANCE 2500;
-#define CONTROLLER_SENSITIVITY 200;
-
+#define MAX_DISTANCE 2500
+#define CONTROLLER_SENSITIVITY 200
 
 enum Status
 {
@@ -20,7 +19,6 @@ enum Status
     eSelection,
     eGameOver
 };
-
 
 class CGame; 
 class CPlayer :

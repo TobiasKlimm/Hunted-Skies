@@ -111,7 +111,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_player.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 
 	//Turrets
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_TURRETS; i++) {
 		m_turrets[i].Init(m_player.GetAirplane());
 		m_turrets[i].GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 		m_turrets[i].GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
@@ -122,14 +122,14 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	}
 
 	//BotPlanes
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < MAX_BOTS; i++) {
 		m_botplanes[i].Init(m_player.GetAirplane());
 		m_botplanes[i].GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
 		m_botplanes[i].GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 		m_botplanes[i].GetAirplane()->SwitchOff();
 		m_zs.AddPlacement(&m_botplanes[i]);
 		m_zs.AddPlacements(*m_botplanes[i].GetAirplane()->GetBulletManager()->GetBullets());
-		m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_botplanes[i]);
+		m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_botplanes[i].GetAirplane());
 	}
 
 	//MUSIC
@@ -180,7 +180,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	}
 
 	//Turet Spawning
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < MAX_TURRETS; i++) {
 		if (!m_turrets[i].IsOn()) {
 			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
 			m_zpExplosion.SwitchOn();
@@ -194,8 +194,8 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			LogDebug("New Turret spawned at Height: %f", fHeightTerrain);
 
 			if (fHeightTerrain > 0.0f) {
-				m_turrets[i].SwitchOn();
 				vrand.y = fHeightTerrain;
+				m_turrets[i].SwitchOn();
 				m_turrets[i].SetPosition(vrand);
 				m_turrets[i].SetHealth(100);
 			}
@@ -203,7 +203,8 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		m_turrets[i].Tick(fTime, fTimeDelta, m_player.GetAirplane()->GetDirection(), m_player.GetAirplane()->GetFlySpeed());
 	}
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < MAX_BOTS; i++) {
+		m_botplanes[i].Tick(fTime, fTimeDelta);
 		if (!m_botplanes[i].GetAirplane()->IsOn()) {
 			m_zbpExplosion.Translate(m_botplanes[i].GetAirplane()->GetPosGlobal());
 			m_zpExplosion.SwitchOn();
@@ -215,13 +216,11 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			vrand2 *= 1000;
 			LogDebug("New Bot spawned");
 
-			m_botplanes[i].GetAirplane()->SwitchOn();
-			vrand2.y = 100+i*5;
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
-	
+			m_botplanes[i].GetAirplane()->SwitchOn();
+			vrand2.y = 100+i*5;
 		}
-		m_botplanes[i].Tick(fTime, fTimeDelta);
 	}
 
 	if (m_zpExplosion.IsOn())

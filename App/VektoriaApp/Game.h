@@ -39,9 +39,10 @@
 #include "Turret.h"
 #include "Player.h"
 
-
-
 using namespace Vektoria;
+
+#define MAX_BOTS 5
+#define MAX_TURRETS 10
 
 
 class CGame
@@ -107,8 +108,8 @@ private:
 	CPlayer m_player;
 	CTerrain m_terrain;
 
-	CTurret m_turrets[10];
-	CBot m_botplanes[5];
+	CTurret m_turrets[MAX_TURRETS];
+	CBot m_botplanes[MAX_BOTS];
 
 	CGeos m_zgsTerrainCollision;
 

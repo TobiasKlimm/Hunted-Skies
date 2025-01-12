@@ -7,7 +7,6 @@ class CEnemy :
 	public CPlacement
 {
 public:
-	void Init();
 	bool RegisterHit(float damage);
 	CHVector GetPosition() {
 		return m_position;

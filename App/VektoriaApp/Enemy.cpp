@@ -2,7 +2,7 @@
 
 bool CEnemy::RegisterHit(float damage)
 {
-	LogDebug("%s HIT, Health: %f",this->GetName(),m_health);
+	LogDebug("%s HIT, Health: %f",this->GetName(),(m_health-damage));
 	m_health -= damage;
 	if (m_health <= 0) {
 		m_health = 0;

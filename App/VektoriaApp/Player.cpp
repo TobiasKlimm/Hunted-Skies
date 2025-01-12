@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Player.h"
-#define MAX_ZOOMIN	10;
-#define MAX_ZOOMOUT 20;
+#define MAX_ZOOMIN	10
+#define MAX_ZOOMOUT 20
 
 void CPlayer::InitCam() {
 	//Hauptviewport Initialisierung
@@ -438,11 +438,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		//Airplane Zoom
 		//----------------------------------------------------------------------------------
-		float zoomSpeedIn = MAX_ZOOMIN;
-		float zoomSpeedOut = MAX_ZOOMOUT;
 		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(7))
 		{
-			m_zoom += fTimeDelta * zoomSpeedIn;
+			m_zoom += fTimeDelta * MAX_ZOOMIN;
 			if (m_zoom > 5.0f)
 			{
 				m_zoom = 5.0f;
@@ -451,7 +449,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		}
 		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(7))
 		{
-			m_zoom -= fTimeDelta * zoomSpeedOut;
+			m_zoom -= fTimeDelta * MAX_ZOOMOUT;
 			if (m_zoom < 1.0f)
 			{
 				m_zcCamera.SetFov(PI / 3);
@@ -506,10 +504,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		//Collision Warnung fuer zu weit weg
 		//----------------------------------------------------------------------------------
-		int MaxAbstand = MAX_DISTANCE;
-
 		CHVector PlayerPos = m_airplane.GetPosGlobal();
-		if (PlayerPos.Length()> MaxAbstand) {
+		if (PlayerPos.Length()> MAX_DISTANCE) {
 			m_zo.SwitchOff();
 			m_zoAbstand.SwitchOn();
 			//LogDebug("Warnung sie verlassen das Kriegsgebiet");
