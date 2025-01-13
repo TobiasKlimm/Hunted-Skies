@@ -144,9 +144,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaWingsOfValor.Loop();
 	m_zaWingsOfValor.SetVolume(0.9F);
 
-	m_zaExplosion.Init("sounds\\ExplosionBlast.wav");
-	//m_zpExplosion.AddAudio(&m_zaExplosion);
-	m_zaExplosion.SetVolume(0.9F);
+	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
+	m_zpExplosion.AddAudio(&m_zaExplosion);
+	//m_zaExplosion.SetVolume(0.9F);
 
 	////
 	//// Turret Explosion
