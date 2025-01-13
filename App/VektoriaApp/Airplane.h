@@ -62,7 +62,7 @@ private:
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
 	
-	CAABB m_zDistanceBox;
+	CAABB m_zHitBox;
 
 
 	unsigned m_planeID;

@@ -11,10 +11,11 @@ CAirplane::~CAirplane()
 
 void CAirplane::Init(float damage, unsigned planeID)
 {
-
 	m_planeID = planeID;
 	m_damage = damage;
 	this->AddPlacement(&m_zpPlaneCenter);
+	//ClearAABB();
+	//m_zHitBox.AddRadius(5, GetMatGlobal());
 
 	for (int i = 0; i < 7; i++)
 	{

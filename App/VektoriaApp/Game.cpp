@@ -36,9 +36,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.Init(psplash, false, false, true);
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
-
+	/*
 	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	*/
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
@@ -143,6 +144,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaWingsOfValor.Loop();
 	m_zaWingsOfValor.SetVolume(0.9F);
 
+	m_zaExplosion.Init("sounds\\ExplosionBlast.wav");
+	//m_zpExplosion.AddAudio(&m_zaExplosion);
+	m_zaExplosion.SetVolume(0.9F);
+
 	////
 	//// Turret Explosion
 	////
@@ -213,7 +218,6 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	}
 
 	for (int i = 0; i < MAX_BOTS; i++) {
-		m_botplanes[i].Tick(fTime, fTimeDelta);
 		if (!m_botplanes[i].GetAirplane()->IsOn()) {
 			m_zbpExplosion.Translate(m_botplanes[i].GetAirplane()->GetPosGlobal());
 			m_zpExplosion.SwitchOn();
@@ -230,6 +234,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
 		}
+		m_botplanes[i].Tick(fTime, fTimeDelta);
 	}
 
 	if (m_zpExplosion.IsOn())
@@ -244,8 +249,10 @@ void CGame::Tick(float fTime, float fTimeDelta)
 void CGame::EndExplosion(float fTime) {
 	if (fTime - m_fBotTime > 0.1f)
 	{
-		if (m_bTurretDestroyed == true)
+		if (m_bTurretDestroyed == true) {
 			m_iExplosion = 0;
+			m_zaExplosion.Start();
+		}
 		m_iExplosion++;
 		if (m_iExplosion > 17) {
 			m_zpExplosion.SwitchOff();

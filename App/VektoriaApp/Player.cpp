@@ -258,7 +258,11 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zdc.Hide();
 				m_zwHighScore.SwitchOff();
 				//m_zoMap.SwitchOn();
+				m_airplane.SetHealth(100);
 				m_fuel = 100;
+				m_score = 0;
+				m_airplane.RotateY(HALFPI);
+				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_zeStatus = eInGame;
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
@@ -290,10 +294,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
-				m_airplane.SetHealth(100);
-				m_score = 0;
-				m_airplane.RotateY(HALFPI);
-				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_zeStatus = eStart;
 			}
 
@@ -552,11 +552,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_airplane.m_Xrotation = 0.0f;
 				m_airplane.m_Yrotation = 0.0f;
 				m_lastPos = CHVector(0, 0, 0, 1);
+				m_airplane.SwitchOn();
+				m_airplane.RotateY(HALFPI);
+				m_airplane.TranslateDelta(2000, 55, -1000);
+				m_airplane.Tick(fTime, fTimeDelta);
+				y = 0;
+				x = 0;
+				m_airplane.m_Xrotation = 0.0f;
+				m_airplane.m_Yrotation = 0.0f;
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_airplane.SetHealth(100);
 				m_zeStatus = eStart;
-				m_airplane.SwitchOn();
 			}
 		}
 	}
@@ -595,10 +602,10 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 void CPlayer::ControlPlane(float fTimeDelta) {
 	float controllerXInput = m_zdgc.GetRelativeX() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerXInput) < 0.0003f)
+	if (abs(controllerXInput) < 0.0004f)
 		controllerXInput = 0;
 	float controllerYInput = m_zdgc.GetRelativeY() / CONTROLLER_SENSITIVITY;
-	if (abs(controllerYInput) < 0.0003f)
+	if (abs(controllerYInput) < 0.0004f)
 		controllerYInput = 0;
 	x += controllerXInput;
 	y += controllerYInput;

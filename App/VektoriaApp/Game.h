@@ -146,7 +146,8 @@ private:
 	CPlacement m_zpSphereCollision;
 
 	
-
+	//SOUNDS
+	CAudio m_zaExplosion;
 
 };
 
