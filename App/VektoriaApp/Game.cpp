@@ -1,5 +1,5 @@
 ﻿#include "Game.h"
-
+#include <random>
 CGame::CGame(void)
 {
 }
@@ -99,11 +99,114 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zgCollisionKugelBlender->Flip();
 	m_zpCollisionKugelBlender.SetDrawingOff();
 
+	//Ships auf der Map um Flugzeugcarrier
+	//Ship
+	m_zgDestroyer = m_zfDestroyer.LoadGeoTriangleTable("models\\Ships\\destroyerClass\\source\\destroyer.obj",true);
+	m_zmDestroyer.MakeTextureDiffuse("models\\Ships\\destroyerClass\\textures\\body.png");
+	m_zgDestroyer->SetMaterial(&m_zmDestroyer);
+	
+
+	for (int i = 0; i < 4; i++)
+	{
+	CHVector fuer (150, 0, -20-m_destroyerx);
+	CHVector nur (-150, 0, -20-m_destroyerx1);//x ist Vom carrier aus weiter vorner oder oder weiter hinten
+		m_zpCarrier.AddPlacement(&m_zpDestroyer[i]);
+		m_zpDestroyer[i].Scale(15);
+		//m_zpDestroyer[i].RotateYDelta();
+		m_zpDestroyer[i].AddGeo(m_zgDestroyer);
+		if (i % 2 == 0)
+		{
+			m_zpDestroyer[i].TranslateDelta(fuer);
+			m_destroyerx += 200;
+			
+		}
+		else
+		{
+			m_zpDestroyer[i].TranslateDelta(nur);
+			m_destroyerx1 += 200;
+		}
+	}
+
+
+	//Random Schiffe auf der Map
+	m_zgRandomShip = m_zfRandomShip.LoadGeoTriangleTable("models\\Ships\\destroyerClass\\source\\destroyer.obj", true);
+	m_zmRandomShip.MakeTextureDiffuse("models\\Ships\\destroyerClass\\textures\\body.png");
+	m_zgRandomShip->SetMaterial(&m_zmRandomShip);
+
+	m_zgRandomShip1 = m_zfRandomShip1.LoadGeoTriangleTable("models\\Ships\\UsShip\\source\\ShipUs.obj", true);
+	m_zmRandomShip1.MakeTextureDiffuse("models\\Ships\\UsShip\\textures\\DDG51_s.png");
+	m_zgRandomShip1->SetMaterial(&m_zmRandomShip1);
+
+	m_zgRandomShip2= m_zfRandomShip2.LoadGeoTriangleTable("models\\Ships\\Uboot\\UBoat.obj", true);
+	m_zmRandomShip2.MakeTextureDiffuse("models\\Ships\\Uboot\\uboat.png");
+	m_zgRandomShip2->SetMaterial(&m_zmRandomShip2);
+
+
+	for (int i = 0; i < MAX_RANDOMSHIPS; i++)
+	{
+		std::random_device rd; // Liefert einen Seed
+		std::mt19937 gen(rd()); // Mersenne Twister Engine
+		std::uniform_int_distribution<> range_selector(0, 1); // Bereichsauswahl: 0 oder 1
+		std::uniform_int_distribution<> negative_range(-2500, -2000); // Bereich: -3000 bis -2000
+		std::uniform_int_distribution<> positive_range(2000, 2500);   // Bereich: 1000 bis 2000
+		std::uniform_int_distribution<> ship_select(1, 3);
+		// Zwei Zufallszahlen generieren
+		int random_number1, random_number2;
+		int random_Ship = ship_select(gen);
+		// Erste Zufallszahl
+		if (range_selector(gen) == 0) 
+		{
+			random_number1 = negative_range(gen);
+		}
+		else 
+		{
+			random_number1 = positive_range(gen);
+		}
+
+		// Zweite Zufallszahl
+		if (range_selector(gen) == 0) 
+		{
+			random_number2 = negative_range(gen);
+		}
+		else 
+		{
+			random_number2 = positive_range(gen);
+		}
+		m_zs.AddPlacement(&m_zpRandomShip[i]);
+		switch (random_Ship)
+		{
+			case 1:
+			{
+				m_zpRandomShip[i].AddGeo(m_zgRandomShip);
+				break;
+			}
+			case 2:
+			{
+				m_zpRandomShip[i].AddGeo(m_zgRandomShip1);
+				break;
+			}
+			case 3:
+			{
+				m_zpRandomShip[i].AddGeo(m_zgRandomShip2);
+				break;
+			}
+		}
+		m_zpRandomShip[i].Scale(20);
+		m_zpRandomShip[i].TranslateDelta(random_number1+m_movefaktor, 0, random_number2+m_movefaktor);
+		m_movefaktor += 20;
+	}
+
+
+
 	//Terraincollision Airplane
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainGeo());
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainWater());
 	m_zgsTerrainCollision.Add(m_zgCarrier);
 	m_zgsTerrainCollision.Add(m_zgCollisionKugelBlender);
+	m_zgsTerrainCollision.Add(m_zgDestroyer);
+	m_zgsTerrainCollision.Add(m_zgRandomShip);
+	m_zgsTerrainCollision.Add(m_zgRandomShip1);
+	m_zgsTerrainCollision.Add(m_zgRandomShip2);
 
 	m_player.GetAirplane()->m_zgsCollisionObjects = m_zgsTerrainCollision;
 

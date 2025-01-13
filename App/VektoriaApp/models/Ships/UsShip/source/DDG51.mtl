@@ -1,0 +1,13 @@
+# Blender 4.0.2 MTL File: 'DDG51.blend'
+# www.blender.org
+
+newmtl DDG112
+Ns 422.499969
+Ka 0.370000 0.370000 0.370000
+Ks 0.170000 0.170000 0.170000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 3
+map_Kd DDG51_d.png
+map_d DDG51_a.png
+map_Bump -bm 1.000000 DDG51_n.png

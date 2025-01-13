@@ -43,7 +43,7 @@ using namespace Vektoria;
 
 #define MAX_BOTS 5
 #define MAX_TURRETS 10
-
+#define MAX_RANDOMSHIPS 20
 
 class CGame
 {
@@ -145,6 +145,30 @@ private:
 	CGeoSphere m_zgSphereCollision;
 	CPlacement m_zpSphereCollision;
 
+	//Ships
+	CPlacement m_zpDestroyer[4];
+	CGeoTriangleTable* m_zgDestroyer;
+	CMaterial m_zmDestroyer;
+	CFileWavefront m_zfDestroyer;
+	float m_vector;
+	float m_vecotr1;
+	int m_destroyerx=0;
+	int m_destroyerx1 = 0;
+
+	CPlacement m_zpRandomShip[MAX_RANDOMSHIPS];
+	CGeoTriangleTable* m_zgRandomShip;
+	CMaterial m_zmRandomShip;
+	CFileWavefront m_zfRandomShip;
+
+	CGeoTriangleTable* m_zgRandomShip1;
+	CMaterial m_zmRandomShip1;
+	CFileWavefront m_zfRandomShip1;
+
+	CGeoTriangleTable* m_zgRandomShip2;
+	CMaterial m_zmRandomShip2;
+	CFileWavefront m_zfRandomShip2;
+
+	int m_movefaktor=20;
 	
 
 

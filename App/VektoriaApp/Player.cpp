@@ -194,7 +194,9 @@ void CPlayer::Init(CGame* pgame)
 	m_zv.SetMistHeightMin(-500);
 
 	//m_zv.SetHazeOn();
-	//m_zv.SetBloomOn();
+	//m_zv.Set
+	// 
+	// On();
 	//m_zv.SetBloomStrengthNear(5.0f); //6.0
 	//m_zv.SetBloomStrengthFar(0.0f);
 	//m_zv.SetBloomWidth(1.0f); //3.m_zs
