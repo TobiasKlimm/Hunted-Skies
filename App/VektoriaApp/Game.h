@@ -170,7 +170,8 @@ private:
 
 	int m_movefaktor=20;
 	
-
+	//SOUNDS
+	CAudio m_zaExplosion;
 
 };
 

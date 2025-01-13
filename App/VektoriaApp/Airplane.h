@@ -35,6 +35,12 @@ public:
 
 	void ReduceSpeedWhenOutOfFuel();
 
+	void StopSounds();
+
+	void StartSounds();
+
+	void SelectSounds(int iSelected);
+
 	CPlacement* GetCenter()
 	{
 		return &m_zpPlaneCenter;
@@ -51,18 +57,23 @@ public:
 	{
 		return m_flySpeed;
 	}
+	CGeoCylinder GetHitboxGeo()
+	{
+		return m_HitboxGeo;
+	}
+
 
 	CGeos m_zgsCollisionObjects;
 	float m_Xrotation = 0.0f, m_Yrotation = 0.0f;
 private:
-	
+	CGeoCylinder m_HitboxGeo;
 	CBulletManager m_BulletManager;
 	CAirplaneModel m_planeModel[7];
 	CPlacement m_zpPlaneCenter;
 	CPlacement m_zpPlaneTip;
 	CHVector m_vDirection;
 	
-	CAABB m_zDistanceBox;
+	CAABB m_zHitBox;
 
 
 	unsigned m_planeID;
@@ -77,5 +88,5 @@ private:
 	
 	/// SOUNDS ///
 	CAudio m_zaPlaneShot; 
-	CAudio m_zaPlaneSound;
+	CAudio m_zaPlaneSound[7];
 };

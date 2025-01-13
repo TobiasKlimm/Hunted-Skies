@@ -36,10 +36,11 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.Init(psplash, false, false, true);
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
-
-	/*m_zf.SetFullscreenOn();
+	/*
+	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-	LockCursorToWindow(hwnd);*/
+	*/
+	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
 	CViewport* m_zvMinimap = m_player.GetViewportMinimap();
@@ -69,7 +70,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zmCarrier.MakeTextureDiffuse("models\\Carrier\\textures\\Nimitz_Albedo.png");
 	m_zmCarrier.MakeTextureBump("models\\Carrier\\textures\\Nimitz_Normal_(1).png");
 	m_zmCarrier.MakeTextureSpecular("models\\Carrier\\textures\\Nimitz_Metalness.png");
-	m_zpCarrier.ScaleDelta(2);
+	m_zpCarrier.Scale(2);
 	m_zpCarrier.RotateYDelta(-HALFPI);
 	m_zpCarrier.TranslateDelta(2000,0,-1000);
 
@@ -242,9 +243,13 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaTrackOne.Loop();*/
 
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
-	m_zs.AddAudio(&m_zaWingsOfValor);
+	//m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
 	m_zaWingsOfValor.SetVolume(0.9F);
+
+	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
+	m_zpExplosion.AddAudio(&m_zaExplosion);
+	//m_zaExplosion.SetVolume(0.9F);
 
 	////
 	//// Turret Explosion
@@ -275,16 +280,25 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 void CGame::Tick(float fTime, float fTimeDelta)
 {
+	float zero = 0;
+	float vorwaerts = -1;
 	m_player.Tick(fTime, fTimeDelta);
 	//If Game Paused do not update game objects
 	if (m_player.m_zeStatus != eInGame) {
+		//m_zpCarrier.Scale(2);
+		//m_zpCarrier.RotateYDelta(-HALFPI);
+		//m_zpCarrier.TranslateDelta(2000, 0, -1000);
+		//m_zpCarrier.Move(fTimeDelta, true, zero, zero, vorwaerts, zero, zero);
 		m_zr.Tick(0);
 		return; //<- wois ich net ob des so muss
 	}
+	//m_zpCarrier.SetTranslationSensitivity(20);
+	//m_zpCarrier.Move(fTimeDelta, true, zero, vorwaerts, zero, zero, zero);
 
 	//Turet Spawning
 	for (int i = 0; i < MAX_TURRETS; i++) {
 		if (!m_turrets[i].IsOn()) {
+
 			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
 			m_zpExplosion.SwitchOn();
 			m_bTurretDestroyed = true;
@@ -307,23 +321,25 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	}
 
 	for (int i = 0; i < MAX_BOTS; i++) {
-		m_botplanes[i].Tick(fTime, fTimeDelta);
 		if (!m_botplanes[i].GetAirplane()->IsOn()) {
 			m_zbpExplosion.Translate(m_botplanes[i].GetAirplane()->GetPosGlobal());
 			m_zpExplosion.SwitchOn();
 			m_bTurretDestroyed = true;
 			m_zmExplosion.SetPic(0, 0);
 
+
 			CHVector vrand2;
 			vrand2.RandomDir();
 			vrand2 *= 1000;
-			LogDebug("New Bot spawned");
+			vrand2.y = 150;
+			LogDebug("New Bot spawned at %f %f %f",vrand2.x,vrand2.y,vrand2.z);
 
+			m_botplanes[i].GetAirplane()->SwitchOn();
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
-			m_botplanes[i].GetAirplane()->SwitchOn();
-			vrand2.y = 100+i*5;
+			m_botplanes[i].m_bFirstMove = true;
 		}
+		m_botplanes[i].Tick(fTime, fTimeDelta);
 	}
 
 	if (m_zpExplosion.IsOn())
@@ -338,8 +354,10 @@ void CGame::Tick(float fTime, float fTimeDelta)
 void CGame::EndExplosion(float fTime) {
 	if (fTime - m_fBotTime > 0.1f)
 	{
-		if (m_bTurretDestroyed == true)
+		if (m_bTurretDestroyed == true) {
 			m_iExplosion = 0;
+			m_zaExplosion.Start();
+		}
 		m_iExplosion++;
 		if (m_iExplosion > 17) {
 			m_zpExplosion.SwitchOff();

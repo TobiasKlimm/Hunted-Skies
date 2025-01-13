@@ -11,10 +11,19 @@ CAirplane::~CAirplane()
 
 void CAirplane::Init(float damage, unsigned planeID)
 {
+	m_HitboxGeo.Init(5, 7, NULL, 6);
+	m_HitboxGeo.SetDrawingOff();
+	CHMat mat;
+	mat.RotateX(HALFPI);
+	m_HitboxGeo.Transform(mat);
+	AddGeo(&m_HitboxGeo);
 
 	m_planeID = planeID;
 	m_damage = damage;
 	this->AddPlacement(&m_zpPlaneCenter);
+
+	//ClearAABB();
+	//m_zHitBox.AddRadius(5, GetMatGlobal());
 
 	for (int i = 0; i < 7; i++)
 	{
@@ -24,6 +33,21 @@ void CAirplane::Init(float damage, unsigned planeID)
 	}
 	m_planeModel[m_planeID].SwitchOn();
 
+		m_zaPlaneSound[0].Init3D("sounds\\F4.wav", 100.0F);
+		m_zaPlaneSound[1].Init3D("sounds\\propeller.wav", 20.0F);
+		m_zaPlaneSound[2].Init3D("sounds\\Afterburner.wav", 150.0F);
+		m_zaPlaneSound[3].Init3D("sounds\\P40.wav", 70.0F);
+		m_zaPlaneSound[4].Init3D("sounds\\Afterburner.wav", 200.0F);
+		m_zaPlaneSound[5].Init3D("sounds\\Stealth.wav", 300.0F);
+		m_zaPlaneSound[6].Init3D("sounds\\B17.wav", 300.0F);
+
+		for (int i = 0; i < 7; i++)
+		{
+			m_zaPlaneSound[i].SetVolume(1);
+			if (m_planeID == i) {
+				
+			}
+		}
 
 	switch (m_planeID)
 	{
@@ -33,7 +57,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 70;
 		m_maxFlySpeed = 200;
 		m_flySpeedChangeRate = 35;
-		m_zaPlaneSound.Init3D("sounds\\F4.wav", 100.0F);
 		break;
 
 	}
@@ -43,7 +66,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
-		m_zaPlaneSound.Init3D("sounds\\propeller.wav", 20.0F);
 		break;
 	}
 	case 2:
@@ -52,7 +74,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 150.0F);
 		break;
 	}
 	case 3:
@@ -61,7 +82,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
-		m_zaPlaneSound.Init3D("sounds\\P40.wav", 70.0F);
 		break;
 	}
 	case 4:
@@ -70,7 +90,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 200.0F);
 		break;
 	}
 	case 5:
@@ -79,7 +98,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
 		break;
 	}
 	case 6:
@@ -88,15 +106,16 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_minFlySpeed = 60;
 		m_maxFlySpeed = 110;
 		m_flySpeedChangeRate = 5;
-		m_zaPlaneSound.Init3D("sounds\\B17.wav", 300.0F);
 		break;
 	}
 	}
 
+	for (int i = 0; i < 7; i++)
+	{
+		m_zpPlaneCenter.AddAudio(&m_zaPlaneSound[i]);
+		m_zaPlaneSound[i].SetVolume(1.0F);
+	}
 
-	//m_zpPlaneCenter.AddAudio(&m_zaPlaneSound);
-	m_zaPlaneSound.SetVolume(0.85F);
-	m_zaPlaneSound.Loop();
 
 
 
@@ -107,8 +126,8 @@ void CAirplane::Init(float damage, unsigned planeID)
 
 	m_zpPlaneTip.AddPlacement(&m_BulletManager);
 	m_BulletManager.Init(BULLETSPEED, m_damage);
-	m_zaPlaneShot.Init3D("sounds\\PlaneShot.wav", 1.5F);
-	//m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
+	m_zaPlaneShot.Init3D("sounds\\PlaneShot.wav", 100.5F);
+	m_zpPlaneTip.AddAudio(&m_zaPlaneShot);
 }
 
 void CAirplane::ReInit(unsigned planeID)
@@ -118,8 +137,9 @@ void CAirplane::ReInit(unsigned planeID)
 	for (int i = 0; i < 7; i++)
 	{
 		m_planeModel[i].SwitchOff();
-		if (m_planeID == i)
+		if (m_planeID == i) {
 			m_planeModel[i].SwitchOn();
+		}
 	}
 
 	switch (m_planeID)
@@ -130,7 +150,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 70;
 		m_maxFlySpeed = 200;
 		m_flySpeedChangeRate = 35;
-		m_zaPlaneSound.Init3D("sounds\\F4.wav", 100.0F);
 		break;
 
 	}
@@ -140,7 +159,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
-		m_zaPlaneSound.Init3D("sounds\\propeller.wav", 20.0F);
 		break;
 	}
 	case 2:
@@ -149,7 +167,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 150.0F);
 		break;
 	}
 	case 3:
@@ -158,7 +175,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 30;
 		m_maxFlySpeed = 130;
 		m_flySpeedChangeRate = 15;
-		m_zaPlaneSound.Init3D("sounds\\P40.wav", 70.0F);
 		break;
 	}
 	case 4:
@@ -167,7 +183,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Afterburner.wav", 200.0F);
 		break;
 	}
 	case 5:
@@ -176,7 +191,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 150;
 		m_maxFlySpeed = 250;
 		m_flySpeedChangeRate = 40;
-		m_zaPlaneSound.Init3D("sounds\\Stealth.wav", 300.0F);
 		break;
 	}
 	case 6:
@@ -185,7 +199,6 @@ void CAirplane::ReInit(unsigned planeID)
 		m_minFlySpeed = 60;
 		m_maxFlySpeed = 110;
 		m_flySpeedChangeRate = 5;
-		m_zaPlaneSound.Init3D("sounds\\B17.wav", 300.0F);
 		break;
 	}
 	}
@@ -239,4 +252,46 @@ void CAirplane::SetSpeed(float change)
 void CAirplane::ReduceSpeedWhenOutOfFuel()
 {
 	m_flySpeed = ClampValue(m_flySpeed - 5, 50, 200);
+}
+
+void CAirplane::StopSounds()
+{
+	for (int i = 0; i < 7; i++)
+		m_zaPlaneSound[i].Stop();
+}
+
+void CAirplane::StartSounds()
+{
+	for (int i = 0; i < 7; i++)
+	{
+		if (m_planeID == i)
+		{
+			m_zaPlaneSound[i].Loop();
+		}
+		else
+			m_zaPlaneSound[i].Stop();
+
+		/*
+		m_zaPlaneSound[i].SetVolume(0);
+		if (m_planeID == i) {
+			m_zaPlaneSound[i].SetVolume(1.0);
+		}
+		*/
+	}
+}
+
+void CAirplane::SelectSounds(int iSelected)
+{
+	for (int i = 0; i < 7; i++)
+	{
+		if (i == iSelected)
+		{
+			m_zaPlaneSound[i].Loop();
+		}
+		else
+			m_zaPlaneSound[i].Stop();
+
+	}
+
+
 }

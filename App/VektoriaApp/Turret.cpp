@@ -2,6 +2,12 @@
 
 void CTurret::Init(CPlacement* target)
 {
+	m_HitboxGeo.SetAxis(eAxisY);
+	m_HitboxGeo.Init(2, 3, NULL, 6);
+	m_HitboxGeo.SetDrawingOff();
+	m_HitboxGeo.SetName("Hans");
+	AddGeo(&m_HitboxGeo);
+
 	m_zpTarget = target;
 	CFileWavefront objLoader;
 

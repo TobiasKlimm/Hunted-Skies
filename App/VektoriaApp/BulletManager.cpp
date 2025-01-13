@@ -13,6 +13,9 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 	m_zpBulletTemplate.SwitchOff();
 	m_zpsBullets.RingMake(100, m_zpBulletTemplate);
 	this->AddPlacement(&m_zpBulletTemplate);
+
+	m_zaShot.Init3D("sounds\\PlaneShot.wav",10);
+	//AddAudio(&m_zaShot);
 }
 
 void CBulletManager::Tick(float fTime, float fTimeDelta) {
@@ -31,6 +34,8 @@ void CBulletManager::Shoot(const CHVector& direction) {
 	pzp->SetMat(m_position);
 	//schießt die Kugel in die Richtung die das Flugueug zeigt
 	pzp->SetPhysicsVelocity(direction * m_bulletSpeed);
+
+	m_zaShot.Start();
 }
 
 void CBulletManager::UpdateBullets() {
@@ -49,9 +54,15 @@ void CBulletManager::UpdateBullets() {
 			//Collision Detection
 			CRay m_zrBulletRay;
 			m_zrBulletRay.InitFromTo(lastPosBullets[i], currentPos);
+			CHitPoint hp; 
 			for (unsigned j = 0; j < m_collisionTargets.GetCount(); j++) {
 				CPlacement* currentTarget = m_collisionTargets.Get(j);
-				if (currentTarget->IsOn() && currentTarget->Intersects(m_zrBulletRay)) {
+				CGeo* pzg = (CGeo*)currentTarget->GetChild(0);
+				if (currentTarget->IsOn() &&
+
+					pzg->Intersects(m_zrBulletRay, hp)){
+
+//					currentTarget->GetAABB()->Intersects(m_zrBulletRay)) {
 
 					currentBullet->SwitchOff();
 					currentTarget->GetParent()->GetName();;

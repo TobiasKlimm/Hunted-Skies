@@ -37,6 +37,7 @@ private:
 	CPlacements m_zpsBullets;
 	CGeoTerrain* m_zgTerrain; //Bullets verschwinden wenn sie das Terrain berühren
 	CHMat m_position;
+	CAudio m_zaShot;
 	float m_bulletSpeed;
 	float m_damage = 10;
 
