@@ -85,8 +85,8 @@ void CPlayer::Init(CGame* pgame)
 
 	//Startbildschrim Inits und Overlayadds overlay mit switchoff
 	m_ziStart.Init("textures\\startbildschrim.png");
-	//m_zoStart.InitFull(&m_ziStart);
-	m_zoStart.Init("textures\\startbildschrim.png", C2dRect(0.01f, 0.01f, 0.0f, 0.0f), true);
+	m_zoStart.InitFull(&m_ziStart);
+	//m_zoStart.Init("textures\\startbildschrim.png", C2dRect(0.01f, 0.01f, 0.0f, 0.0f), true);
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 

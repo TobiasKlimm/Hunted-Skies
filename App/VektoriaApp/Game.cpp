@@ -37,9 +37,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 
-	/*m_zf.SetFullscreenOn();
+	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-	LockCursorToWindow(hwnd);*/
+	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
 	CViewport* m_zvMinimap = m_player.GetViewportMinimap();
@@ -69,7 +69,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zmCarrier.MakeTextureDiffuse("models\\Carrier\\textures\\Nimitz_Albedo.png");
 	m_zmCarrier.MakeTextureBump("models\\Carrier\\textures\\Nimitz_Normal_(1).png");
 	m_zmCarrier.MakeTextureSpecular("models\\Carrier\\textures\\Nimitz_Metalness.png");
-	m_zpCarrier.ScaleDelta(2);
+	m_zpCarrier.Scale(2);
 	m_zpCarrier.RotateYDelta(-HALFPI);
 	m_zpCarrier.TranslateDelta(2000,0,-1000);
 
@@ -172,16 +172,25 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 void CGame::Tick(float fTime, float fTimeDelta)
 {
+	float zero = 0;
+	float vorwaerts = -1;
 	m_player.Tick(fTime, fTimeDelta);
 	//If Game Paused do not update game objects
 	if (m_player.m_zeStatus != eInGame) {
+		//m_zpCarrier.Scale(2);
+		//m_zpCarrier.RotateYDelta(-HALFPI);
+		//m_zpCarrier.TranslateDelta(2000, 0, -1000);
+		//m_zpCarrier.Move(fTimeDelta, true, zero, zero, vorwaerts, zero, zero);
 		m_zr.Tick(0);
 		return; //<- wois ich net ob des so muss
 	}
+	//m_zpCarrier.SetTranslationSensitivity(20);
+	//m_zpCarrier.Move(fTimeDelta, true, zero, vorwaerts, zero, zero, zero);
 
 	//Turet Spawning
 	for (int i = 0; i < MAX_TURRETS; i++) {
 		if (!m_turrets[i].IsOn()) {
+
 			m_zbpExplosion.Translate(m_turrets[i].GetPosGlobal());
 			m_zpExplosion.SwitchOn();
 			m_bTurretDestroyed = true;
@@ -214,12 +223,12 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			CHVector vrand2;
 			vrand2.RandomDir();
 			vrand2 *= 1000;
-			LogDebug("New Bot spawned");
+			vrand2.y = 150;
+			LogDebug("New Bot spawned at %f %f %f",vrand2.x,vrand2.y,vrand2.z);
 
+			m_botplanes[i].GetAirplane()->SwitchOn();
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
-			m_botplanes[i].GetAirplane()->SwitchOn();
-			vrand2.y = 100+i*5;
 		}
 	}
 
