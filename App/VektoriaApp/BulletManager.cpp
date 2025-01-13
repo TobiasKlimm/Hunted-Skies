@@ -54,9 +54,15 @@ void CBulletManager::UpdateBullets() {
 			//Collision Detection
 			CRay m_zrBulletRay;
 			m_zrBulletRay.InitFromTo(lastPosBullets[i], currentPos);
+			CHitPoint hp; 
 			for (unsigned j = 0; j < m_collisionTargets.GetCount(); j++) {
 				CPlacement* currentTarget = m_collisionTargets.Get(j);
-				if (currentTarget->IsOn() && currentTarget->GetAABB()->Intersects(m_zrBulletRay)) {
+				CGeo* pzg = (CGeo*)currentTarget->GetChild(0);
+				if (currentTarget->IsOn() &&
+
+					pzg->Intersects(m_zrBulletRay, hp)){
+
+//					currentTarget->GetAABB()->Intersects(m_zrBulletRay)) {
 
 					currentBullet->SwitchOff();
 					currentTarget->GetParent()->GetName();;

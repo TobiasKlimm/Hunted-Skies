@@ -3,7 +3,7 @@
 #include "BulletManager.h"
 
 #define BULLETSPEED 500
-#define DAMAGE 0.25f
+#define DAMAGE 0.5f
 #define SHOOT_FREQUENCY 0.25f
 
 
@@ -23,6 +23,8 @@ public:
 	CBulletManager m_BulletManager;
 	
 private:
+	CGeoCylinder m_HitboxGeo;
+
 	float m_timePassed = 0.0;
 
 	CGeoTriangleTable* m_pzgTurretBase = nullptr;

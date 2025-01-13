@@ -140,7 +140,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaTrackOne.Loop();*/
 
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
-	m_zs.AddAudio(&m_zaWingsOfValor);
+	//m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
 	m_zaWingsOfValor.SetVolume(0.9F);
 
@@ -224,6 +224,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			m_bTurretDestroyed = true;
 			m_zmExplosion.SetPic(0, 0);
 
+
 			CHVector vrand2;
 			vrand2.RandomDir();
 			vrand2 *= 1000;
@@ -233,6 +234,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			m_botplanes[i].GetAirplane()->SwitchOn();
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
+			m_botplanes[i].m_bFirstMove = true;
 		}
 		m_botplanes[i].Tick(fTime, fTimeDelta);
 	}

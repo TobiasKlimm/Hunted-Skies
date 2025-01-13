@@ -263,12 +263,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_score = 0;
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
+				m_zeStatusLast = m_zeStatus;
+				m_airplane.ReInit(m_iFlugGeo);
+				m_airplane.StartSounds();
+
 				m_zeStatus = eInGame;
 			}
 			if (pzoPicked == &m_zoButtonPlaneSelection)
 			{
 				m_zdc.Show();
 				//m_zoMa.SwitchOn();
+				m_zeStatusLast = m_zeStatus;
+
 				m_zeStatus = eSelection;
 				m_zpCamera.SubCamera(&m_zcCamera);
 				m_zpPlaneSelection.AddCamera(&m_zcCamera);
@@ -294,17 +300,27 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosPause);
 			if (pzoPicked == &m_zoBack2Start)
 			{
+				m_zeStatusLast = m_zeStatus;
+
 				m_zeStatus = eStart;
 			}
 
 			if (pzoPicked == &m_zoButtonGoOn)
 			{
+				m_zeStatusLast = m_zeStatus;
+				m_airplane.StartSounds();
+
 				m_zeStatus = eInGame;
 			}
 		}
 	}
 	else if (m_zeStatus == eSelection)
 	{
+		if (m_zeStatusLast != eSelection)
+		{
+			m_airplane.SelectSounds(m_iFlugGeo);
+			m_zeStatusLast = eSelection; 
+		}
 		m_zoPause.SwitchOff();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOn();
@@ -324,6 +340,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			if(m_iFlugGeo == i)
 				m_zpModel[i].SwitchOn();
 		}
+		m_zpPlane2Select.RotateY(fTime);
+		m_zpPlane2Select.RotateZDelta(.3);
+		m_zpPlane2Select.TranslateDelta(10.0f, 0, -35.0f);
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -344,16 +363,22 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zpPlane2Select.SwitchOff();
 				m_zpPlaneSelection.SubCamera(&m_zcCamera);
 				m_zpCamera.AddCamera(&m_zcCamera);
-				m_airplane.ReInit(m_iFlugGeo);
+
+				m_airplane.RotateY(HALFPI);
+				m_airplane.TranslateDelta(2000, 55, -1000);
+				m_airplane.SetHealth(100);
+				m_zeStatusLast = m_zeStatus;
+
 				m_zeStatus = eStart;
 			}
+			m_airplane.SelectSounds(m_iFlugGeo);
+
 		}
-		m_zpPlane2Select.RotateY(fTime);
-		m_zpPlane2Select.RotateZDelta(.3);
-		m_zpPlane2Select.TranslateDelta(10.0f, 0, -35.0f);
+
 	}
 	else if (m_zeStatus == eInGame)
 	{
+
 		m_zoPickingCursor.SwitchOff();
 		m_zoFlugzeugCursor.SwitchOff();
 		m_zoEasterCursor.SwitchOff();
@@ -373,6 +398,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(1))
 		{
 			m_zdc.Show();
+			m_zeStatusLast = m_zeStatus;
+
 			m_zeStatus = ePaused;
 		}
 		
@@ -497,6 +524,15 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			m_scoreFile.close();
 			m_score = 0;
+
+			m_airplane.RotateY(HALFPI);
+			m_airplane.TranslateDelta(2000, 55, -1000);
+			m_airplane.SetHealth(100);
+
+
+
+			m_zeStatusLast = m_zeStatus;
+
 			m_zeStatus = eGameOver;
 			m_zdc.Show();
 		}
@@ -524,8 +560,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//Collision fuer Objekte
 		if (m_lastPos == PlayerPos)
 			m_airplane.RegisterHit(1);
-		//LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
 		m_lastPos = PlayerPos;
+		if (m_zeStatusLast != eInGame)
+		{
+			m_airplane.m_bFirstMove = true; 
+			m_airplane.RotateY(HALFPI);
+			m_airplane.TranslateDelta(2000, 55, -1000);
+			m_airplane.SetHealth(100);
+			LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
+			m_fuel = 100;
+			m_zeStatusLast = eInGame;
+		}
+
 
 		//LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
 
@@ -547,6 +593,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosGameOver);
 			if (pzoPicked == &m_zoRestart)
 			{
+
 				y = 0;
 				x = 0;
 				m_airplane.m_Xrotation = 0.0f;
@@ -563,6 +610,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_airplane.SetHealth(100);
+				m_zeStatusLast = m_zeStatus;
 				m_zeStatus = eStart;
 			}
 		}
@@ -570,6 +618,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	//Cursor verändern
 	if (m_zeStatus != eInGame)
 	{
+		if(m_zeStatus != eSelection)
+			m_airplane.StopSounds();
 		m_zv.AddOverlay(&m_zoPickingCursor);
 		m_zv.AddOverlay(&m_zoFlugzeugCursor);
 		m_zv.AddOverlay(&m_zoEasterCursor);
@@ -597,6 +647,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zoFlugzeugCursor.SetPos(fx, fy);
 		}
 	}
+
+
+
 }
 
 
@@ -643,6 +696,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		m_timePassed = 0.0;
 		m_airplane.Shoot(0.001f);
 	}
+
 }
 
 void CPlayer::CenterSquare(float x, float y, float size, COverlay& rect) {

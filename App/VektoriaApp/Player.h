@@ -80,6 +80,7 @@ public:
     }
 
     Status m_zeStatus = eStart;
+    Status m_zeStatusLast = eStart;
 
 private:
     CViewport m_zv;
