@@ -43,7 +43,7 @@ using namespace Vektoria;
 
 #define MAX_BOTS 5
 #define MAX_TURRETS 10
-#define MAX_RANDOMSHIPS 20
+#define MAX_RANDOMSHIPS 30
 
 class CGame
 {

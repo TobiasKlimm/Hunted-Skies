@@ -397,7 +397,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCirclehair.SwitchOn();
 		m_pgame->m_zpBlackSphere.SwitchOff();
 
-		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(1))
+		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(9))
 		{
 			m_zdc.Show();
 			m_zeStatusLast = m_zeStatus;
@@ -413,7 +413,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		}
 		else // falls kein Fuel mehr
 		{
-			if (m_airplane.GetFlySpeed() > 30) // falls noch Momentum
+			if (m_airplane.GetFlySpeed() > 40) // falls noch Momentum
 			{
 				m_airplane.ReduceSpeedWhenOutOfFuel();
 			}
@@ -455,11 +455,11 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
 		//Backfacing Cam
-		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(2)) {
+		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(0)) {
 			m_zpCameraBack.SubCamera(&m_zcCamera);
 			m_zpCamera.AddCamera(&m_zcCamera);
 		}
-		if (m_zdk.KeyPressed(DIK_LSHIFT) || m_zdgc.ButtonDown(2)) {
+		if (m_zdk.KeyPressed(DIK_LSHIFT) || m_zdgc.ButtonDown(0)) {
 			m_zpCamera.SubCamera(&m_zcCamera);
 			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
@@ -467,7 +467,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		//----------------------------------------------------------------------------------
 		//Airplane Zoom
 		//----------------------------------------------------------------------------------
-		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(7))
+		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(6))
 		{
 			m_zoom += fTimeDelta * MAX_ZOOMIN;
 			if (m_zoom > 5.0f)
@@ -476,7 +476,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
-		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(7))
+		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(6))
 		{
 			m_zoom -= fTimeDelta * MAX_ZOOMOUT;
 			if (m_zoom < 1.0f)
@@ -561,7 +561,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		//Collision fuer Objekte
 		if (m_lastPos == PlayerPos)
-			m_airplane.RegisterHit(1);
+			m_airplane.RegisterHit(10);
 		m_lastPos = PlayerPos;
 		if (m_zeStatusLast != eInGame)
 		{
@@ -677,7 +677,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(4))
 			m_airplane.SetSpeed(-fTimeDelta);
 	}
-	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(6)) {
+	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(7)) {
 		m_timePassed += fTimeDelta;
 		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
 		if (m_timePassed <=  SHOOT_FREQUENCY)

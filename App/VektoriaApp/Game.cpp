@@ -36,10 +36,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.Init(psplash, false, false, true);
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
-	/*
+	
 	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-	*/
+	
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
@@ -243,9 +243,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaTrackOne.Loop();*/
 
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
-	//m_zs.AddAudio(&m_zaWingsOfValor);
+	m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
-	m_zaWingsOfValor.SetVolume(0.9F);
+	m_zaWingsOfValor.SetVolume(0.8F);
 
 	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
 	m_zpExplosion.AddAudio(&m_zaExplosion);
