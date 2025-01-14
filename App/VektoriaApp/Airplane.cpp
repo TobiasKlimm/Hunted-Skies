@@ -33,81 +33,88 @@ void CAirplane::Init(float damage, unsigned planeID)
 	}
 	m_planeModel[m_planeID].SwitchOn();
 
-		m_zaPlaneSound[0].Init3D("sounds\\F4.wav", 100.0F);
-		m_zaPlaneSound[1].Init3D("sounds\\propeller.wav", 20.0F);
-		m_zaPlaneSound[2].Init3D("sounds\\Afterburner.wav", 150.0F);
-		m_zaPlaneSound[3].Init3D("sounds\\P40.wav", 70.0F);
-		m_zaPlaneSound[4].Init3D("sounds\\Afterburner.wav", 200.0F);
-		m_zaPlaneSound[5].Init3D("sounds\\Stealth.wav", 300.0F);
-		m_zaPlaneSound[6].Init3D("sounds\\B17.wav", 300.0F);
+	m_zaPlaneSound[0].Init3D("sounds\\propeller.wav", 20.0F);
+	m_zaPlaneSound[1].Init3D("sounds\\P40.wav", 70.0F);
+	m_zaPlaneSound[2].Init3D("sounds\\B17.wav", 300.0F);
+	m_zaPlaneSound[3].Init3D("sounds\\F4.wav", 100.0F);
+	m_zaPlaneSound[4].Init3D("sounds\\Afterburner.wav", 200.0F);
+	m_zaPlaneSound[5].Init3D("sounds\\Afterburner.wav", 150.0F);
+	m_zaPlaneSound[6].Init3D("sounds\\Stealth.wav", 300.0F);
 
-		for (int i = 0; i < 7; i++)
-		{
-			m_zaPlaneSound[i].SetVolume(1);
-			if (m_planeID == i) {
-				
-			}
+	for (int i = 0; i < 7; i++)
+	{
+		m_zaPlaneSound[i].SetVolume(1);
+		if (m_planeID == i) {
+
 		}
+	}
 
 	switch (m_planeID)
 	{
 	case 0:
 	{
-		m_flySpeed = 100;
-		m_minFlySpeed = 70;
-		m_maxFlySpeed = 200;
-		m_flySpeedChangeRate = 35;
+		m_flySpeed = 40;
+		m_minFlySpeed = 30;
+		m_maxFlySpeed = 100;
+		m_flySpeedChangeRate = 15;
+		SetHealth(70);
 		break;
-
 	}
 	case 1:
 	{
-		m_flySpeed = 30;
-		m_minFlySpeed = 30;
-		m_maxFlySpeed = 130;
-		m_flySpeedChangeRate = 15;
+		m_flySpeed = 50;
+		m_minFlySpeed = 40;
+		m_maxFlySpeed = 110;
+		m_flySpeedChangeRate = 17;
+		SetHealth(90);
 		break;
 	}
 	case 2:
 	{
-		m_flySpeed = 120;
-		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
-		m_flySpeedChangeRate = 40;
+		m_flySpeed = 50;
+		m_minFlySpeed = 40;
+		m_maxFlySpeed = 90;
+		m_flySpeedChangeRate = 5;
+		SetHealth(200);
 		break;
 	}
 	case 3:
 	{
-		m_flySpeed = 60;
-		m_minFlySpeed = 30;
-		m_maxFlySpeed = 130;
-		m_flySpeedChangeRate = 15;
+		m_flySpeed = 110;
+		m_minFlySpeed = 100;
+		m_maxFlySpeed = 180;
+		m_flySpeedChangeRate = 35;
+		SetHealth(100);
 		break;
 	}
 	case 4:
 	{
-		m_flySpeed = 120;
-		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
+		m_flySpeed = 150;
+		m_minFlySpeed = 130;
+		m_maxFlySpeed = 230;
 		m_flySpeedChangeRate = 40;
+		SetHealth(110);
 		break;
 	}
 	case 5:
 	{
-		m_flySpeed = 120;
+		m_flySpeed = 160;
 		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
+		m_maxFlySpeed = 280;
 		m_flySpeedChangeRate = 40;
+		SetHealth(120);
 		break;
 	}
 	case 6:
 	{
-		m_flySpeed = 80;
-		m_minFlySpeed = 60;
-		m_maxFlySpeed = 110;
-		m_flySpeedChangeRate = 5;
+		m_flySpeed = 120;
+		m_minFlySpeed = 150;
+		m_maxFlySpeed = 250;
+		m_flySpeedChangeRate = 40;
+		SetHealth(140);
 		break;
 	}
+
 	}
 
 	for (int i = 0; i < 7; i++)
@@ -141,66 +148,72 @@ void CAirplane::ReInit(unsigned planeID)
 			m_planeModel[i].SwitchOn();
 		}
 	}
-
 	switch (m_planeID)
 	{
 	case 0:
 	{
-		m_flySpeed = 100;
-		m_minFlySpeed = 70;
-		m_maxFlySpeed = 200;
-		m_flySpeedChangeRate = 35;
+		m_flySpeed = 40;
+		m_minFlySpeed = 30;
+		m_maxFlySpeed = 100;
+		m_flySpeedChangeRate = 15;
+		SetHealth(70);
 		break;
-
 	}
 	case 1:
 	{
-		m_flySpeed = 30;
-		m_minFlySpeed = 30;
-		m_maxFlySpeed = 130;
-		m_flySpeedChangeRate = 15;
+		m_flySpeed = 50;
+		m_minFlySpeed = 40;
+		m_maxFlySpeed = 110;
+		m_flySpeedChangeRate = 17;
+		SetHealth(90);
 		break;
 	}
 	case 2:
 	{
-		m_flySpeed = 120;
-		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
-		m_flySpeedChangeRate = 40;
+		m_flySpeed = 50;
+		m_minFlySpeed = 40;
+		m_maxFlySpeed = 90;
+		m_flySpeedChangeRate = 5;
+		SetHealth(200);
 		break;
 	}
 	case 3:
 	{
-		m_flySpeed = 60;
-		m_minFlySpeed = 30;
-		m_maxFlySpeed = 130;
-		m_flySpeedChangeRate = 15;
+		m_flySpeed = 110;
+		m_minFlySpeed = 100;
+		m_maxFlySpeed = 180;
+		m_flySpeedChangeRate = 35;
+		SetHealth(100);
 		break;
 	}
 	case 4:
 	{
-		m_flySpeed = 120;
-		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
+		m_flySpeed = 150;
+		m_minFlySpeed = 130;
+		m_maxFlySpeed = 230;
 		m_flySpeedChangeRate = 40;
+		SetHealth(110);
 		break;
 	}
 	case 5:
 	{
-		m_flySpeed = 120;
+		m_flySpeed = 160;
 		m_minFlySpeed = 150;
-		m_maxFlySpeed = 250;
+		m_maxFlySpeed = 280;
 		m_flySpeedChangeRate = 40;
+		SetHealth(120);
 		break;
 	}
 	case 6:
 	{
-		m_flySpeed = 80;
-		m_minFlySpeed = 60;
-		m_maxFlySpeed = 110;
-		m_flySpeedChangeRate = 5;
+		m_flySpeed = 120;
+		m_minFlySpeed = 150;
+		m_maxFlySpeed = 250;
+		m_flySpeedChangeRate = 40;
+		SetHealth(140);
 		break;
 	}
+
 	}
 }
 

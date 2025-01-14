@@ -37,8 +37,6 @@ void CPlayer::Init(CGame* pgame)
 	m_airplane.Init(DAMAGE,1);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
-	m_airplane.SetHealth(100);
-
 
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
 	m_zoCrosshair.Init("textures\\crosshair.png", m_zCrosshairRect, true);
@@ -260,7 +258,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zdc.Hide();
 				m_zwHighScore.SwitchOff();
 				//m_zoMap.SwitchOn();
-				m_airplane.SetHealth(100);
 				m_fuel = 100;
 				m_score = 0;
 				m_airplane.RotateY(HALFPI);
@@ -309,7 +306,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 			if (pzoPicked == &m_zoButtonGoOn)
 			{
-				m_zeStatusLast = m_zeStatus;
 				m_airplane.StartSounds();
 
 				m_zeStatus = eInGame;
@@ -568,7 +564,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_airplane.m_bFirstMove = true; 
 			m_airplane.RotateY(HALFPI);
 			m_airplane.TranslateDelta(2000, 55, -1000);
-			m_airplane.SetHealth(100);
 			LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
 			m_fuel = 100;
 			m_zeStatusLast = eInGame;
@@ -598,7 +593,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_airplane.SwitchOn();
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
-				m_airplane.SetHealth(100);
 				m_zeStatusLast = m_zeStatus;
 				m_zeStatus = eStart;
 			}
