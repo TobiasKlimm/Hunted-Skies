@@ -327,6 +327,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			m_bTurretDestroyed = true;
 			m_zmExplosion.SetPic(0, 0);
 
+			m_botplanes[i].GetAirplane()->m_bFirstMove = true;
 
 			CHVector vrand2;
 			vrand2.RandomDir();
@@ -337,9 +338,9 @@ void CGame::Tick(float fTime, float fTimeDelta)
 			m_botplanes[i].GetAirplane()->SwitchOn();
 			m_botplanes[i].GetAirplane()->Translate(vrand2);
 			m_botplanes[i].GetAirplane()->SetHealth(100);
-			m_botplanes[i].m_bFirstMove = true;
 		}
-		m_botplanes[i].Tick(fTime, fTimeDelta);
+		else
+			m_botplanes[i].Tick(fTime, fTimeDelta);
 	}
 
 	if (m_zpExplosion.IsOn())
