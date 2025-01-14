@@ -595,20 +595,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosGameOver);
 			if (pzoPicked == &m_zoRestart)
 			{
-
-				y = 0;
-				x = 0;
-				m_airplane.m_Xrotation = 0.0f;
-				m_airplane.m_Yrotation = 0.0f;
-				m_lastPos = CHVector(0, 0, 0, 1);
 				m_airplane.SwitchOn();
-				m_airplane.RotateY(HALFPI);
-				m_airplane.TranslateDelta(2000, 55, -1000);
-				m_airplane.Tick(fTime, fTimeDelta);
-				y = 0;
-				x = 0;
-				m_airplane.m_Xrotation = 0.0f;
-				m_airplane.m_Yrotation = 0.0f;
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
 				m_airplane.SetHealth(100);
