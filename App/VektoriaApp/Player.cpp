@@ -246,11 +246,11 @@ void CPlayer::Init(CGame* pgame)
 
 
 	//Controller Bild
-	m_ziController.Init("textures\\file.png");
+	m_ziController.Init("textures\\PS5controller.png");
 	m_zoController.Init(&m_ziController,C2dRect(0.25f,0.25,0.0f,0.5f),true);
 	m_zv.AddOverlay(&m_zoController);
 	m_zoController.SetLayer(0.4);
-	m_zoController.SetTransparency(0.05);
+	m_zoController.SetTransparency(0.0f);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
