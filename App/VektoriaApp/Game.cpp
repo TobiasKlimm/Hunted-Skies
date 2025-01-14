@@ -36,10 +36,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zr.Init(psplash, false, false, true);
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
-	/*
+	
 	m_zf.SetFullscreenOn();
 	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-	*/
+	
 	LockCursorToWindow(hwnd);
 
 	CViewport* m_zv = m_player.GetViewport();
@@ -112,7 +112,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	CHVector fuer (150, 0, -20-m_destroyerx);
 	CHVector nur (-150, 0, -20-m_destroyerx1);//x ist Vom carrier aus weiter vorner oder oder weiter hinten
 		m_zpCarrier.AddPlacement(&m_zpDestroyer[i]);
-		m_zpDestroyer[i].Scale(15);
+		m_zpDestroyer[i].Scale(13);
 		//m_zpDestroyer[i].RotateYDelta();
 		m_zpDestroyer[i].AddGeo(m_zgDestroyer);
 		if (i % 2 == 0)
@@ -148,8 +148,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 		std::random_device rd; // Liefert einen Seed
 		std::mt19937 gen(rd()); // Mersenne Twister Engine
 		std::uniform_int_distribution<> range_selector(0, 1); // Bereichsauswahl: 0 oder 1
-		std::uniform_int_distribution<> negative_range(-2500, -2000); // Bereich: -3000 bis -2000
-		std::uniform_int_distribution<> positive_range(2000, 2500);   // Bereich: 1000 bis 2000
+		std::uniform_int_distribution<> negative_range(-3000, -2000); // Bereich: -3000 bis -2000
+		std::uniform_int_distribution<> positive_range(2000, 3000);   // Bereich: 1000 bis 2000
 		std::uniform_int_distribution<> ship_select(1, 3);
 		// Zwei Zufallszahlen generieren
 		int random_number1, random_number2;
@@ -192,9 +192,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 				break;
 			}
 		}
-		m_zpRandomShip[i].Scale(20);
+		m_zpRandomShip[i].Scale(25);
 		m_zpRandomShip[i].TranslateDelta(random_number1+m_movefaktor, 0, random_number2+m_movefaktor);
-		m_movefaktor += 20;
+		m_movefaktor += 40;
 	}
 
 
@@ -243,9 +243,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaTrackOne.Loop();*/
 
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
-	//m_zs.AddAudio(&m_zaWingsOfValor);
+	m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
-	m_zaWingsOfValor.SetVolume(0.9F);
+	m_zaWingsOfValor.SetVolume(0.75F);
 
 	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
 	m_zpExplosion.AddAudio(&m_zaExplosion);

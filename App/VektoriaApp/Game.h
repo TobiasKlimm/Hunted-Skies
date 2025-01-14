@@ -43,7 +43,7 @@ using namespace Vektoria;
 
 #define MAX_BOTS 5
 #define MAX_TURRETS 10
-#define MAX_RANDOMSHIPS 20
+#define MAX_RANDOMSHIPS 40
 
 class CGame
 {
@@ -168,7 +168,7 @@ private:
 	CMaterial m_zmRandomShip2;
 	CFileWavefront m_zfRandomShip2;
 
-	int m_movefaktor=20;
+	int m_movefaktor=40;
 	
 	//SOUNDS
 	CAudio m_zaExplosion;
