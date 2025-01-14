@@ -101,6 +101,20 @@ void CPlayer::Init(CGame* pgame)
 	m_zoButtonPlaneSelection.SetLayer(0.4f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
 
+
+	m_zoControllerButton.Init("textures\\ControllerButton.png", C2dRect(0.10f, 0.10f, 0.45f, 0.75f), true);
+	m_zoStart.AddOverlay(&m_zoControllerButton);
+	m_zoButtonPlaneSelection.SetLayer(0.5f);
+	m_zosStart.Add(&m_zoControllerButton);
+
+	m_zoControllerMainMenu.Init(&m_ziController, C2dRect(0.75f, 0.75, 0.125f, 0.0f), true);
+	m_zv.AddOverlay(&m_zoControllerMainMenu);
+	m_zoControllerMainMenu.SetLayer(0.6);
+	m_zoControllerMainMenu.SwitchOff();
+	
+
+
+
 	// ----------------
 	// Pausebildschirm:
 	// ----------------
@@ -229,6 +243,14 @@ void CPlayer::Init(CGame* pgame)
 	m_zoFlugzeugCursor.SetLayer(0.05f);
 	m_zoPickingCursor.SetLayer(0.05f);
 	m_zoEasterCursor.SetLayer(0.05f);
+
+
+	//Controller Bild
+	m_ziController.Init("textures\\file.png");
+	m_zoController.Init(&m_ziController,C2dRect(0.25f,0.25,0.0f,0.5f),true);
+	m_zv.AddOverlay(&m_zoController);
+	m_zoController.SetLayer(0.4);
+	m_zoController.SetTransparency(0.05);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -250,6 +272,11 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCirclehair.SwitchOff();
 		m_pgame->m_zpBlackSphere.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
+		m_zoControllerButton.SwitchOn();
+		m_zoController.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
+		//m_zoControllerMainMenu.SwitchOff();
+
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -282,6 +309,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zpPlaneSelection.AddCamera(&m_zcCamera);
 			}
 		}
+		if (m_zdc.ButtonPressedLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosStart);
+			if (pzoPicked == &m_zoControllerButton)
+			{
+				m_zoControllerMainMenu.SwitchOn();
+			}
+		}
+		else if (m_zdc.ButtonUpLeft())
+		{
+			m_zoControllerMainMenu.SwitchOff();
+		}
 	}
 	else if (m_zeStatus == ePaused)
 	{
@@ -296,6 +335,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCirclehair.SwitchOff();
 		m_pgame->m_zpBlackSphere.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
+		m_zoController.SwitchOff();
+		m_zoControllerButton.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -330,6 +372,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
+		m_zoControllerButton.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
+		m_zoController.SwitchOff();
 		//m_pgame->m_zpBlackSphere.SwitchOn();
 		//m_zpCamera.RotateY(HALFPI);
 		//m_zpCamera.TranslateDelta(2004.553711,117.965439,-1515.466431);
@@ -380,7 +425,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eInGame)
 	{
-
+		m_zoControllerMainMenu.SwitchOff();
+		m_zoControllerButton.SwitchOff();
 		m_zoPickingCursor.SwitchOff();
 		m_zoFlugzeugCursor.SwitchOff();
 		m_zoEasterCursor.SwitchOff();
@@ -488,6 +534,17 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
 
+		if (m_zdk.KeyPressed(DIK_E)||m_zdgc.ButtonPressed(8))
+		{
+			m_zoController.SwitchOn();
+			
+		}
+		else
+		{
+			m_zoController.SwitchOff();
+		}
+
+
 		//Minimap Movement
 		CHVector vPlane(m_airplane.GetPosGlobal());
 		vPlane.y += 100;
@@ -530,8 +587,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_airplane.RotateY(HALFPI);
 			m_airplane.TranslateDelta(2000, 55, -1000);
 			m_airplane.SetHealth(100);
-
-
 
 			m_zeStatusLast = m_zeStatus;
 
@@ -580,6 +635,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eGameOver)
 	{
+		m_zoController.SwitchOff();
 		m_zo.SwitchOff();
 		m_zoAbstand.SwitchOff();
 		m_zwScore.SwitchOff();
@@ -636,7 +692,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zoFlugzeugCursor.SetPos(fx, fy);
 		}
 	}
-
 
 
 }
