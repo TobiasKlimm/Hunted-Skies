@@ -5,7 +5,7 @@ void CBot::Init(CPlacement* target)
 	m_zpTarget = target;
 	AddPlacement(&m_airplane);
 
-	m_airplane.Init(DAMAGE,1);
+	m_airplane.Init(DAMAGE,0);
 	SetName("BotPlane");
 }
 
@@ -31,13 +31,11 @@ void CBot::ControlPlane(float fTimeDelta)
 	vCross.y = vDir.z * vToPlayer.x - vDir.x * vToPlayer.z;
 	vCross.z = vDir.x * vToPlayer.y - vDir.y * vToPlayer.x; // Cross product for rotation axis
 
-
 	vCross.Normal();
 
 	// Calculate yaw (x) and pitch (y) adjustments
-	//float x = vCross.y >= 0 ? angle : -angle; // Horizontal adjustment (yaw)
 	float y = -vCross.z; ; // Vertical adjustment (pitch)
-	float x = vCross.y >= 0 ? -angle : angle;
+	float x = vCross.y >= 0 ? -angle : angle; // Horizontal adjustment (yaw)
 
 	// Scale adjustments based on the maximum allowed turn rate and time delta
 	x = ClampValue(x, -MAX_TURN_RATE * fTimeDelta, MAX_TURN_RATE * fTimeDelta);
@@ -48,7 +46,7 @@ void CBot::ControlPlane(float fTimeDelta)
 
 	if (abs(dot - 1.0f) < 0.0015f) {
 		m_timePassed += fTimeDelta;
-		// Führe die Funktion aus, während genug Zeit vergangen ist
+		// Execute the function if enough time has passed
 		if (m_timePassed <= SHOOT_FREQUENCY)
 			return;
 		m_timePassed = 0.0;

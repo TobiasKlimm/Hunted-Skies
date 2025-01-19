@@ -49,33 +49,15 @@ class CGame
 {
 	friend class CPlayer; 
 public:
-	// Wird vor Begin einmal aufgerufen (Konstruktor):
 	CGame(void);
-
-	// Wird nach Ende einmal aufgerufen (Destruktor):
 	~CGame(void);
-
-	// Wird zu Begin einmal aufgerufen:
 	void Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash);
-
-	// Wird w�hrend der Laufzeit bei jedem Bildaufbau aufgerufen:
 	void Tick(float fTime, float fTimeDelta);
-
 	void EndExplosion(float fTime);
-
-	// Wird am Ende einmal aufgerufen:
 	void Fini();
-
-	// Wird immer dann aufgerufen, wenn der Benutzer die Fenstergr��e ver�ndert hat:
 	void WindowReSize(int iNewWidth, int iNewHeight);
-
-	// Holt das minimale Zeitdelta zur eventuellen Frame-Rate-Beschr�nkung:
 	float GetTimeDeltaMin();
-
-	// Holt die Versionsnummer:
 	float GetVersion();
-
-	void ScreenOverlaysInit(CViewport* m_zv);
 
 private:
 	bool m_bTurretDestroyed;
@@ -83,42 +65,15 @@ private:
 	CRoot m_zr;
 	CFrame m_zf;
 	CScene m_zs;
-
-
-
-
-	// 2. Szenenobjekte: 
-	/*
-	CScene m_zsPlaneSelection;
-	CPlacement m_zpPlane2; 
-	CPlacement m_zpCamera2;
-	CCamera m_zc2;
-	CLightParallel m_zl2; 
-	CViewport m_zvPlaneSelection; 
-	*/
-
-	CLightParallel m_zlp2; 
-	CGeoSphere m_zgBlackSphere; 
-	CPlacement m_zpBlackSphere; 
-	CMaterial m_zmBlackSphere; 
-
-
-
-
+	CLightParallel m_zlp2;
 	CPlayer m_player;
 	CTerrain m_terrain;
-
 	CTurret m_turrets[MAX_TURRETS];
 	CBot m_botplanes[MAX_BOTS];
-
 	CGeos m_zgsTerrainCollision;
-
-	//CAudio m_zaTrackOne;
 	CAudio m_zaWingsOfValor;
 
-	////
-	//// Turret Explposion
-	////
+	// TURRET EXPLOSION
 	CPlacement m_zbpExplosion;
 	CPlacement m_zpExplosion;
 	CGeoQuad m_zgExplosion;
@@ -126,26 +81,20 @@ private:
 	int m_iExplosion = 0;
 	int Elapsedticks = 0; 
 
-
-	//Carrier
+	// CARRIER
 	CMaterial m_zmCarrier;
 	CPlacement m_zpCarrier;
 	CGeoTriangleTable* m_zgCarrier=nullptr;
 	CFileWavefront m_zfCarrier;
 
-
-
-	//Collision Kugel Blender
-	CPlacement m_zpCollisionKugelBlender;
-	CGeoTriangleTable* m_zgCollisionKugelBlender = nullptr;
-	CFileWavefront m_zfCollisionKugelBlender;
-
-
-	//Collision Kugel
+	// COLLISION SPHERE
+	CPlacement m_zpCollisionSphereBlender;
+	CGeoTriangleTable* m_zgCollisionSphereBlender = nullptr;
+	CFileWavefront m_zfCollisionSphereBlender;
 	CGeoSphere m_zgSphereCollision;
 	CPlacement m_zpSphereCollision;
 
-	//Ships
+	// SHIPS
 	CPlacement m_zpDestroyer[4];
 	CGeoTriangleTable* m_zgDestroyer;
 	CMaterial m_zmDestroyer;
@@ -170,9 +119,8 @@ private:
 
 	int m_movefaktor=40;
 	
-	//SOUNDS
+	// EXPLOSIN SOUND
 	CAudio m_zaExplosion;
-
 };
 
 

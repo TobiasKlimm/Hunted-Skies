@@ -1,6 +1,6 @@
-#include "Enemy.h"
+#include "Entity.h"
 
-bool CEnemy::RegisterHit(float damage)
+bool CEntity::RegisterHit(float damage)
 {
 	LogDebug("%s HIT, Health: %f",this->GetName(),(m_health-damage));
 	m_health -= damage;

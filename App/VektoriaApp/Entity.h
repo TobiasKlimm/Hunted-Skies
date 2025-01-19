@@ -3,8 +3,7 @@
 
 using namespace Vektoria;
 
-class CEnemy :
-	public CPlacement
+class CEntity : public CPlacement
 {
 public:
 	bool RegisterHit(float damage);
@@ -29,7 +28,6 @@ public:
 		m_health += health;
 	}
 private:
-	float m_health =0;
+	float m_health = 0;
 	CHVector m_position;
-
 };

@@ -7,7 +7,6 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 
 	m_zmBulletMaterial.LoadPreset("Sun");
 	m_zgBullet.Init(0.2f, 0.2f,2.0f, &m_zmBulletMaterial);
-	//m_zgBullet.SetMaterial(&m_zmBulletMaterial);
 	m_zpBulletTemplate.AddGeo(&m_zgBullet);
 	m_zpBulletTemplate.SetPhysics(0.05f, 0.01f, 0.0f, 50.1f, true);
 	m_zpBulletTemplate.SwitchOff();
@@ -15,7 +14,6 @@ void CBulletManager::Init(float bulletSpeed, float damage)
 	this->AddPlacement(&m_zpBulletTemplate);
 
 	m_zaShot.Init3D("sounds\\PlaneShot.wav",10);
-	//AddAudio(&m_zaShot);
 }
 
 void CBulletManager::Tick(float fTime, float fTimeDelta) {
@@ -30,28 +28,31 @@ void CBulletManager::Shoot(const CHVector& direction) {
 	m_position.Rotate(direction, GetDirection());
 	m_position.CopyTranslation(GetPosGlobal());
 	CPlacement* pzp = m_zpsBullets.RingInc();
-	// Kopiere die Matrix (und damit die Startposition)
+
+	// Copy the matrix (and starting pos)
 	pzp->SetMat(m_position);
-	//schießt die Kugel in die Richtung die das Flugueug zeigt
+
+	// shoots the bullets in the direction the plane is flying
 	pzp->SetPhysicsVelocity(direction * m_bulletSpeed);
 
 	m_zaShot.Start();
 }
 
 void CBulletManager::UpdateBullets() {
-	//Iteriere durch alle Bullets
+	// Iterate through all bullets
 	for (unsigned i = 0; i < m_zpsBullets.GetCount(); i++) {
 		CPlacement* currentBullet = m_zpsBullets.Get(i);
 		CHVector currentPos = currentBullet->GetPosGlobal();
-		//Wenn Bullet nicht on, resete Position
+
+		// If bullet not on, reset position
 		if (currentBullet->IsOn() == false)
 			lastPosBullets[i] = CHVector(0, 0, 0, 1);
-		//Wenn Bullet on, aber noch keine letzte Position, setze diese
+
+		// If bullet on, but no last pos, set it
 		else if (lastPosBullets[i] == CHVector(0, 0, 0, 1))
 			lastPosBullets[i] = currentPos;
-		//Sonst
 		else {
-			//Collision Detection
+			// Collision Detection
 			CRay m_zrBulletRay;
 			m_zrBulletRay.InitFromTo(lastPosBullets[i], currentPos);
 			CHitPoint hp; 
@@ -62,11 +63,9 @@ void CBulletManager::UpdateBullets() {
 
 					pzg->Intersects(m_zrBulletRay, hp)){
 
-//					currentTarget->GetAABB()->Intersects(m_zrBulletRay)) {
-
 					currentBullet->SwitchOff();
 					currentTarget->GetParent()->GetName();;
-					CEnemy* currentEnemy = static_cast<CEnemy*>(currentTarget);
+					CEntity* currentEnemy = static_cast<CEntity*>(currentTarget);
 
 					if (currentEnemy->RegisterHit(m_damage)) {
 						m_killedEnemy = true;
@@ -74,10 +73,12 @@ void CBulletManager::UpdateBullets() {
 					}
 				}
 			}
-			//Wenn Kugeln zu weit weg, switch off
+
+			// If bullet to far away turn it off
 			if (currentPos.Dist(m_position.GetPos()) > 1000.0f)
 				currentBullet->SwitchOff();
-			//Update letzte Position
+
+			// Update last position
 			lastPosBullets[i] = currentPos;
 
 			if (m_zgTerrain != nullptr) {
@@ -85,17 +86,15 @@ void CBulletManager::UpdateBullets() {
 				if (yTerrainHeight > currentPos.y)
 					currentBullet->SwitchOff();
 			}
-
-
-		/*	float x = currentBullet->GetPosGlobal().x;
-			float y = currentBullet->GetPosGlobal().y;
-			float z = currentBullet->GetPosGlobal().z;
-			float y_terrain = m_zgTerrain->GetHeight(x, z);
-			if (y < y_terrain) {
-				LogDebug("Hit at %f %f %f", x, y_terrain, z);
-			}*/
-
 		}
 	}
+}
+void CBulletManager::AddCollisionTarget(CPlacement* p)
+{
+	m_collisionTargets.Add(p);
+}
+bool CBulletManager::GetKilledEnemy()
+{
+	return m_killedEnemy;
 }
 

@@ -16,7 +16,6 @@ void CTurret::Init(CPlacement* target)
 	m_pzgTurretBarrel = objLoader.LoadGeoTriangleTable("models\\turret\\barrel\\barrel.obj");
 
 	m_zmTurretBase.LoadPreset("WindowGothicStained");
-	//m_zmTurretMaterial.MakeTextureDiffuse("models\\turret\\metal.jpg");
 	m_pzgTurretBase->SetMaterial(&m_zmTurretBase);
 
 	m_zmTurretFoundation.LoadPreset("Concrete");
@@ -51,22 +50,22 @@ void CTurret::Tick(float fTime, float fTimeDelta, CHVector direction, float flyS
 
 		m_vDir = CHVector(m_zpTarget->GetPosGlobal() - GetPosGlobal());
 
-		// Entfernung zum Ziel
+		// Distance to the target
 		float dist = m_vDir.Length();
 
-		// Berechnung der Flugzeit der Kugel basierend auf der Entfernung und der Kugelgeschwindigkeit
+		// Calculation of the ball's flight time based on the distance and ball speed
 		float bulletTravelTime = dist / BULLETSPEED;
 
-		// Vorhersage der zukünftigen Position des Flugzeugs basierend auf Flugrichtung und Geschwindigkeit
+		// Prediction of the future position of the aircraft based on flight direction and speed
 		CHVector predictedTargetPos = m_zpTarget->GetPosGlobal() + direction * flySpeed * bulletTravelTime;
 
-		// Anpassung der Zielrichtung auf die vorhergesagte Position des Flugzeugs
+		// Adjustment of the target direction to the predicted position of the aircraft
 		m_vDir = CHVector(predictedTargetPos - GetPosGlobal());
 
-		// Optional: Kleine Korrektur, z.B. für Höhenunterschiede, falls nötig
+		// Optional: Small correction, e.g. for height differences, if necessary
 		m_vDir = m_vDir + CHVector(0, 1, 0) * bulletTravelTime;
 
-		// Normierung der Richtung
+		// Standardization of the direction
 		m_vDir.Normal();
 
 		float fa = m_vDir.AngleXZ();
@@ -91,9 +90,11 @@ void CTurret::Tick(float fTime, float fTimeDelta, CHVector direction, float flyS
 void CTurret::Shoot(float fTimeDelta)
 {
 	m_timePassed += fTimeDelta;
-	// F�hre die Funktion aus, w�hrend genug Zeit vergangen ist
+
+	// Execute the function when enough time has passed
 	if (m_timePassed <= SHOOT_FREQUENCY)
 		return;
+
 	m_timePassed = 0.0;
 	CHVector vRand;
 	vRand.RandomDir();

@@ -22,9 +22,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 	m_damage = damage;
 	this->AddPlacement(&m_zpPlaneCenter);
 
-	//ClearAABB();
-	//m_zHitBox.AddRadius(5, GetMatGlobal());
-
 	for (int i = 0; i < 7; i++)
 	{
 		m_planeModel[i].Init(i);
@@ -33,21 +30,18 @@ void CAirplane::Init(float damage, unsigned planeID)
 	}
 	m_planeModel[m_planeID].SwitchOn();
 
-		m_zaPlaneSound[0].Init3D("sounds\\F4.wav", 100.0F);
-		m_zaPlaneSound[1].Init3D("sounds\\propeller.wav", 20.0F);
-		m_zaPlaneSound[2].Init3D("sounds\\Afterburner.wav", 150.0F);
-		m_zaPlaneSound[3].Init3D("sounds\\P40.wav", 70.0F);
-		m_zaPlaneSound[4].Init3D("sounds\\Afterburner.wav", 200.0F);
-		m_zaPlaneSound[5].Init3D("sounds\\Stealth.wav", 300.0F);
-		m_zaPlaneSound[6].Init3D("sounds\\B17.wav", 300.0F);
+	m_zaPlaneSound[0].Init3D("sounds\\F4.wav", 100.0F);
+	m_zaPlaneSound[1].Init3D("sounds\\propeller.wav", 20.0F);
+	m_zaPlaneSound[2].Init3D("sounds\\Afterburner.wav", 150.0F);
+	m_zaPlaneSound[3].Init3D("sounds\\P40.wav", 70.0F);
+	m_zaPlaneSound[4].Init3D("sounds\\Afterburner.wav", 200.0F);
+	m_zaPlaneSound[5].Init3D("sounds\\Stealth.wav", 300.0F);
+	m_zaPlaneSound[6].Init3D("sounds\\B17.wav", 300.0F);
 
-		for (int i = 0; i < 7; i++)
-		{
-			m_zaPlaneSound[i].SetVolume(1);
-			if (m_planeID == i) {
-				
-			}
-		}
+	for (int i = 0; i < 7; i++)
+	{
+		m_zaPlaneSound[i].SetVolume(1);
+	}
 
 	switch (m_planeID)
 	{
@@ -115,9 +109,6 @@ void CAirplane::Init(float damage, unsigned planeID)
 		m_zpPlaneCenter.AddAudio(&m_zaPlaneSound[i]);
 		m_zaPlaneSound[i].SetVolume(1.0F);
 	}
-
-
-
 
 	m_zpPlaneTip.TranslateZDelta(-2);
 	m_zpPlaneTip.RotateXDelta(-PI / 14.0f);
@@ -219,14 +210,15 @@ float CAirplane::ClampValue(float value, float minValue, float maxValue) {
 
 void CAirplane::MovePlane(float& x, float& y, float fTimeDelta)
 {
-	//minimiert die maximale Rotation pro Tick
+	// minimizes the maximum rotation per tick
 	m_Xrotation = ClampValue(x, m_Xrotation - MAX_ROTATION_SPEED * fTimeDelta, m_Xrotation + MAX_ROTATION_SPEED * fTimeDelta);
 	m_Yrotation = ClampValue(y, m_Yrotation - MAX_ROTATION_SPEED * fTimeDelta, m_Yrotation + MAX_ROTATION_SPEED * fTimeDelta);
 
 	m_planeModel[m_planeID].RotateY(-m_Xrotation / 2);
 	m_planeModel[m_planeID].RotateZDelta(-m_Xrotation * 5);
 	m_planeModel[m_planeID].RotateXDelta(-m_Yrotation);
-	//Move Plane and Camera
+
+	// Move Plane and Camera
 	float RotationX = x * 15;
 	float RotationY = -y * 15;
 	float MoveAD = 0, MoveWS = -1, MoveUD = 0;
@@ -239,13 +231,12 @@ void CAirplane::Shoot(float randFac)
 	vRand.RandomDir();
 	m_BulletManager.Shoot(m_zpPlaneTip.GetDirectionGlobal() + vRand * randFac);
 
-	///SOUNDS///
+	// SOUNDS
 	m_zaPlaneShot.Start();
 }
 
 void CAirplane::SetSpeed(float change)
 {
-	//LogDebug("%f", m_flySpeedChangeRate * change);
 	m_flySpeed = ClampValue(m_flySpeed + m_flySpeedChangeRate * change, m_minFlySpeed, m_maxFlySpeed);
 }
 
@@ -270,13 +261,6 @@ void CAirplane::StartSounds()
 		}
 		else
 			m_zaPlaneSound[i].Stop();
-
-		/*
-		m_zaPlaneSound[i].SetVolume(0);
-		if (m_planeID == i) {
-			m_zaPlaneSound[i].SetVolume(1.0);
-		}
-		*/
 	}
 }
 
@@ -290,8 +274,5 @@ void CAirplane::SelectSounds(int iSelected)
 		}
 		else
 			m_zaPlaneSound[i].Stop();
-
 	}
-
-
 }

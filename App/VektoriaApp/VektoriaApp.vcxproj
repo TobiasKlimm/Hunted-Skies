@@ -157,8 +157,7 @@
     <ClInclude Include="AirplaneModel.h" />
     <ClInclude Include="Bot.h" />
     <ClInclude Include="BulletManager.h" />
-    <ClInclude Include="Enemies.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Planeselection.h" />
     <ClInclude Include="Player.h" />
@@ -172,7 +171,7 @@
     <ClCompile Include="AirplaneModel.cpp" />
     <ClCompile Include="Bot.cpp" />
     <ClCompile Include="BulletManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Planeselection.cpp" />
     <ClCompile Include="Player.cpp" />

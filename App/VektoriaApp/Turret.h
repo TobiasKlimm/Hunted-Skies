@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy.h"
+#include "Entity.h"
 #include "BulletManager.h"
 
 #define BULLETSPEED 500
@@ -9,8 +9,7 @@
 
 using namespace Vektoria;
 
-class CTurret :
-	public CEnemy
+class CTurret : public CEntity
 {
 public:
 	void Init(CPlacement* target);
@@ -20,13 +19,15 @@ public:
 	CBulletManager* GetBulletManager() {
 		return &m_BulletManager;
 	}
-	CBulletManager m_BulletManager;
 	
 private:
+	CBulletManager m_BulletManager;
 	CGeoCylinder m_HitboxGeo;
-
+	CPlacement* m_zpTarget;
+	CHVector m_vDir;
 	float m_timePassed = 0.0;
 
+	// TURRETS
 	CGeoTriangleTable* m_pzgTurretBase = nullptr;
 	CGeoTriangleTable* m_pzgTurretFoundation = nullptr;
 	CGeoTriangleTable* m_pzgTurretBarrel = nullptr;
@@ -34,12 +35,6 @@ private:
 	CPlacement m_zpTurretFoundation;
 	CPlacement m_zpTurretBase;
 	CPlacement m_zpTurretBarrel;
-
-	CPlacement m_zpTurretPointing;
-
-	CPlacement* m_zpTarget;
-
-	CHVector m_vDir;
 
 	CMaterial m_zmTurretFoundation;
 	CMaterial m_zmTurretBase;

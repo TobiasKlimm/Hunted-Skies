@@ -11,6 +11,7 @@ CGame::~CGame(void)
 void LockCursorToWindow(HWND hwnd)
 {
 	RECT rect;
+
 	// Get the client area of the window
 	if (GetClientRect(hwnd, &rect))
 	{
@@ -37,8 +38,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 	
-	m_zf.SetFullscreenOn();
-	m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+	//m_zf.SetFullscreenOn();
+	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	
 	LockCursorToWindow(hwnd);
 
@@ -47,12 +48,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_zvMinimap->StyleRadar();
 	m_zvMinimap->SetShadowRenderingOff();
-	//m_zvMinimap->SetBrightnessDelta(CColor(0.9,0.9,0.9));
 	m_zvMinimap->SetBloomOn();
 	m_zvMinimap->SetBloomDepthDecay(10);
-	//m_zvMinimap->SetOutliningThreshold(0.5);
-	//m_zvMinimap->SetOutliningOn();
-	//m_zvMinimap->SetOutliningStrength(100);
 	m_zr.AddFrame(&m_zf);
 	m_zr.AddScene(&m_zs);
 	m_zf.AddViewport(m_zv);
@@ -62,7 +59,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.AddDeviceCursor(m_player.GetCursor());
 	m_zf.AddDeviceGameController(m_player.GetGameController());
 
-	//Carrier
+	// Carrier
 	m_zgCarrier = m_zfCarrier.LoadGeoTriangleTable("models\\Carrier\\source\\untitled.obj",true);
 	m_zpCarrier.AddGeo(m_zgCarrier);
 	m_zs.AddPlacement(&m_zpCarrier);
@@ -75,51 +72,44 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpCarrier.TranslateDelta(2000,0,-1000);
 
 
-	//Himmel &Tag Nacht Zyklus
+	// Sky day and night cycle
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
 	m_zs.SetSkyFlowOn(100);
-	//m_zs.m_psceneweather->m_azmSky[0].SetPostprocessingOff();
-	//m_zs.m_psceneweather->m_azmSky[1].SetPostprocessingOff();
-	//m_zs.m_psceneweather->m_azmSky[2].SetPostprocessingOff();
 
-	//Player
+	// Player
 	m_player.Init(this);
 	m_zs.AddPlacement(&m_player);
 	m_zs.AddPlacements(*m_player.GetAirplane()->GetBulletManager()->GetBullets());
 
-	//Terrain
+	// Terrain
 	m_terrain.Init();
 	m_zs.AddPlacement(&m_terrain);
 
-	//Collision Kugel Blender für weite Entfernungen;
-	m_zgCollisionKugelBlender = m_zfCollisionKugelBlender.LoadGeoTriangleTable("models\\Collision Ball\\untitled.obj");
-	m_zpCollisionKugelBlender.AddGeo(m_zgCollisionKugelBlender);
-	m_zs.AddPlacement(&m_zpCollisionKugelBlender);
-	m_zpCollisionKugelBlender.Scale(700);
-	m_zpCollisionKugelBlender.TranslateYDelta(100);
-	m_zgCollisionKugelBlender->Flip();
-	m_zpCollisionKugelBlender.SetDrawingOff();
+	// Collision Sphere Blender for big distances
+	m_zgCollisionSphereBlender = m_zfCollisionSphereBlender.LoadGeoTriangleTable("models\\Collision Ball\\untitled.obj");
+	m_zpCollisionSphereBlender.AddGeo(m_zgCollisionSphereBlender);
+	m_zs.AddPlacement(&m_zpCollisionSphereBlender);
+	m_zpCollisionSphereBlender.Scale(700);
+	m_zpCollisionSphereBlender.TranslateYDelta(100);
+	m_zgCollisionSphereBlender->Flip();
+	m_zpCollisionSphereBlender.SetDrawingOff();
 
-	//Ships auf der Map um Flugzeugcarrier
-	//Ship
+	// Ships on the map
 	m_zgDestroyer = m_zfDestroyer.LoadGeoTriangleTable("models\\Ships\\destroyerClass\\source\\destroyer.obj",true);
 	m_zmDestroyer.MakeTextureDiffuse("models\\Ships\\destroyerClass\\textures\\body.png");
 	m_zgDestroyer->SetMaterial(&m_zmDestroyer);
 	
-
 	for (int i = 0; i < 4; i++)
 	{
 	CHVector fuer (150, 0, -20-m_destroyerx);
-	CHVector nur (-150, 0, -20-m_destroyerx1);//x ist Vom carrier aus weiter vorner oder oder weiter hinten
+	CHVector nur (-150, 0, -20-m_destroyerx1); // x is further forward or or further back from the carrier
 		m_zpCarrier.AddPlacement(&m_zpDestroyer[i]);
 		m_zpDestroyer[i].Scale(13);
-		//m_zpDestroyer[i].RotateYDelta();
 		m_zpDestroyer[i].AddGeo(m_zgDestroyer);
 		if (i % 2 == 0)
 		{
 			m_zpDestroyer[i].TranslateDelta(fuer);
 			m_destroyerx += 200;
-			
 		}
 		else
 		{
@@ -128,8 +118,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 		}
 	}
 
-
-	//Random Schiffe auf der Map
+	// Random ships on the map
 	m_zgRandomShip = m_zfRandomShip.LoadGeoTriangleTable("models\\Ships\\destroyerClass\\source\\destroyer.obj", true);
 	m_zmRandomShip.MakeTextureDiffuse("models\\Ships\\destroyerClass\\textures\\body.png");
 	m_zgRandomShip->SetMaterial(&m_zmRandomShip);
@@ -145,16 +134,18 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	for (int i = 0; i < MAX_RANDOMSHIPS; i++)
 	{
-		std::random_device rd; // Liefert einen Seed
+		std::random_device rd; // Gets a seed
 		std::mt19937 gen(rd()); // Mersenne Twister Engine
-		std::uniform_int_distribution<> range_selector(0, 1); // Bereichsauswahl: 0 oder 1
-		std::uniform_int_distribution<> negative_range(-3000, -2000); // Bereich: -3000 bis -2000
-		std::uniform_int_distribution<> positive_range(2000, 3000);   // Bereich: 1000 bis 2000
+		std::uniform_int_distribution<> range_selector(0, 1); // Range selection: 0 or 1
+		std::uniform_int_distribution<> negative_range(-3000, -2000); // Range: -3000 to -2000
+		std::uniform_int_distribution<> positive_range(2000, 3000); // Range: 1000 to 2000
 		std::uniform_int_distribution<> ship_select(1, 3);
-		// Zwei Zufallszahlen generieren
+
+		// Generate two random numbers
 		int random_number1, random_number2;
 		int random_Ship = ship_select(gen);
-		// Erste Zufallszahl
+
+		// First random number
 		if (range_selector(gen) == 0) 
 		{
 			random_number1 = negative_range(gen);
@@ -164,7 +155,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 			random_number1 = positive_range(gen);
 		}
 
-		// Zweite Zufallszahl
+		// Second random number
 		if (range_selector(gen) == 0) 
 		{
 			random_number2 = negative_range(gen);
@@ -197,43 +188,41 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 		m_movefaktor += 40;
 	}
 
-
-
-	//Terraincollision Airplane
+	// Terraincolliison airplane
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainGeo());
 	m_zgsTerrainCollision.Add(m_terrain.GetTerrainWater());
 	m_zgsTerrainCollision.Add(m_zgCarrier);
-	m_zgsTerrainCollision.Add(m_zgCollisionKugelBlender);
+	m_zgsTerrainCollision.Add(m_zgCollisionSphereBlender);
 	m_zgsTerrainCollision.Add(m_zgDestroyer);
 	m_zgsTerrainCollision.Add(m_zgRandomShip);
 	m_zgsTerrainCollision.Add(m_zgRandomShip1);
 	m_zgsTerrainCollision.Add(m_zgRandomShip2);
 
-	m_player.GetAirplane()->m_zgsCollisionObjects = m_zgsTerrainCollision;
+	m_player.GetAirplane()->SetCollisionObjects(m_zgsTerrainCollision);
 
-	//Terraincollision Bullets Airplane
+	// Terraincollision airplane bullets
 	m_player.GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 
-	//Turrets
+	// Turrets
 	for (int i = 0; i < MAX_TURRETS; i++) {
 		m_turrets[i].Init(m_player.GetAirplane());
-		m_turrets[i].GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
+		m_turrets[i].GetBulletManager()->AddCollisionTarget(m_player.GetAirplane());
 		m_turrets[i].GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 		m_turrets[i].SwitchOff();
 		m_zs.AddPlacement(&m_turrets[i]);
 		m_zs.AddPlacements(*m_turrets[i].GetBulletManager()->GetBullets());
-		m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(&m_turrets[i]);
+		m_player.GetAirplane()->GetBulletManager()->AddCollisionTarget(&m_turrets[i]);
 	}
 
-	//BotPlanes
+	// BotPlanes
 	for (int i = 0; i < MAX_BOTS; i++) {
 		m_botplanes[i].Init(m_player.GetAirplane());
-		m_botplanes[i].GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_player.GetAirplane());
+		m_botplanes[i].GetAirplane()->GetBulletManager()->AddCollisionTarget(m_player.GetAirplane());
 		m_botplanes[i].GetAirplane()->GetBulletManager()->SetTerrain(m_terrain.GetTerrainGeo());
 		m_botplanes[i].GetAirplane()->SwitchOff();
 		m_zs.AddPlacement(&m_botplanes[i]);
 		m_zs.AddPlacements(*m_botplanes[i].GetAirplane()->GetBulletManager()->GetBullets());
-		m_player.GetAirplane()->GetBulletManager()->m_collisionTargets.Add(m_botplanes[i].GetAirplane());
+		m_player.GetAirplane()->GetBulletManager()->AddCollisionTarget(m_botplanes[i].GetAirplane());
 	}
 
 	//MUSIC
@@ -249,15 +238,11 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
 	m_zpExplosion.AddAudio(&m_zaExplosion);
-	//m_zaExplosion.SetVolume(0.9F);
 
-	////
-	//// Turret Explosion
-	////
+	// Turret Explosion
 	m_zmExplosion.MakeTextureBillboard("textures\\explosion_sprite_sheet.png");
 	m_zmExplosion.SetChromaKeyingOn();
 	m_zmExplosion.SetBot(17, 1);
-	
 
 	m_zgExplosion.Init(50.f, 50.f, &m_zmExplosion);
 	m_zpExplosion.AddGeo(&m_zgExplosion);
@@ -266,16 +251,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zbpExplosion.AddPlacement(&m_zpExplosion);
 	m_zs.AddPlacement(&m_zbpExplosion);
 	m_zbpExplosion.SetBillboard();
-
-	
-	// Schwarze Kugel für Planeselection initialisieren: 
-
-	m_zmBlackSphere.MakeTextureSky("textures//black_image.jpg");
-	m_zs.AddPlacement(&m_zpBlackSphere);
-	m_zpBlackSphere.AddGeo(&m_zgBlackSphere);
-	m_zpBlackSphere.SetSky();
-	m_zgBlackSphere.Init(3000, &m_zmBlackSphere);
-	m_zgBlackSphere.Flip();
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -283,17 +258,12 @@ void CGame::Tick(float fTime, float fTimeDelta)
 	float zero = 0;
 	float vorwaerts = -1;
 	m_player.Tick(fTime, fTimeDelta);
-	//If Game Paused do not update game objects
-	if (m_player.m_zeStatus != eInGame) {
-		//m_zpCarrier.Scale(2);
-		//m_zpCarrier.RotateYDelta(-HALFPI);
-		//m_zpCarrier.TranslateDelta(2000, 0, -1000);
-		//m_zpCarrier.Move(fTimeDelta, true, zero, zero, vorwaerts, zero, zero);
+
+	// If Game Paused do not update game objects
+	if (m_player.GetStatus()!= eInGame) {
 		m_zr.Tick(0);
-		return; //<- wois ich net ob des so muss
+		return;
 	}
-	//m_zpCarrier.SetTranslationSensitivity(20);
-	//m_zpCarrier.Move(fTimeDelta, true, zero, vorwaerts, zero, zero, zero);
 
 	//Turet Spawning
 	for (int i = 0; i < MAX_TURRETS; i++) {
@@ -348,7 +318,6 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		m_zmExplosion.SetPic(m_iExplosion, 0);
 		EndExplosion(fTime);
 	}
-
 	m_zr.Tick(fTimeDelta);
 }
 
@@ -374,10 +343,6 @@ void CGame::Fini()
 	//-------------------------------
 	// Finalisiere die Knotenobjekte:
 	//-------------------------------
-
-	// Hier die Finalisierung Deiner Vektoria-Objekte einf�gen:
-
-	// Auch die Root sollte finalisiert werden:   
 	m_zr.Fini();
 }
 

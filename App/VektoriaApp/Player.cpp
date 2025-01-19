@@ -4,14 +4,15 @@
 #define MAX_ZOOMOUT 20
 
 void CPlayer::InitCam() {
-	//Hauptviewport Initialisierung
+
+	// Initialize main viewport
 	m_zcCamera.Init(PI / 3, 1.0f);
 	m_zpCamera.AddCamera(&m_zcCamera);
 	m_zpCamera.TranslateZDelta(40);
 	m_zpCamera.TranslateYDelta(4);
 	m_zpCamera.RotateXDelta(-PI / 12);
 
-	//Backfacing Cam
+	// Backfacing Cam
 	m_zpCameraBack.RotateYDelta(PI);
 	m_zpCameraBack.TranslateZDelta(-40);
 	m_zpCameraBack.TranslateYDelta(2);
@@ -19,7 +20,7 @@ void CPlayer::InitCam() {
 
 	m_zv.InitFull(&m_zcCamera);
 
-	//Minimap Initialierung
+	// Initialize Minimap
 	m_zcMinimap.InitOrtho(500.0f);
 	m_zpMinimap.AddCamera(&m_zcMinimap);
 	this->AddPlacement(&m_zpMinimap);
@@ -31,14 +32,14 @@ void CPlayer::Init(CGame* pgame)
 {
 	m_pgame = pgame; 
 	AddPlacement(&m_airplane);
-	//Ausrichtung Startbahn flugzeugträger
+
+	// Runway alignment aircraft carrier
 	m_airplane.RotateY(HALFPI);
 	m_airplane.TranslateDelta(2000, 25, -1000);
-	m_airplane.Init(DAMAGE,1);
+	m_airplane.Init(DAMAGE,0);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
 	m_airplane.SetHealth(100);
-
 
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
 	m_zoCrosshair.Init("textures\\crosshair.png", m_zCrosshairRect, true);
@@ -47,8 +48,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zoCirclehair.Init("textures\\circlehair.png", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCirclehair);
 
-
-	//Highscore wird aus File geladen
+	// Load highscore from file
 	m_scoreFile.open("highscore.txt",std::ios::in);
 	if (m_scoreFile.is_open()) {
 		m_scoreFile >> m_highscore;
@@ -56,8 +56,7 @@ void CPlayer::Init(CGame* pgame)
 		LogDebug("Highscore Loaded: %d", m_highscore);
 	}
 
-	//---------------------------------------------------------------------
-	//Overlay
+	// Overlay
 	m_zwf.LoadPreset("RodWhite");
 	m_zwf.SetTransparencyKind(eTransparencyKind_BinaryByChromaKey);
 	m_zwScore.Init(C2dRect(0.1f, 0.04f, 0.0f, 0.0f), 11, &m_zwf);
@@ -77,20 +76,16 @@ void CPlayer::Init(CGame* pgame)
 	m_zv.AddWriting(&m_zwHighScore);
 	m_zwHighScore.PrintF("Highscore: %d", m_highscore);
 
-
 	//-----------------
-	// Startbildschirm:
+	// Startscreen:
 	//-----------------
-
-
-	//Startbildschrim Inits und Overlayadds overlay mit switchoff
+	// Start screen Inits and overlay ads overlay with switchoff
 	m_ziStart.Init("textures\\startbildschrim.png");
 	m_zoStart.InitFull(&m_ziStart);
-	//m_zoStart.Init("textures\\startbildschrim.png", C2dRect(0.01f, 0.01f, 0.0f, 0.0f), true);
 	m_zoStart.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoStart);
 
-	//Button Start und PlaneSelection
+	// Start and PlaneSelection button
 	m_zoButtonStart.Init("textures\\START.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoStart.AddOverlay(&m_zoButtonStart);
 	m_zoButtonStart.SetLayer(0.3f);
@@ -102,16 +97,15 @@ void CPlayer::Init(CGame* pgame)
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
 
 	// ----------------
-	// Pausebildschirm:
+	// Pausescreen:
 	// ----------------
-
 	m_ziPause.Init("textures\\Pause.jpg");
 	m_zoPause.InitFull(&m_ziPause);
 	m_zoPause.SetLayer(0.9f);
 	m_zv.AddOverlay(&m_zoPause);
 	m_zoPause.SwitchOff();
 
-	//Buttons Resume und BacktoMainMenu
+	// Buttons Resume and BacktoMainMenu
 	m_zoButtonGoOn.Init("textures\\RESUME.png", C2dRect(0.3f, 0.2f, 0.1f, 0.7f), true);
 	m_zoPause.AddOverlay(&m_zoButtonGoOn);
 	m_zoButtonGoOn.SetLayer(0.3f);
@@ -126,14 +120,10 @@ void CPlayer::Init(CGame* pgame)
 	// ----------------
 	// Plane Selection: 
 	// ----------------
-
-	
-	//m_zoPlaneSelection.Init("textures\\PLANESELECTION.jpg", C2dRect(0.5,1.0f, 0.0f, 0.0f));
 	m_zoPlaneSelection.SetLayer(0.9);
 	m_zoPlaneSelection.SwitchOff();
 	m_zv.AddOverlay(&m_zoPlaneSelection);
 	
-
 	m_zPlaneselecion.Init(&m_zv, &m_zdc);
 	AddPlacement(&m_zPlaneselecion);
 
@@ -159,6 +149,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zpPlaneSelection.RotateY(HALFPI);
 	m_zpPlaneSelection.TranslateDelta(2004.553711, 117.965439, -1515.466431);
 	m_zpPlaneSelection.AddPlacement(&m_zpPlane2Select);
+
 	for (int i = 0; i < 7; i++)
 	{
 		m_zpModel[i].Init(i);
@@ -167,9 +158,8 @@ void CPlayer::Init(CGame* pgame)
 	m_zpPlane2Select.SwitchOff();
 
 	// --------------------
-	// Optionen-Bildschirm: 
+	// Options-Screen: 
 	// --------------------
-	
 	m_zoGameOver.InitFull("textures\\YOUVE DIED.jpeg");
 	m_zoGameOver.SetLayer(0.9);
 	m_zoGameOver.SwitchOff();
@@ -186,28 +176,20 @@ void CPlayer::Init(CGame* pgame)
 	m_zo.SetTransparency(1.0);
 	m_zv.AddOverlay(&m_zo);
 
-	//Nebel in der Ferne
+	// Fog in the distance
 	m_zv.SetMistOn();
 	m_zv.SetMistStartDistance(1000);
 	m_zv.SetMistStrength(0.0002);
 	m_zv.SetMistHeightMax(500);
 	m_zv.SetMistHeightMin(-500);
 
-	//m_zv.SetHazeOn();
-	//m_zv.Set
-	// 
-	// On();
-	//m_zv.SetBloomStrengthNear(5.0f); //6.0
-	//m_zv.SetBloomStrengthFar(0.0f);
-	//m_zv.SetBloomWidth(1.0f); //3.m_zs
-
-	//You have died Screen
+	// You have died Screen
 	m_ziDied.Init("textures\\YOUVE DIED.jpeg");
 	m_zoDied.Init(&m_ziDied, C2dRect(1.0f, 1.0f, 0.0f, 0.0f), false);
 	m_zv.AddOverlay(&m_zoDied);
 	m_zoDied.SwitchOff();
 
-	//Abstands Warnung
+	// Distance Warnung
 	m_zhvAbstand.Init(0.0, 0.0, 0.0, 1.0);
 	m_ziAbstand.Init("textures\\Warning.png");
 	m_zoAbstand.Init(&m_ziAbstand, C2dRect(1.0f, 1.0f, 0.0f, 0.6f), false);
@@ -215,9 +197,7 @@ void CPlayer::Init(CGame* pgame)
 	m_zoAbstand.SwitchOff();
 	m_zv.AddOverlay(&m_zoAbstand);
 
-
-
-	//Cursor 
+	// Cursor 
 	m_ziFlugzeugCursor.Init("textures\\FlugzeugCursor.png");
 	m_ziEasterCursor.Init("textures\\bombe.png");
 	m_ziPickingCursor.Init("textures\\explosion.png");
@@ -248,7 +228,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
-		m_pgame->m_zpBlackSphere.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
@@ -259,7 +238,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zvMinimap.SwitchOn();
 				m_zdc.Hide();
 				m_zwHighScore.SwitchOff();
-				//m_zoMap.SwitchOn();
 				m_airplane.SetHealth(100);
 				m_fuel = 100;
 				m_score = 0;
@@ -274,7 +252,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			if (pzoPicked == &m_zoButtonPlaneSelection)
 			{
 				m_zdc.Show();
-				//m_zoMa.SwitchOn();
 				m_zeStatusLast = m_zeStatus;
 
 				m_zeStatus = eSelection;
@@ -285,8 +262,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == ePaused)
 	{
-		//m_fTimePausings += fTimeDelta;
-		//fTimeDelta = 0.0f;
 		m_zoPause.SwitchOn();
 		m_zoStart.SwitchOff();
 		m_zoPlaneSelection.SwitchOff();
@@ -294,7 +269,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
-		m_pgame->m_zpBlackSphere.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
@@ -303,7 +277,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			if (pzoPicked == &m_zoBack2Start)
 			{
 				m_zeStatusLast = m_zeStatus;
-
 				m_zeStatus = eStart;
 			}
 
@@ -311,7 +284,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			{
 				m_zeStatusLast = m_zeStatus;
 				m_airplane.StartSounds();
-
 				m_zeStatus = eInGame;
 			}
 		}
@@ -330,10 +302,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
-		//m_pgame->m_zpBlackSphere.SwitchOn();
-		//m_zpCamera.RotateY(HALFPI);
-		//m_zpCamera.TranslateDelta(2004.553711,117.965439,-1515.466431);
-		//m_pgame->m_zpBlackSphere.TranslateY(1000);
 		m_zpPlane2Select.SwitchOn();
 
 		for (int i = 0; i < 7; i++)
@@ -374,9 +342,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zeStatus = eStart;
 			}
 			m_airplane.SelectSounds(m_iFlugGeo);
-
 		}
-
 	}
 	else if (m_zeStatus == eInGame)
 	{
@@ -395,7 +361,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOn();
 		m_zoCrosshair.SwitchOn();
 		m_zoCirclehair.SwitchOn();
-		m_pgame->m_zpBlackSphere.SwitchOff();
 
 		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(1))
 		{
@@ -411,32 +376,32 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		{
 			m_fuel -= 2.f * fTimeDelta;
 		}
-		else // falls kein Fuel mehr
+		else // if no fuel
 		{
-			if (m_airplane.GetFlySpeed() > 30) // falls noch Momentum
+			if (m_airplane.GetFlySpeed() > 30) // if still momentum
 			{
 				m_airplane.ReduceSpeedWhenOutOfFuel();
 			}
-			else // falls kein Momentum mehr
+			else // if no momentum
 			{
-				float RotationY; // Lokale Variable für RotationY
+				float RotationY;
 
 				if (!bHasInitializedRotationY)
 				{
-					RotationY = -1.0f; // Beim ersten Mal
-					bHasInitializedRotationY = true; // Initialisierung merken
+					RotationY = -1.0f; // only the first time
+					bHasInitializedRotationY = true;
 				}
 				else
 				{
-					RotationY = 0.0f; // Ab dem zweiten Mal
+					RotationY = 0.0f; // from the second time
 				}
 
-				float RotationX = 0.0f;    // Keine Rotation
-				float MoveAD = 0.0f; // Keine Bewegung in x-Richtung
-				float MoveWS = 0.0f; // Bewegung in y-Richtung nach unten
-				float MoveUD = -2.5f;  // Keine Bewegung in z-Richtung
+				float RotationX = 0.0f;
+				float MoveAD = 0.0f;
+				float MoveWS = 0.0f;
+				float MoveUD = -2.5f;
 
-				m_airplane.MoveWithCollisionDetection(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY, m_airplane.m_zgsCollisionObjects);
+				m_airplane.MoveWithCollisionDetection(fTimeDelta, true, MoveAD, MoveWS, MoveUD, RotationX, RotationY, m_airplane.GetCollisionObjects());
 
 				LogDebug("Mayday");
 			}
@@ -445,16 +410,17 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		float airplaneHealth = m_airplane.GetHealth();
 
-		//Score System
-		if (m_airplane.GetBulletManager()->m_killedEnemy) {
+		// Score System
+		if (m_airplane.GetBulletManager()->GetKilledEnemy()) {
 			m_score++;
 			m_fuel += 10;
 		}
+
 		m_zwScore.PrintF("Score: %d", m_score);
 		m_zw2.PrintF("Health: %f", airplaneHealth);
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
-		//Backfacing Cam
+		// Backfacing Cam
 		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(2)) {
 			m_zpCameraBack.SubCamera(&m_zcCamera);
 			m_zpCamera.AddCamera(&m_zcCamera);
@@ -464,9 +430,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
 
-		//----------------------------------------------------------------------------------
-		//Airplane Zoom
-		//----------------------------------------------------------------------------------
+		//---------------------
+		// Airplane Zoom
+		//---------------------
 		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(7))
 		{
 			m_zoom += fTimeDelta * MAX_ZOOMIN;
@@ -488,7 +454,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
 
-		//Minimap Movement
+		// Minimap Movement
 		CHVector vPlane(m_airplane.GetPosGlobal());
 		vPlane.y += 100;
 		m_zpMinimap.RotateX(-HALFPI);
@@ -514,9 +480,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		m_lastHealth = airplaneHealth;
 
-		//DIED
+		// DIED
 		if (airplaneHealth == 0) {
-			//Highscore
+			// Highscore
 			m_scoreFile.open("highscore.txt", std::ios::out);
 			if (m_scoreFile.is_open() && m_score > m_highscore) {
 				m_scoreFile << m_score;
@@ -539,14 +505,13 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zdc.Show();
 		}
 
-		//----------------------------------------------------------------------------------
-		//Collision Warnung fuer zu weit weg
-		//----------------------------------------------------------------------------------
+		//-------------------------------------
+		// Distance Warnung if to far away
+		//-------------------------------------
 		CHVector PlayerPos = m_airplane.GetPosGlobal();
 		if (PlayerPos.Length()> MAX_DISTANCE) {
 			m_zo.SwitchOff();
 			m_zoAbstand.SwitchOn();
-			//LogDebug("Warnung sie verlassen das Kriegsgebiet");
 			m_WarningTransparency = ClampValue(m_WarningTransparency - 0.25 * fTimeDelta, 0.0f, 1.0f);
 			m_zoAbstand.SetTransparency(m_WarningTransparency);
 		}
@@ -559,7 +524,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 		}
 
-		//Collision fuer Objekte
+		// Collision for objekts
 		if (m_lastPos == PlayerPos)
 			m_airplane.RegisterHit(1);
 		m_lastPos = PlayerPos;
@@ -573,10 +538,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_fuel = 100;
 			m_zeStatusLast = eInGame;
 		}
-
-
-		//LogDebug("%f,%f,%f", m_airplane.GetPosGlobal().x, m_airplane.GetPosGlobal().y, m_airplane.GetPosGlobal().z);
-
 	}
 	else if (m_zeStatus == eGameOver)
 	{
@@ -604,7 +565,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 		}
 	}
-	//Cursor verändern
+
+	// Change cursor
 	if (m_zeStatus != eInGame)
 	{
 		if(m_zeStatus != eSelection)
@@ -636,9 +598,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_zoFlugzeugCursor.SetPos(fx, fy);
 		}
 	}
-
-
-
 }
 
 
@@ -651,16 +610,20 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		controllerYInput = 0;
 	x += controllerXInput;
 	y += controllerYInput;
-	//GetMausbewegung
+
+	// GetCursorMovement
 	x += m_zdm.GetRelativeX();
 	y -= m_zdm.GetRelativeY();
-	//Maximiere Ausschlag des Kreises
+
+	// Maximize deflection of the circle
 	x = ClampValue(x, -0.35f, 0.35f);
 	y = ClampValue(y, -0.35f, 0.35f);
-	//Verschiebe Kreis und das Crosshair
+
+	// Move circle and the crosshair
 	CenterSquare(x + 0.5f, y + 0.5f, CROSSHAIRSIZE, m_zoCirclehair);
 	CenterSquare(-x / 5 + 0.5f, -y / 5 + 0.5f, CROSSHAIRSIZE, m_zoCrosshair);
-	//Setzt y und y (und damit den Kreis langsam in Richtung Mitte des Bildsschirms) auf 0 zurueck
+
+	// Resets x and y (and thus the circle slowly towards the center of the screen) to 0
 	if (x != 0) {
 		x -= x * fTimeDelta * 1.5f;
 	}
@@ -668,7 +631,6 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		y -= y * fTimeDelta * 1.5f;
 	}
 	m_airplane.MovePlane(x, y, fTimeDelta);
-
 
 	if (m_fuel > 0)
 	{
@@ -679,13 +641,13 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 	}
 	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(6)) {
 		m_timePassed += fTimeDelta;
-		// Fuehre die Funktion aus, waehrend genug Zeit vergangen ist
+
+		// Execute the function if enough time has passed
 		if (m_timePassed <=  SHOOT_FREQUENCY)
 			return;
 		m_timePassed = 0.0;
 		m_airplane.Shoot(0.001f);
 	}
-
 }
 
 void CPlayer::CenterSquare(float x, float y, float size, COverlay& rect) {
