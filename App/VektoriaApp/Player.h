@@ -191,4 +191,12 @@ private:
     COverlay m_zoPickingCursor;
     COverlay m_zoEasterCursor;
     COverlay m_zoFlugzeugCursor;
+
+    //Controller Bild
+    COverlay m_zoController;
+    CImage m_ziController;
+
+    //Controller Button
+    COverlay m_zoControllerButton;
+    COverlay m_zoControllerMainMenu;
 };

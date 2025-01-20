@@ -234,7 +234,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zaWingsOfValor.Init("sounds\\WingsOfValor.wav");
 	m_zs.AddAudio(&m_zaWingsOfValor);
 	m_zaWingsOfValor.Loop();
-	m_zaWingsOfValor.SetVolume(0.75F);
+	m_zaWingsOfValor.SetVolume(0.8F);
 
 	m_zaExplosion.Init3D("sounds\\ExplosionBlast.wav",1000);
 	m_zpExplosion.AddAudio(&m_zaExplosion);

@@ -39,8 +39,6 @@ void CPlayer::Init(CGame* pgame)
 	m_airplane.Init(DAMAGE,0);
 	m_airplane.AddPlacement(&m_zpCamera);
 	m_airplane.AddPlacement(&m_zpCameraBack);
-	m_airplane.SetHealth(100);
-
 	m_zCrosshairRect.Init(CROSSHAIRSIZE * 9, CROSSHAIRSIZE * 16, 0, 0);
 	m_zoCrosshair.Init("textures\\crosshair.png", m_zCrosshairRect, true);
 	m_zv.AddOverlay(&m_zoCrosshair);
@@ -95,6 +93,20 @@ void CPlayer::Init(CGame* pgame)
 	m_zoStart.AddOverlay(&m_zoButtonPlaneSelection);
 	m_zoButtonPlaneSelection.SetLayer(0.4f);
 	m_zosStart.Add(&m_zoButtonPlaneSelection);
+
+
+	m_zoControllerButton.Init("textures\\ControllerButton.png", C2dRect(0.10f, 0.10f, 0.45f, 0.75f), true);
+	m_zoStart.AddOverlay(&m_zoControllerButton);
+	m_zoButtonPlaneSelection.SetLayer(0.5f);
+	m_zosStart.Add(&m_zoControllerButton);
+
+	m_zoControllerMainMenu.Init(&m_ziController, C2dRect(0.75f, 0.75, 0.125f, 0.0f), true);
+	m_zv.AddOverlay(&m_zoControllerMainMenu);
+	m_zoControllerMainMenu.SetLayer(0.6);
+	m_zoControllerMainMenu.SwitchOff();
+	
+
+
 
 	// ----------------
 	// Pausescreen:
@@ -209,6 +221,14 @@ void CPlayer::Init(CGame* pgame)
 	m_zoFlugzeugCursor.SetLayer(0.05f);
 	m_zoPickingCursor.SetLayer(0.05f);
 	m_zoEasterCursor.SetLayer(0.05f);
+
+
+	//Controller Bild
+	m_ziController.Init("textures\\PS5controller.png");
+	m_zoController.Init(&m_ziController,C2dRect(0.25f,0.25,0.0f,0.5f),true);
+	m_zv.AddOverlay(&m_zoController);
+	m_zoController.SetLayer(0.4);
+	m_zoController.SetTransparency(0.0f);
 }
 
 void CPlayer::Tick(float fTime, float fTimeDelta)
@@ -229,6 +249,11 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
+		m_zoControllerButton.SwitchOn();
+		m_zoController.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
+		//m_zoControllerMainMenu.SwitchOff();
+
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -238,7 +263,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zvMinimap.SwitchOn();
 				m_zdc.Hide();
 				m_zwHighScore.SwitchOff();
-				m_airplane.SetHealth(100);
 				m_fuel = 100;
 				m_score = 0;
 				m_airplane.RotateY(HALFPI);
@@ -259,6 +283,18 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_zpPlaneSelection.AddCamera(&m_zcCamera);
 			}
 		}
+		if (m_zdc.ButtonPressedLeft())
+		{
+			COverlay* pzoPicked = m_zdc.PickOverlayPreselected(m_zosStart);
+			if (pzoPicked == &m_zoControllerButton)
+			{
+				m_zoControllerMainMenu.SwitchOn();
+			}
+		}
+		else if (m_zdc.ButtonUpLeft())
+		{
+			m_zoControllerMainMenu.SwitchOff();
+		}
 	}
 	else if (m_zeStatus == ePaused)
 	{
@@ -270,6 +306,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
 		m_zpPlane2Select.SwitchOff();
+		m_zoController.SwitchOff();
+		m_zoControllerButton.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
 
 		if (m_zdc.ButtonDownLeft())
 		{
@@ -282,7 +321,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 			if (pzoPicked == &m_zoButtonGoOn)
 			{
-				m_zeStatusLast = m_zeStatus;
 				m_airplane.StartSounds();
 				m_zeStatus = eInGame;
 			}
@@ -302,6 +340,9 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zvMinimap.SwitchOff();
 		m_zoCrosshair.SwitchOff();
 		m_zoCirclehair.SwitchOff();
+		m_zoControllerButton.SwitchOff();
+		m_zoControllerMainMenu.SwitchOff();
+		m_zoController.SwitchOff();
 		m_zpPlane2Select.SwitchOn();
 
 		for (int i = 0; i < 7; i++)
@@ -346,7 +387,8 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eInGame)
 	{
-
+		m_zoControllerMainMenu.SwitchOff();
+		m_zoControllerButton.SwitchOff();
 		m_zoPickingCursor.SwitchOff();
 		m_zoFlugzeugCursor.SwitchOff();
 		m_zoEasterCursor.SwitchOff();
@@ -362,7 +404,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoCrosshair.SwitchOn();
 		m_zoCirclehair.SwitchOn();
 
-		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(1))
+		if (m_zdk.KeyDown(DIK_P) || m_zdgc.ButtonDown(9))
 		{
 			m_zdc.Show();
 			m_zeStatusLast = m_zeStatus;
@@ -378,7 +420,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		}
 		else // if no fuel
 		{
-			if (m_airplane.GetFlySpeed() > 30) // if still momentum
+			if (m_airplane.GetFlySpeed() > 40) // if still momentum
 			{
 				m_airplane.ReduceSpeedWhenOutOfFuel();
 			}
@@ -421,19 +463,19 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zw3.PrintF("Speed: %f", m_airplane.GetFlySpeed());
 
 		// Backfacing Cam
-		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(2)) {
+		if (m_zdk.KeyUp(DIK_LSHIFT) || !m_zdgc.ButtonPressed(0)) {
 			m_zpCameraBack.SubCamera(&m_zcCamera);
 			m_zpCamera.AddCamera(&m_zcCamera);
 		}
-		if (m_zdk.KeyPressed(DIK_LSHIFT) || m_zdgc.ButtonDown(2)) {
+		if (m_zdk.KeyPressed(DIK_LSHIFT) || m_zdgc.ButtonDown(0)) {
 			m_zpCamera.SubCamera(&m_zcCamera);
 			m_zpCameraBack.AddCamera(&m_zcCamera);
 		}
 
-		//---------------------
+		//--------------------
 		// Airplane Zoom
-		//---------------------
-		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(7))
+		//--------------------
+		if (m_zdc.ButtonPressedRight() || m_zdgc.ButtonPressed(6))
 		{
 			m_zoom += fTimeDelta * MAX_ZOOMIN;
 			if (m_zoom > 5.0f)
@@ -442,7 +484,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			m_zcCamera.SetFov((PI / 3) / m_zoom);
 		}
-		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(7))
+		else if (!m_zdc.ButtonPressedRight() || !m_zdgc.ButtonPressed(6))
 		{
 			m_zoom -= fTimeDelta * MAX_ZOOMOUT;
 			if (m_zoom < 1.0f)
@@ -452,6 +494,16 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			}
 			else
 				m_zcCamera.SetFov((PI / 3) / m_zoom);
+		}
+
+		if (m_zdk.KeyPressed(DIK_E) || m_zdgc.ButtonPressed(8))
+		{
+			m_zoController.SwitchOn();
+			
+		}
+		else
+		{
+			m_zoController.SwitchOff();
 		}
 
 		// Minimap Movement
@@ -497,8 +549,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 			m_airplane.TranslateDelta(2000, 55, -1000);
 			m_airplane.SetHealth(100);
 
-
-
 			m_zeStatusLast = m_zeStatus;
 
 			m_zeStatus = eGameOver;
@@ -526,14 +576,13 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 
 		// Collision for objekts
 		if (m_lastPos == PlayerPos)
-			m_airplane.RegisterHit(1);
+			m_airplane.RegisterHit(10);
 		m_lastPos = PlayerPos;
 		if (m_zeStatusLast != eInGame)
 		{
 			m_airplane.m_bFirstMove = true; 
 			m_airplane.RotateY(HALFPI);
 			m_airplane.TranslateDelta(2000, 55, -1000);
-			m_airplane.SetHealth(100);
 			LogDebug("%f,%f,%f", m_lastPos.x, m_lastPos.y, m_lastPos.z);
 			m_fuel = 100;
 			m_zeStatusLast = eInGame;
@@ -541,6 +590,7 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 	else if (m_zeStatus == eGameOver)
 	{
+		m_zoController.SwitchOff();
 		m_zo.SwitchOff();
 		m_zoAbstand.SwitchOff();
 		m_zwScore.SwitchOff();
@@ -559,7 +609,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 				m_airplane.SwitchOn();
 				m_airplane.RotateY(HALFPI);
 				m_airplane.TranslateDelta(2000, 55, -1000);
-				m_airplane.SetHealth(100);
 				m_zeStatusLast = m_zeStatus;
 				m_zeStatus = eStart;
 			}
@@ -600,7 +649,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 	}
 }
 
-
 void CPlayer::ControlPlane(float fTimeDelta) {
 	float controllerXInput = m_zdgc.GetRelativeX() / CONTROLLER_SENSITIVITY;
 	if (abs(controllerXInput) < 0.0004f)
@@ -639,7 +687,7 @@ void CPlayer::ControlPlane(float fTimeDelta) {
 		if (m_zdk.KeyPressed(DIK_S) || m_zdgc.ButtonPressed(4))
 			m_airplane.SetSpeed(-fTimeDelta);
 	}
-	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(6)) {
+	if (m_zdm.ButtonPressedLeft() || m_zdgc.ButtonPressed(7)) {
 		m_timePassed += fTimeDelta;
 
 		// Execute the function if enough time has passed
