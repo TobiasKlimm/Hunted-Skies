@@ -105,9 +105,6 @@ void CPlayer::Init(CGame* pgame)
 	m_zoControllerMainMenu.SetLayer(0.6);
 	m_zoControllerMainMenu.SwitchOff();
 	
-
-
-
 	// ----------------
 	// Pausescreen:
 	// ----------------
@@ -222,7 +219,6 @@ void CPlayer::Init(CGame* pgame)
 	m_zoPickingCursor.SetLayer(0.05f);
 	m_zoEasterCursor.SetLayer(0.05f);
 
-
 	//Controller Bild
 	m_ziController.Init("textures\\PS5controller.png");
 	m_zoController.Init(&m_ziController,C2dRect(0.25f,0.25,0.0f,0.5f),true);
@@ -253,7 +249,6 @@ void CPlayer::Tick(float fTime, float fTimeDelta)
 		m_zoController.SwitchOff();
 		m_zoControllerMainMenu.SwitchOff();
 		//m_zoControllerMainMenu.SwitchOff();
-
 
 		if (m_zdc.ButtonDownLeft())
 		{

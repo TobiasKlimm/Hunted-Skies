@@ -38,6 +38,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zf.Init(hwnd, procOS);
 	m_player.InitCam();
 	
+	// FULLSCREEN
 	//m_zf.SetFullscreenOn();
 	//m_zf.ReSize(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 	
@@ -70,7 +71,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_zpCarrier.Scale(2);
 	m_zpCarrier.RotateYDelta(-HALFPI);
 	m_zpCarrier.TranslateDelta(2000,0,-1000);
-
 
 	// Sky day and night cycle
 	m_zs.SetSkyOn(m_player.GetCameraPlacement());
@@ -265,7 +265,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 		return;
 	}
 
-	//Turet Spawning
+	// Turet Spawning
 	for (int i = 0; i < MAX_TURRETS; i++) {
 		if (!m_turrets[i].IsOn()) {
 

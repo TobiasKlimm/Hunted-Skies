@@ -69,7 +69,6 @@ void CBulletManager::UpdateBullets() {
 
 					if (currentEnemy->RegisterHit(m_damage)) {
 						m_killedEnemy = true;
-						
 					}
 				}
 			}

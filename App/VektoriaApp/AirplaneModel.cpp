@@ -131,8 +131,7 @@ void CAirplaneModel::ReInit(int planeID)
 	SubPlacement(&m_zpPropeller2);
 	SubPlacement(&m_zpPropellerMiddle);
 
-
-	//Flugzeuge
+	// Airplanes
 	m_planeID = planeID;
 	switch (m_planeID)
 	{
